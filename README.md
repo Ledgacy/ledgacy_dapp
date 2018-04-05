@@ -1,4 +1,7 @@
-# Skeleton dapp.
+# Ledgacy dApp
+
+Based on Parity's oo7 Skeleton dApp
+(See tutorial: https://wiki.parity.io/Tutorial-Part-1.html )
 
 To install:
 
