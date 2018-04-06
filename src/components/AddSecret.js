@@ -8,18 +8,20 @@ import {List, Table, Input, Button} from 'semantic-ui-react'
 import EthCrypto from 'eth-crypto';
 import {getAccounts} from "./GetAccounts";
 
+const initial_state = {
+    name: '',
+    content: '',
+    submitted: false,
+    saving: false,
+    nSecrets: 0
+}
 
 class AddSecret extends Component {
     ledgacyContract;
 
     constructor() {
         super()
-        this.state = {
-            name: '',
-            content: '',
-            submitted: false,
-            saving: false,
-        }
+        this.state = initial_state
     }
 
     componentDidMount = () => {
@@ -30,6 +32,11 @@ class AddSecret extends Component {
 
         console.log("Instantiated contract");
         console.log(this.ledgacyContract);
+    }
+
+    componentWillReceiveProps = (nextProps) => {
+        if(this.state.nSecrets !== nextProps.nSecrets)
+            this.setState({...initial_state, nSecrets: nextProps.nSecrets });
     }
 
 
@@ -64,11 +71,28 @@ class AddSecret extends Component {
         // TODO error handling
 
         this.setState({...this.state, saving: false, submitted: true});
+
+        // const secretUpdateInterval = window.setInterval(() => {
+        //     if(this.props.nSecrets == secret_count){
+        //         return;
+        //     }
+        //     window.clearInterval(secretUpdateInterval);
+        // });
     }
 
     render = () => {
-        return (
-                <Table.Row>
+        const submitted = (
+            !this.state.submitted ? ''  : (
+                <Table.Cell colspan={3} >
+                    <em>
+                        Waiting for transaction to be mined...
+                    </em>
+                </Table.Cell>
+            )
+        )
+        return ([
+                <Table.Row key={0}>{submitted}</Table.Row>,
+                <Table.Row key={1}>
                 <Table.Cell>
                 <Input fluid placeholder='Name' onChange={this.changeName} disabled={this.state.saving} value={this.state.name}/>
                 </Table.Cell>
@@ -79,7 +103,7 @@ class AddSecret extends Component {
                 <Button onClick={this.saveToBlockchain} disabled={this.state.saving} >{ this.state.saving? "Saving..." : "Save!"}</Button>
                 </Table.Cell>
                 </Table.Row>
-        )
+        ])
     }
 }
 export {AddSecret}

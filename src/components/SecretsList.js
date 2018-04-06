@@ -85,7 +85,7 @@ class SecretsList extends Component {
                             </Table.HeaderCell>
                         </Table.Row>
                         {tableBody}
-                        <AddSecret keypair={this.props.keypair} saveHandle={this.fetchSecrets} />
+                        <AddSecret keypair={this.props.keypair} saveHandle={this.fetchSecrets} nSecrets={this.state.secrets.length}/>
                     </tbody>
                 </Table>
         );

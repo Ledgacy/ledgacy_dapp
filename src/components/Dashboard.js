@@ -35,12 +35,14 @@ currentPage: 'secrets'
                 page = <NotificationsPage />;
             }
 
-
         return (
                 <Sidebar.Pushable as={Segment}>
-                    <Sidebar as={Menu} animation='push' width='thin' visible={true} icon='labeled' vertical inverted pointing>
+                    <Sidebar as={Menu} animation='push' width='thin' visible={true} icon='labeled' vertical inverted >
                         <Menu.Item name='home'>
                             <img src={logo} className="App-menu-logo" alt="logo" />
+                        </Menu.Item>
+                        <Menu.Item>
+                            <em>{this.props.profileName}</em>
                         </Menu.Item>
                         <Menu.Item name='secrets' active={this.state.currentPage === 'secrets'} onClick={() => this.changePage('secrets')}>
                             <Icon name='unlock alternate' />
