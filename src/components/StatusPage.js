@@ -5,6 +5,7 @@ import {web3, bonds} from "../bonds_setup";
 import * as contract from "truffle-contract";
 import {Rspan} from 'oo7-react';
 import LedgacyContract from '../contracts/Ledgacy.json';
+import {getAccounts} from "./GetAccounts";
 
 
 class StatusPage extends Component {
@@ -12,7 +13,7 @@ class StatusPage extends Component {
     constructor(){
         super();
         this.state = {lastTime: 0};
-        this.blocktime_bond = bonds.time
+        this.block_bond = bonds.findBlock(bonds.blockNumber)
     }
 
     componentDidMount = async () =>{
@@ -35,7 +36,8 @@ class StatusPage extends Component {
 
     checkIn = async () => {
         const deployedContract = await this.ledgacyContract.deployed();
-        await deployedContract.alive({from: web3.eth.accounts[0]});
+        const accounts = await getAccounts();
+        await deployedContract.alive({from: accounts[0]});
         console.log("Signalled liveness");
     }
 
@@ -44,7 +46,7 @@ class StatusPage extends Component {
             <Container fluid>
                 <Header as='header'>Status</Header>
                 <div>
-                    <Rspan>Last block: {this.state.lastTime}. Current block: {this.blocktime_bond}
+                    <Rspan>Last block: {new Date(this.state.lastTime*1000).toString()}. Current block: {this.block_bond.timestamp.map((timestamp) => timestamp.toString())}
                     </Rspan>
                     <Button onClick={this.checkIn}>Check in!</Button>
                 </div>

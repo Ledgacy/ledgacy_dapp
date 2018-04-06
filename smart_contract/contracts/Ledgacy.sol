@@ -22,7 +22,7 @@ contract Ledgacy {
     function createProfile(string name, bytes publickey) public {
       assert(bytes(name).length != 0);
       assert(publickey.length != 0);
-      profiles[msg.sender] = Profile(name, publickey, new bytes[](0), block.number);
+      profiles[msg.sender] = Profile(name, publickey, new bytes[](0), block.timestamp);
     }
 
     function getProfileName(address person) public view returns(string) {
@@ -57,4 +57,5 @@ contract Ledgacy {
     function getLastTime() public view returns(uint) {
         return profiles[msg.sender].lastTime;
     }
+
 }
