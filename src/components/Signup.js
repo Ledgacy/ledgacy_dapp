@@ -2,6 +2,7 @@ import {web3} from '../bonds_setup.js'
 import * as contract from 'truffle-contract';
 import LedgacyContract from "../contracts/Ledgacy.json";
 import {sha3, asciiToHex, hexToAscii} from 'oo7-parity'
+import {getAccounts} from "./GetAccounts";
 
 
 import React, { Component } from 'react';
@@ -9,36 +10,52 @@ import logo from '../ledgacy_logo.svg';
 
 import {Message, Input, Button} from 'semantic-ui-react';
 
+const doesProfileExist = async (address) => {
+    let ledgacyContract = contract(LedgacyContract);
+    ledgacyContract.setProvider(web3.currentProvider);
+    const deployedContract = await ledgacyContract.deployed();
+    const name = await deployedContract.getProfileName(address);
+    return name !== '';
+};
+
 class Signup extends Component {
     constructor(){
         super()
         this.state = {
-            name:'',
+            name: '',
             waiting: false,
         }
     }
 
-    handleSignup = async () => {
-        console.log('signup!');
+    trySignUp = async () => {
+        console.log('signUp!');
         if(this.state.name == ''){
             return;
         }
+
+        const accounts = await getAccounts();
 
 
         let ledgacyContract = contract(LedgacyContract);
         ledgacyContract.setProvider(web3.currentProvider);
         const deployedContract = await ledgacyContract.deployed();
-        console.log('Creating Profile:', this.name, this.props.keypair);
+        console.log('Creating Profile:', this.state.name, this.props.keypair);
 
 
-        await deployedContract.createProfile(this.name, this.props.keypair.public);
+        let err, result = await deployedContract.createProfile(this.state.name, this.props.keypair.public, {from: accounts[0]});
         this.setState({...this.state, waiting: true});
 
-
+        let waitForProfileInterval = window.setInterval(() =>{
+            if(doesProfileExist(accounts[0])){
+                window.clearInterval(waitForProfileInterval);
+                this.props.handleSignUp();
+            }
+        }, 2000);
     }
 
     changeName = (event, name) => {
-        this.setState({...this.state, name: name});
+        console.log('changing name', event, name.value);
+        this.setState({...this.state, name: name.value});
     }
 
     render = () => {
@@ -59,7 +76,7 @@ class Signup extends Component {
                 </p>
                 </Message>
                 <Input onChange={this.changeName} disabled={this.state.waiting} placeholder='Your Name' />
-                <Button onClick={this.handleSignup} disabled={this.state.waiting}>
+                <Button onClick={this.trySignUp} disabled={this.state.waiting}>
                     {this.state.waiting ? "Waiting for transaction to be mined..." : 'Sign Up!'}
                 </Button>
             </div>

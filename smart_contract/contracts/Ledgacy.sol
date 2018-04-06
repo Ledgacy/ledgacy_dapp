@@ -26,11 +26,11 @@ contract Ledgacy {
     }
 
     function getProfileName(address person) public view returns(string) {
-      profiles[person].name;
+      return profiles[person].name;
     }
 
     function getProfilePublicKey(address person) public view returns(bytes) {
-      profiles[person].publickey;
+      return profiles[person].publickey;
     }
 
     function pushSecret(bytes secret) public {

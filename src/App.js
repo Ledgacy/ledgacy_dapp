@@ -48,29 +48,38 @@ class App extends Component {
         const name = await deployedContract.getProfileName(address);
         console.log('profile name:', name);
         if(name === ''){
-            this.setState({...this.state, page: 'signup'})
+            this.setState({...this.state,
+                           isLoggedIn: true,
+                           page: 'signup'
+            })
             return;
         }
 
         const publickey = deployedContract.getProfilePublicKey(address);
         console.log('profile pubkey', publickey);
-        this.setState({...this.state, page: 'dashboard'})
+        this.setState({...this.state,
+                       isLoggedIn: true,
+                       profileName: name,
+                       page: 'dashboard',
+        })
     }
 
     handleSignIn = async (ledgacy_keypair_seed) => {
         const keypair = await this.regenerateKeyPair(ledgacy_keypair_seed);
         const accounts = await getAccounts();
-        const profile_name = await this.lookupProfile(accounts[0]);
+        console.log('accounts:', accounts);
 
         console.log('logged in using keypair!', keypair);
         this.setState({...this.state,
                        ledgacyKeypair: keypair,
                        isLoggedIn: true,
-                       profileName: profile_name
         })
+        await this.lookupProfile(accounts[0]);
     }
 
     handleSignUp = async () => {
+        console.log("HANDLING SIGN UP");
+        this.handleSignIn(this.state.ledgacyKeypair);
 
     }
 
