@@ -3,6 +3,7 @@ import { Tab } from 'semantic-ui-react'
 import { Container, Sidebar, Segment, Button, Menu, Image, Icon, Header } from 'semantic-ui-react';
 
 import {SecretsPage} from './SecretsPage.js';
+import {StatusPage} from './StatusPage.js';
 import {TrusteesPage} from './TrusteesPage.js';
 import {NotificationsPage} from './NotificationsPage.js';
 
@@ -26,6 +27,8 @@ currentPage: 'secrets'
         let page;
             if(this.state.currentPage === 'secrets'){
                 page = <SecretsPage />;
+            }else if(this.state.currentPage === 'status'){
+                page = <StatusPage />;
             }else if(this.state.currentPage === 'trustees'){
                 page = <TrusteesPage />;
             }else{
@@ -42,6 +45,10 @@ currentPage: 'secrets'
                         <Menu.Item name='secrets' active={this.state.currentPage === 'secrets'} onClick={() => this.changePage('secrets')}>
                             <Icon name='unlock alternate' />
                             Secrets
+                        </Menu.Item>
+                        <Menu.Item name='status' active={this.state.currentPage === 'status'} onClick={() => this.changePage('status')}>
+                            <Icon name='info circle' />
+                            Status
                         </Menu.Item>
                         <Menu.Item name='trustees' active={this.state.currentPage === 'trustees'} onClick={() => this.changePage('trustees')}>
                             <Icon name='protect' />
