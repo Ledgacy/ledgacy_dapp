@@ -17,7 +17,7 @@ contract Ledgacy {
     event KeyShare(bytes32);
 
     function setProfile(int publicKey) public {
-        profiles[msg.sender] = Profile(publicKey, new bytes[](0), block.number);
+        profiles[msg.sender] = Profile(publicKey, new bytes[](0), block.timestamp);
     }
 
     function pushSecret(bytes secret) public {
