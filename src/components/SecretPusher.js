@@ -3,6 +3,7 @@ import LedgacyContract from "../contracts/Ledgacy.json";
 import * as contract from 'truffle-contract';
 import {web3} from '../bonds_setup.js'
 import { Button } from 'semantic-ui-react';
+import {sha3, asciiToHex, hexToAscii} from 'oo7-parity'
 
 class SecretPusher extends Component {
     ledgacyContract;
@@ -26,13 +27,13 @@ class SecretPusher extends Component {
     pushSecret = async () => {
         console.log(this.ledgacyContract);
         const deployedContract = await this.ledgacyContract.deployed();
-        await deployedContract.pushSecret("0x000011112222333344445555666677778888".valueOf(), {from: web3.eth.accounts[0]});
+        await deployedContract.pushSecret(asciiToHex("test"), {from: web3.eth.accounts[0]});
     }
 
     readSecrets = async () => {
         const deployedContract = await this.ledgacyContract.deployed();
         let result = await deployedContract.readSecret.call(0);
-        console.log(result)
+        console.log(hexToAscii(result))
     }
 
 
