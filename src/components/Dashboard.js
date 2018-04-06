@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import { Tab } from 'semantic-ui-react'
 import { Sidebar, Segment, Button, Menu, Image, Icon, Header } from 'semantic-ui-react';
-
+import {SecretsList} from './SecretsList.js'
 
 /* const panes = [
  *     {menuItem: 'Ledgacy', render: () => <Menu.Item header>Ledgacy</Menu>}
@@ -44,10 +44,11 @@ class Dashboard extends Component {
                     <Sidebar.Pusher>
                         <Segment basic>
                             <Header as='h3'>Application Content</Header>
-                            <Image src='/assets/images/wireframe/paragraph.png' />
+                            <SecretsList />
                         </Segment>
                     </Sidebar.Pusher>
                 </Sidebar.Pushable>
+
         );
     }
 }
