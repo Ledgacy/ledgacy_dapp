@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './App.css';
-import SecretPusher from './components/ProfileCreator';
 
 import {Rspan} from 'oo7-react';
 /* import {bonds, options as bonds_options} from 'oo7-parity';*/
@@ -44,7 +43,6 @@ class App extends Component {
     return (
       <div className="App">
           {this.state.isLoggedIn ? <Dashboard handleSignOut={this.handleSignOut.bind(this)}/> : <Login handleSignIn={this.handleSignIn.bind(this)}/>}
-          <SecretPusher></SecretPusher>
       </div>
     );
   }
