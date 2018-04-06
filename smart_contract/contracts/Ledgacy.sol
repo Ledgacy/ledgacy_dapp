@@ -14,6 +14,8 @@ contract Ledgacy {
     }
 
     mapping (address => Profile) profiles;
+    Profile[] allProfiles;
+
     event KeyShare(bytes32);
 
     function setProfile(int publicKey) public {
@@ -42,6 +44,10 @@ contract Ledgacy {
 
     function getLastTime() public view returns(uint) {
         return profiles[msg.sender].lastTime;
+    }
+
+    function getLastTimeByAddress(address target) public view returns(uint) {
+        return profiles[target].lastTime;
     }
 
 }

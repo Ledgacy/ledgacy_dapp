@@ -3,7 +3,7 @@ import { Container, Sidebar, Segment, Button, Menu, Image, Icon, Header } from '
 import {hexToAscii} from "oo7-parity";
 import {web3, bonds} from "../bonds_setup";
 import * as contract from "truffle-contract";
-import {Rspan} from 'oo7-react';
+import {Rdiv} from 'oo7-react';
 import LedgacyContract from '../contracts/Ledgacy.json';
 import {getAccounts} from "./GetAccounts";
 
@@ -46,8 +46,9 @@ class StatusPage extends Component {
             <Container fluid>
                 <Header as='header'>Status</Header>
                 <div>
-                    <Rspan>Last block: {new Date(this.state.lastTime*1000).toString()}. Current block: {this.block_bond.timestamp.map((timestamp) => timestamp.toString())}
-                    </Rspan>
+                    <Rdiv>Last block: {new Date(this.state.lastTime*1000).toString()}. Current block: {this.block_bond.timestamp.map((timestamp) => timestamp.toString())}
+                    </Rdiv>
+
                     <Button onClick={this.checkIn}>Check in!</Button>
                 </div>
             </Container>
