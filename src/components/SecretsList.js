@@ -36,7 +36,7 @@ class SecretsList extends Component {
         console.log('after');
         let secrets = []
         for(let index = 0; index < nSecrets; ++index){
-            let result = await deployedContract.readSecret.call(0);
+            let result = await deployedContract.readSecret.call(index);
 
             console.log(hexToAscii(result))
             secrets.push(JSON.parse(hexToAscii(result)));
