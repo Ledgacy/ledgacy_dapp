@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-import {Bond} from 'oo7';
 import {Rspan} from 'oo7-react';
-import {bonds} from 'oo7-parity';
+/* import {bonds, options as bonds_options} from 'oo7-parity';*/
 /* import {InputBond} from 'parity-reactive-ui';*/
+/* import Api from '@parity/api';*/
+import {bonds} from './bonds_setup.js'
+
 
 
 class App extends Component {
