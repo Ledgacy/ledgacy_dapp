@@ -21,9 +21,13 @@ contract Ledgacy {
         profiles[msg.sender].secrets.push(secret);
     }
 
-    function readSecret(uint index) public returns(bytes) {
-      /* assert(index < profiles[msg.sender].secrets.length); */
+    function readSecret(uint index) public view returns(bytes) {
+      assert(index < profiles[msg.sender].secrets.length);
       return profiles[msg.sender].secrets[index];
+    }
+
+    function secretsCount() public view returns(uint) {
+      return profiles[msg.sender].secrets.length;
     }
 
     function Ledgacy() public {

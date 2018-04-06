@@ -1,8 +1,15 @@
+import {web3} from '../bonds_setup.js'
+import * as contract from 'truffle-contract';
+import LedgacyContract from "../contracts/Ledgacy.json";
+import {sha3, asciiToHex, hexToAscii} from 'oo7-parity'
+
 import React, {Component} from 'react'
 import {List, Table, Input, Button} from 'semantic-ui-react'
 
 
 class AddSecret extends Component {
+    ledgacyContract;
+
     constructor() {
         super()
         this.state = {
@@ -13,6 +20,17 @@ class AddSecret extends Component {
         }
     }
 
+    componentDidMount = () => {
+        console.log("WEB3");
+        console.log(web3);
+        this.ledgacyContract = contract(LedgacyContract);
+        this.ledgacyContract.setProvider(web3.currentProvider);
+
+        console.log("Instantiated contract");
+        console.log(this.ledgacyContract);
+    }
+
+
     changeContent = (event, content) => {
         this.setState({...this.state, content: content.value})
     }
@@ -22,9 +40,17 @@ class AddSecret extends Component {
         this.setState({...this.state, name: name.value})
     }
 
-    saveToBlockchain = () => {
+    saveToBlockchain = async () => {
         this.setState({...this.state, saving: true})
         console.log("TODO! storing this secret to the blockchain!", this.state.name, this.state.content);
+
+        console.log(this.ledgacyContract);
+        const deployedContract = await this.ledgacyContract.deployed();
+        let err, result = await deployedContract.pushSecret(asciiToHex("test"), {from: web3.eth.accounts[0]});
+        console.log(err, result);
+        // TODO error handling
+
+        this.setState({...this.state, saving: false, submitted: true});
     }
 
     render = () => {
