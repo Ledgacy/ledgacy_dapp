@@ -10,7 +10,6 @@ import {bonds} from './bonds_setup.js'
 import { Button, Container } from 'semantic-ui-react'
 import {Dashboard} from './components/Dashboard.js'
 import {Login} from './components/Login.js'
-import SecretPusher from "./components/SecretPusher";
 
 const initial_state = {
     isLoggedIn: false,

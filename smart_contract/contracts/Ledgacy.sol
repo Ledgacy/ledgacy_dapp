@@ -3,7 +3,7 @@ pragma solidity ^0.4.17;
 
 contract Ledgacy {
     struct Profile {
-      int publickey;
+      byte32 publickey;
       bytes[] secrets;
     }
 
@@ -20,7 +20,7 @@ contract Ledgacy {
     }
 
     function pushSecret(bytes secret) public {
-        if (profiles[msg.sender].publickey == 0) {
+        assert(profiles[msg.sender].publickey == 0) {
             setProfile(5);
         }
         profiles[msg.sender].secrets.push(secret);
