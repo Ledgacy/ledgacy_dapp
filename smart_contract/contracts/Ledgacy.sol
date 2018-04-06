@@ -2,8 +2,11 @@ pragma solidity ^0.4.17;
 
 
 contract Ledgacy {
+  string version = "0.1.0";
+
     struct Profile {
-        int publickey;
+        string name;
+        bytes publickey;
         bytes[] secrets;
         uint lastTime;
     }
@@ -16,14 +19,25 @@ contract Ledgacy {
     mapping (address => Profile) profiles;
     event KeyShare(bytes32);
 
-    function setProfile(int publicKey) public {
-        profiles[msg.sender] = Profile(publicKey, new bytes[](0), block.number);
+    function createProfile(string name, bytes publickey) public {
+      assert(bytes(name).length != 0);
+      assert(publickey.length != 0);
+      profiles[msg.sender] = Profile(name, publickey, new bytes[](0), block.number);
+    }
+
+    function getProfileName(address person) public view returns(string) {
+      profiles[person].name;
+    }
+
+    function getProfilePublicKey(address person) public view returns(bytes) {
+      profiles[person].publickey;
     }
 
     function pushSecret(bytes secret) public {
-        if (profiles[msg.sender].publickey == 0) {
-            setProfile(5);
-        }
+      assert(profiles[msg.sender].publickey.length != 0);
+        /* if (profiles[msg.sender].publickey == 0) { */
+        /*     createProfile(5); */
+        /* } */
         profiles[msg.sender].secrets.push(secret);
     }
 
@@ -43,5 +57,4 @@ contract Ledgacy {
     function getLastTime() public view returns(uint) {
         return profiles[msg.sender].lastTime;
     }
-
 }

@@ -35,20 +35,22 @@ class SecretsList extends Component {
         const deployedContract = await this.ledgacyContract.deployed();
         //console.log('before');
         let nSecrets = await deployedContract.secretsCount();
+        if(nSecrets === this.state.secrets.length)
+            return;
         //console.log('after');
         let secrets = []
         for(let index = 0; index < nSecrets; ++index){
             let result = await deployedContract.readSecret.call(index);
 
-            console.log("Private key", this.props.keypair)
-            console.log("Typeof", typeof this.props.keypair.private);
-            console.log("Result", result)
-            console.log("Hextoascii", hexToAscii(result))
-            console.log("Encrypted: ", JSON.parse(hexToAscii(result)));
+            /* console.log("Private key", this.props.keypair)
+             * console.log("Typeof", typeof this.props.keypair.private);
+             * console.log("Result", result)
+             * console.log("Hextoascii", hexToAscii(result))
+             * console.log("Encrypted: ", JSON.parse(hexToAscii(result)));*/
             const secret_str = await EthCrypto.decryptWithPrivateKey(this.props.keypair.private, JSON.parse(hexToAscii(result)));
-            console.log(secret_str);
+            /* console.log(secret_str);*/
             const secret = JSON.parse(secret_str);
-            console.log(hexToAscii(result), secret_str, secret)
+            /* console.log(hexToAscii(result), secret_str, secret)*/
             secrets.push(secret);
         }
         this.setState({...this.state, secrets: secrets});
@@ -75,15 +77,17 @@ class SecretsList extends Component {
 
         return (
                 <Table celled>
-                <Table.Row>
-                <Table.HeaderCell>Key</Table.HeaderCell>
-                <Table.HeaderCell>Secret</Table.HeaderCell>
-                <Table.HeaderCell>
-                </Table.HeaderCell>
-                </Table.Row>
-                {tableBody}
-                <AddSecret keypair={this.props.keypair} saveHandle={this.fetchSecrets} />
-            </Table>
+                    <tbody>
+                        <Table.Row>
+                            <Table.HeaderCell>Key</Table.HeaderCell>
+                            <Table.HeaderCell>Secret</Table.HeaderCell>
+                            <Table.HeaderCell>
+                            </Table.HeaderCell>
+                        </Table.Row>
+                        {tableBody}
+                        <AddSecret keypair={this.props.keypair} saveHandle={this.fetchSecrets} />
+                    </tbody>
+                </Table>
         );
     }
 }
