@@ -24,3 +24,7 @@ package
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+*.iml
+
+smart_contract/build
