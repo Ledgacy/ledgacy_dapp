@@ -6,7 +6,7 @@ import {sha3, asciiToHex} from 'oo7-parity'
 
 // visual:
 import { Button, Container } from 'semantic-ui-react';
-import logo from '../logo.svg';
+import logo from '../ledgacy_logo.svg';
 
 
 class Login extends ReactiveComponent {
@@ -34,7 +34,7 @@ class Login extends ReactiveComponent {
                 <header className="App-header">
                     <img src={logo} className="App-logo" alt="logo" />
                     <h1 className="App-title">
-                        Ledgacy
+                        Trustworthy Decentralized Secrets Manager
                     </h1>
                 </header>
                 <Container>

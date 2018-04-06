@@ -7,6 +7,11 @@ contract Ledgacy {
       bytes[] secrets;
     }
 
+
+    function Ledgacy() public {
+
+    }
+
     mapping (address => Profile) profiles;
     event KeyShare(bytes32);
 
@@ -30,7 +35,4 @@ contract Ledgacy {
       return profiles[msg.sender].secrets.length;
     }
 
-    function Ledgacy() public {
-
-    }
 }

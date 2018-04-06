@@ -1,38 +1,53 @@
 import React, {Component} from 'react'
 import { Tab } from 'semantic-ui-react'
-import { Sidebar, Segment, Button, Menu, Image, Icon, Header } from 'semantic-ui-react';
-import {SecretsList} from './SecretsList.js'
+import { Container, Sidebar, Segment, Button, Menu, Image, Icon, Header } from 'semantic-ui-react';
 
-/* const panes = [
- *     {menuItem: 'Ledgacy', render: () => <Menu.Item header>Ledgacy</Menu>}
- *   { menuItem: 'Tab 1', render: () => <Tab.Pane attached={false}>Tab 1 Content</Tab.Pane> },
- *   { menuItem: 'Tab 2', render: () => <Tab.Pane attached={false}>Tab 2 Content</Tab.Pane> },
- *   { menuItem: 'Tab 3', render: () => <Tab.Pane attached={false}>Tab 3 Content</Tab.Pane> },
- * ]*/
+import {SecretsPage} from './SecretsPage.js';
+import {TrusteesPage} from './TrusteesPage.js';
+import {NotificationsPage} from './NotificationsPage.js';
+
+import logo from '../ledgacy_logo.svg';
 
 class Dashboard extends Component {
     constructor() {
         super()
-        this.state = {}
+        this.state = {
+currentPage: 'secrets'
+        }
+    }
+
+    changePage = (page) => {
+        console.log(page, this.state);
+        this.setState({...this.state, currentPage: page})
     }
 
     render = () => {
+
+        let page;
+            if(this.state.currentPage === 'secrets'){
+                page = <SecretsPage />;
+            }else if(this.state.currentPage === 'trustees'){
+                page = <TrusteesPage />;
+            }else{
+                page = <NotificationsPage />;
+            }
+
+
         return (
                 <Sidebar.Pushable as={Segment}>
                     <Sidebar as={Menu} animation='push' width='thin' visible={true} icon='labeled' vertical inverted pointing>
                         <Menu.Item name='home'>
-                            <Icon name='home' />
-                            Home
+                            <img src={logo} className="App-menu-logo" alt="logo" />
                         </Menu.Item>
-                        <Menu.Item name='unlock alternate'>
+                        <Menu.Item name='secrets' active={this.state.currentPage === 'secrets'} onClick={() => this.changePage('secrets')}>
                             <Icon name='unlock alternate' />
                             Secrets
                         </Menu.Item>
-                        <Menu.Item name='protect'>
+                        <Menu.Item name='trustees' active={this.state.currentPage === 'trustees'} onClick={() => this.changePage('trustees')}>
                             <Icon name='protect' />
                             Trustees
                         </Menu.Item>
-                        <Menu.Item name='notification'>
+                        <Menu.Item name='notifications' active={this.state.currentPage === 'notifications'} onClick={() => this.changePage('notifications')}>
                             <Icon name='mail outline' />
                             Notifications
                         </Menu.Item>
@@ -43,12 +58,10 @@ class Dashboard extends Component {
                     </Sidebar>
                     <Sidebar.Pusher>
                         <Segment basic>
-                            <Header as='h3'>Application Content</Header>
-                            <SecretsList />
+                            {page}
                         </Segment>
                     </Sidebar.Pusher>
                 </Sidebar.Pushable>
-
         );
     }
 }
