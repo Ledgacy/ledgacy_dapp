@@ -13,7 +13,8 @@ const initial_state = {
     content: '',
     submitted: false,
     saving: false,
-    nSecrets: 0
+    nSecrets: 0,
+    txHash: '',
 }
 
 class AddSecret extends Component {
@@ -68,9 +69,13 @@ class AddSecret extends Component {
         let err, result = await deployedContract.pushSecret(asciiToHex(JSON.stringify(encrypted_secret)), {from: accounts[0]});
         console.log("Pushed secret");
         console.log(err, result);
-        // TODO error handling
 
-        this.setState({...this.state, saving: false, submitted: true});
+        if(err)
+            return this.setState(initial_state);
+
+        let {tx, receipt, logs} = result;
+
+        this.setState({...this.state, saving: false, submitted: true, txHash: tx});
 
         // const secretUpdateInterval = window.setInterval(() => {
         //     if(this.props.nSecrets == secret_count){
@@ -83,9 +88,13 @@ class AddSecret extends Component {
     render = () => {
         const submitted = (
             !this.state.submitted ? ''  : (
-                <Table.Cell colspan={3} >
+                <Table.Cell colSpan={3} >
                     <em>
-                        Waiting for transaction to be mined...
+                    Waiting for transaction
+                    <strong>
+                        {this.state.txHash}
+                    </strong>
+                    to be mined...
                     </em>
                 </Table.Cell>
             )

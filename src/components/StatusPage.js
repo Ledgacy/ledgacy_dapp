@@ -9,7 +9,7 @@ import {getAccounts} from "./GetAccounts";
 
 
 class StatusPage extends Component {
-
+    getLastTimeInterval;
     constructor(){
         super();
         this.state = {lastTime: 0};
@@ -23,7 +23,11 @@ class StatusPage extends Component {
         this.ledgacyContract.setProvider(web3.currentProvider);
 
         await this.getLastTime();
-        setInterval(this.getLastTime, 2000);
+        this.getLastTimeInterval = setInterval(this.getLastTime, 2000);
+    }
+
+    componentWillUnmount = () => {
+        clearInterval(this.getLastTimeInterval);
     }
 
     getLastTime = async () => {

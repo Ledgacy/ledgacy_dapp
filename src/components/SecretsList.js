@@ -12,6 +12,7 @@ import EthCrypto from 'eth-crypto';
 
 class SecretsList extends Component {
     ledgacyContract;
+    fetchSecretsInterval;
     constructor() {
         super()
         this.state = {
@@ -28,7 +29,11 @@ class SecretsList extends Component {
         this.setState({...this.state, loaded: true})
 
         await this.fetchSecrets();
-        setInterval(this.fetchSecrets, 2000);
+        this.fetchSecretsInterval = setInterval(this.fetchSecrets, 2000);
+    }
+
+    componentWillUnmount = () => {
+        window.clearInterval(this.fetchSecretsInterval);
     }
 
     fetchSecrets = async () => {

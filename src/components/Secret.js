@@ -1,16 +1,21 @@
 import React, {Component} from 'react'
-import {List, Table} from 'semantic-ui-react'
+import {List, Table, Input, Button, Icon} from 'semantic-ui-react'
 
 
 class Secret extends Component {
     constructor() {
         super()
         this.state = {
+            hidden: true
         }
     }
 
     componentDidMount = () =>{
         // attempt to load secrets from the blockchain
+    }
+
+    toggleHidden = () => {
+        this.setState({...this.state, hidden: !this.state.hidden})
     }
 
     render = () => {
@@ -29,7 +34,12 @@ class Secret extends Component {
                     {this.props.secret.name}
                 </Table.Cell>
                 <Table.Cell>
-                    {this.props.secret.content}
+                    <Input fluid
+                        value={this.state.hidden ? 'aaaaaaaaaaaaaaaa' : this.props.secret.content}
+                        type={this.state.hidden ? 'password' : 'text'}
+                        actionPosition='left'
+            action={<Button icon={<Icon name='eye' onClick={this.toggleHidden} />} attached='left' />}
+                    />
                 </Table.Cell>
                 <Table.Cell>
                 </Table.Cell>
