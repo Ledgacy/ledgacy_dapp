@@ -6,6 +6,7 @@ import Api from '@parity/api';
 
 var provider;
 var parityapi;
+var web3;
 window.addEventListener('load', function() {
 
     // Checking if Web3 has been injected by the browser (Mist/MetaMask, Parity does this as well but would result in no-op.)
@@ -13,6 +14,7 @@ window.addEventListener('load', function() {
 
         // Use the browser's ethereum provider
         window.provider = provider = window.web3.currentProvider
+        web3 = window.web3;
         console.log("PROVIDER: ", provider)
         window.parityapi = parityapi = new Api(provider)
         bonds_options.api = parityapi
@@ -22,4 +24,5 @@ window.addEventListener('load', function() {
 })
 
 
-export {bonds, bonds_options};
+
+export {bonds, bonds_options, web3};
