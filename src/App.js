@@ -14,7 +14,7 @@ class App extends Component {
     constructor(){
         super()
         this.bond = bonds.time
-        this.bond2 = bonds.blockNumber
+        this.blocknum_bond = bonds.blockNumber
     }
 
   render() {
@@ -24,11 +24,11 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Ledgacy</h1>
         </header>
-        <Rspan>{this.bond}</Rspan>
+        <Rspan>Current time: {this.bond.map(t => new Date(t).toString())}</Rspan>
         <div>
             Test
         </div>
-        <Rspan>{this.bond2}</Rspan>
+        <Rspan>Block Number: {this.blocknum_bond}</Rspan>
       </div>
     );
   }
