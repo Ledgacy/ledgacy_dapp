@@ -3,8 +3,8 @@ pragma solidity ^0.4.17;
 
 contract Ledgacy {
     struct Profile {
-        int publickey;
-        bytes[] secrets;
+      int publickey;
+      bytes[] secrets;
     }
 
     mapping (address => Profile) profiles;
@@ -19,6 +19,11 @@ contract Ledgacy {
             setProfile(5);
         }
         profiles[msg.sender].secrets.push(secret);
+    }
+
+    function readSecret(uint index) public returns(bytes) {
+      /* assert(index < profiles[msg.sender].secrets.length); */
+      return profiles[msg.sender].secrets[index];
     }
 
     function Ledgacy() public {

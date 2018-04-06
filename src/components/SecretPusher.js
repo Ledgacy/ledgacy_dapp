@@ -27,7 +27,12 @@ class SecretPusher extends Component {
         console.log(this.ledgacyContract);
         const deployedContract = await this.ledgacyContract.deployed();
         await deployedContract.pushSecret("0x000011112222333344445555666677778888".valueOf(), {from: web3.eth.accounts[0]});
-        this.result = await deployedContract.secrets(1);
+    }
+
+    readSecrets = async () => {
+        const deployedContract = await this.ledgacyContract.deployed();
+        let result = await deployedContract.readSecret.call(0);
+        console.log(result)
     }
 
 
@@ -35,6 +40,7 @@ class SecretPusher extends Component {
         return (
             <div className="ProfileCreator">
                 <Button primary onClick={this.pushSecret}> Push secret {this.result} </Button>
+                <Button onClick={this.readSecrets}>Read Secrets</Button>
             </div>
         );
     }
