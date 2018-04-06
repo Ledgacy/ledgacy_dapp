@@ -3,17 +3,15 @@ import { Tab } from 'semantic-ui-react'
 import { Sidebar, Segment, Button, Menu, Image, Icon, Header } from 'semantic-ui-react';
 import {SecretsList} from './SecretsList.js'
 
-/* const panes = [
- *     {menuItem: 'Ledgacy', render: () => <Menu.Item header>Ledgacy</Menu>}
- *   { menuItem: 'Tab 1', render: () => <Tab.Pane attached={false}>Tab 1 Content</Tab.Pane> },
- *   { menuItem: 'Tab 2', render: () => <Tab.Pane attached={false}>Tab 2 Content</Tab.Pane> },
- *   { menuItem: 'Tab 3', render: () => <Tab.Pane attached={false}>Tab 3 Content</Tab.Pane> },
- * ]*/
+
+import logo from '../ledgacy_logo.svg';
 
 class Dashboard extends Component {
     constructor() {
         super()
-        this.state = {}
+        this.state = {
+currentPage: 'secrets'
+        }
     }
 
     render = () => {
@@ -21,18 +19,17 @@ class Dashboard extends Component {
                 <Sidebar.Pushable as={Segment}>
                     <Sidebar as={Menu} animation='push' width='thin' visible={true} icon='labeled' vertical inverted pointing>
                         <Menu.Item name='home'>
-                            <Icon name='home' />
-                            Home
+                            <img src={logo} className="App-menu-logo" alt="logo" />
                         </Menu.Item>
-                        <Menu.Item name='unlock alternate'>
+                        <Menu.Item name='secrets' active={this.state.currentPage === 'secrets'}>
                             <Icon name='unlock alternate' />
                             Secrets
                         </Menu.Item>
-                        <Menu.Item name='protect'>
+                        <Menu.Item name='trustees' active={this.state.currentPage === 'trustees'}>
                             <Icon name='protect' />
                             Trustees
                         </Menu.Item>
-                        <Menu.Item name='notification'>
+                        <Menu.Item name='notifications' active={this.state.currentPage === 'notifications'}>
                             <Icon name='mail outline' />
                             Notifications
                         </Menu.Item>
@@ -43,7 +40,9 @@ class Dashboard extends Component {
                     </Sidebar>
                     <Sidebar.Pusher>
                         <Segment basic>
-                            <Header as='h3'>Application Content</Header>
+                            <Header as='header'>
+
+                            </Header>
                             <SecretsList />
                         </Segment>
                     </Sidebar.Pusher>
