@@ -41,13 +41,14 @@ class StatusPage extends Component {
 
     render = () => {
         return (
-            <div>
-                <Rspan>Last block: {this.state.lastTime}. Current block: {this.blocktime_bond}
-                </Rspan>
-                <Button onClick={this.checkIn}>Check in!</Button>
-            </div>
-
-
+            <Container fluid>
+                <Header as='header'>Status</Header>
+                <div>
+                    <Rspan>Last block: {this.state.lastTime}. Current block: {this.blocktime_bond}
+                    </Rspan>
+                    <Button onClick={this.checkIn}>Check in!</Button>
+                </div>
+            </Container>
         )
     }
 }

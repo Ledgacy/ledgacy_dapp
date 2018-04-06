@@ -26,7 +26,7 @@ currentPage: 'secrets'
 
         let page;
             if(this.state.currentPage === 'secrets'){
-                page = <SecretsPage />;
+                page = <SecretsPage keypair={this.props.keypair}/>;
             }else if(this.state.currentPage === 'status'){
                 page = <StatusPage />;
             }else if(this.state.currentPage === 'trustees'){

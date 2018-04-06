@@ -7,6 +7,7 @@ import {hexToAscii} from "oo7-parity";
 import {web3} from "../bonds_setup";
 import * as contract from "truffle-contract";
 import LedgacyContract from '../contracts/Ledgacy.json';
+import EthCrypto from 'eth-crypto';
 
 
 class SecretsList extends Component {
@@ -39,8 +40,10 @@ class SecretsList extends Component {
         for(let index = 0; index < nSecrets; ++index){
             let result = await deployedContract.readSecret.call(index);
 
-            //console.log(hexToAscii(result))
-            secrets.push(JSON.parse(hexToAscii(result)));
+            const secret_str = EthCrypto.decryptWithPrivateKey(this.props.keypair.private, hexToAscii(result));
+            const secret = JSON.parse(secret_str);
+            console.log(hexToAscii(result), secret_str, secret)
+            secrets.push(secret);
         }
         this.setState({...this.state, secrets: secrets});
         //console.log('secrets', secrets);
@@ -73,7 +76,7 @@ class SecretsList extends Component {
                 </Table.HeaderCell>
                 </Table.Row>
                 {tableBody}
-                <AddSecret saveHandle={this.fetchSecrets} />
+                <AddSecret keypair={this.props.keypair} saveHandle={this.fetchSecrets} />
             </Table>
         );
     }

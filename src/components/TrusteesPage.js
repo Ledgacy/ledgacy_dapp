@@ -10,7 +10,10 @@ class TrusteesPage extends Component {
 
     render = () => {
         return (
-            <div>This page is still empty.</div>
+            <Container fluid>
+                <Header as='header'>Trustee Management</Header>
+                <div>This page is still empty.</div>
+            </Container>
         )
     }
 }

@@ -6,6 +6,8 @@ import {Rspan} from 'oo7-react';
 /* import {InputBond} from 'parity-reactive-ui';*/
 /* import Api from '@parity/api';*/
 import {bonds} from './bonds_setup.js'
+import {sha3, asciiToHex} from 'oo7-parity'
+import EthCrypto from 'eth-crypto';
 
 import { Button, Container } from 'semantic-ui-react'
 import {Dashboard} from './components/Dashboard.js'
@@ -26,10 +28,11 @@ class App extends Component {
     }
 
     handleSignIn = (ledgacy_keypair_seed) => {
+        const ledgacy_priv = sha3(ledgacy_keypair_seed);
+        const ledgacy_public = EthCrypto.publicKeyByPrivateKey(ledgacy_priv);
+        const keypair = {private: ledgacy_priv, public: ledgacy_public};
 
-        // TODO actual cryptography.
-        let keypair = ledgacy_keypair_seed;
-        console.log('asdf!');
+        console.log('logged in using keypair!', keypair);
         this.setState({...this.state, ledgacyKeypair: keypair, isLoggedIn: true})
     }
 
@@ -42,7 +45,7 @@ class App extends Component {
       console.log(this.state);
     return (
       <div className="App">
-          {this.state.isLoggedIn ? <Dashboard handleSignOut={this.handleSignOut.bind(this)}/> : <Login handleSignIn={this.handleSignIn.bind(this)}/>}
+          {this.state.isLoggedIn ? <Dashboard handleSignOut={this.handleSignOut} keypai={this.state.keypair}/> : <Login handleSignIn={this.handleSignIn}/>}
       </div>
     );
   }

@@ -8,6 +8,14 @@ import {sha3, asciiToHex} from 'oo7-parity'
 import { Button, Container } from 'semantic-ui-react';
 import logo from '../ledgacy_logo.svg';
 
+let getAccounts = async () => {
+    return new Promise((resolve, reject) => {
+        web3.eth.getAccounts((err, accounts) => {
+            console.log('accounts:', err, accounts);
+            return resolve(accounts);
+        })
+    });
+};
 
 class Login extends ReactiveComponent {
     constructor(){
@@ -15,10 +23,12 @@ class Login extends ReactiveComponent {
         this.state = {}
     }
 
-    trySignIn = () => {
-        web3.eth.sign(web3.eth.accounts[0], sha3('test'), (err, signing_result) => {
+    trySignIn = async () => {
+        let accounts = await getAccounts();
+        web3.eth.sign(accounts[0], sha3('test'), (err, signing_result) => {
             console.log(err, signing_result);
             if(err != null){
+                console.log("ERROR DURING LOGIN:", err);
                 // At some point show error message.
                 return;
             }
@@ -28,7 +38,7 @@ class Login extends ReactiveComponent {
     }
 
 
-    render(){
+    render() {
         return (
             <div>
                 <header className="App-header">

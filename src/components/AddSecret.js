@@ -5,6 +5,7 @@ import {sha3, asciiToHex, hexToAscii} from 'oo7-parity'
 
 import React, {Component} from 'react'
 import {List, Table, Input, Button} from 'semantic-ui-react'
+import EthCrypto from 'eth-crypto';
 
 
 class AddSecret extends Component {
@@ -49,7 +50,11 @@ class AddSecret extends Component {
 
         console.log(this.ledgacyContract);
         const deployedContract = await this.ledgacyContract.deployed();
-        let err, result = await deployedContract.pushSecret(asciiToHex(JSON.stringify(secret)), {from: web3.eth.accounts[0]});
+
+        const secret_str = JSON.stringify(secret);
+        const encrypted_secret = EthCrypto.encryptWithPublicKey(this.props.keypair.public, secret_str);
+
+        let err, result = await deployedContract.pushSecret(asciiToHex(encrypted_secret), {from: web3.eth.accounts[0]});
         console.log(err, result);
         // TODO error handling
 
