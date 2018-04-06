@@ -31,6 +31,8 @@ class Secret extends Component {
                 <Table.Cell>
                     {this.props.secret.content}
                 </Table.Cell>
+                <Table.Cell>
+                </Table.Cell>
                 </Table.Row>
         );
     }

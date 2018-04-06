@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {List, Table} from 'semantic-ui-react'
 
 import {Secret} from './Secret.js'
+import {AddSecret} from './AddSecret.js'
 
 
 class SecretsList extends Component {
@@ -21,7 +22,7 @@ class SecretsList extends Component {
 
     render = () => {
         const secretsList = this.state.secrets.map(secret => {
-            return <Secret secret={secret} />
+            return <Secret secret={secret} key={"secret_" + secret.name}/>
         })
 
         const tableBody = this.state.loaded ? secretsList : (
@@ -42,8 +43,11 @@ class SecretsList extends Component {
                 <Table.Row>
                 <Table.HeaderCell>Key</Table.HeaderCell>
                 <Table.HeaderCell>Secret</Table.HeaderCell>
+                <Table.HeaderCell>
+                </Table.HeaderCell>
                 </Table.Row>
                 {tableBody}
+                <AddSecret />
             </Table>
         );
     }
