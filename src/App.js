@@ -12,7 +12,6 @@ import EthCrypto from 'eth-crypto';
 import { Button, Container } from 'semantic-ui-react'
 import {Dashboard} from './components/Dashboard.js'
 import {Login} from './components/Login.js'
-import SecretPusher from "./components/SecretPusher";
 
 const initial_state = {
     isLoggedIn: false,

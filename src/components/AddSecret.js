@@ -42,13 +42,15 @@ class AddSecret extends Component {
     }
 
     saveToBlockchain = async () => {
-        this.setState({...this.state, saving: true})
-        console.log("TODO! storing this secret to the blockchain!", this.state.name, this.state.content);
+        this.setState({...this.state, saving: true});
+        let secret = {name:this.state.name, content:this.state.content};
+        console.log("Storing this secret to the blockchain!", secret);
+
+        this.setState({...this.state, name: "", content: ""});
 
         console.log(this.ledgacyContract);
         const deployedContract = await this.ledgacyContract.deployed();
 
-        const secret = {name:this.state.name, content:this.state.content};
         const secret_str = JSON.stringify(secret);
         const encrypted_secret = EthCrypto.encryptWithPublicKey(this.props.keypair.public, secret_str);
 
@@ -63,10 +65,10 @@ class AddSecret extends Component {
         return (
                 <Table.Row>
                 <Table.Cell>
-                <Input fluid placeholder='Name' onChange={this.changeName} disabled={this.state.saving}/>
+                <Input fluid placeholder='Name' onChange={this.changeName} disabled={this.state.saving} value={this.state.name}/>
                 </Table.Cell>
                 <Table.Cell>
-                <Input fluid placeholder='Secret' onChange={this.changeContent} disabled={this.state.saving}/>
+                <Input fluid placeholder='Secret' onChange={this.changeContent} disabled={this.state.saving} value={this.state.content}/>
                 </Table.Cell>
                 <Table.Cell>
                 <Button onClick={this.saveToBlockchain} disabled={this.state.saving} >{ this.state.saving? "Saving..." : "Save!"}</Button>
