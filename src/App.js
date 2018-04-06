@@ -44,7 +44,6 @@ class App extends Component {
     return (
       <div className="App">
           {this.state.isLoggedIn ? <Dashboard handleSignOut={this.handleSignOut.bind(this)}/> : <Login handleSignIn={this.handleSignIn.bind(this)}/>}
-          <SecretPusher/>
       </div>
     );
   }

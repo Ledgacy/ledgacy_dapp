@@ -46,7 +46,7 @@ class AddSecret extends Component {
 
         console.log(this.ledgacyContract);
         const deployedContract = await this.ledgacyContract.deployed();
-        let err, result = await deployedContract.pushSecret(asciiToHex("test"), {from: web3.eth.accounts[0]});
+        let err, result = await deployedContract.pushSecret(asciiToHex(JSON.stringify({name:this.state.name, content:this.state.content})), {from: web3.eth.accounts[0]});
         console.log(err, result);
         // TODO error handling
 

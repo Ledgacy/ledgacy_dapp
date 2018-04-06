@@ -3,21 +3,46 @@ import {List, Table} from 'semantic-ui-react'
 
 import {Secret} from './Secret.js'
 import {AddSecret} from './AddSecret.js'
+import {hexToAscii} from "oo7-parity";
+import {web3} from "../bonds_setup";
+import * as contract from "truffle-contract";
+import LedgacyContract from '../contracts/Ledgacy.json';
 
 
 class SecretsList extends Component {
+    ledgacyContract;
     constructor() {
         super()
         this.state = {
-            secrets: [{name: 'foo', content: 'bar'}, {name: 'geheim', content: 'ik hou van koekjes'}],
+            secrets: [],
             loaded: false,
         }
     }
 
-    componentDidMount = () =>{
+    componentDidMount = async () =>{
         // attempt to load secrets from the blockchain
         // and decrypt it using private key.
+        this.ledgacyContract = contract(LedgacyContract);
+        this.ledgacyContract.setProvider(web3.currentProvider);
         this.setState({...this.state, loaded: true})
+
+        await this.fetchSecrets();
+    }
+
+    fetchSecrets = async () => {
+        const deployedContract = await this.ledgacyContract.deployed();
+        console.log('before');
+        let nSecrets = await deployedContract.secretsCount();
+        console.log('after');
+        let secrets = []
+        for(let index = 0; index < nSecrets; ++index){
+            let result = await deployedContract.readSecret.call(0);
+
+            console.log(hexToAscii(result))
+            secrets.push(JSON.parse(hexToAscii(result)));
+        }
+        this.setState({...this.state, secrets: secrets});
+        console.log('secrets', secrets);
     }
 
     render = () => {
