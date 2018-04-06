@@ -13,7 +13,7 @@ class SecretsPage extends Component {
         return (
             <Container fluid>
             <Header as='header'>Secrets</Header>
-            <SecretsList />
+            <SecretsList keypair={this.props.keypair} />
             </Container>
         )
     }
