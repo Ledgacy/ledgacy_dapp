@@ -45,7 +45,7 @@ class App extends Component {
       console.log(this.state);
     return (
       <div className="App">
-          {this.state.isLoggedIn ? <Dashboard handleSignOut={this.handleSignOut} keypai={this.state.keypair}/> : <Login handleSignIn={this.handleSignIn}/>}
+          {this.state.isLoggedIn ? <Dashboard handleSignOut={this.handleSignOut} keypair={this.state.ledgacyKeypair}/> : <Login handleSignIn={this.handleSignIn}/>}
       </div>
     );
   }

@@ -8,14 +8,7 @@ import {sha3, asciiToHex} from 'oo7-parity'
 import { Button, Container } from 'semantic-ui-react';
 import logo from '../ledgacy_logo.svg';
 
-let getAccounts = async () => {
-    return new Promise((resolve, reject) => {
-        web3.eth.getAccounts((err, accounts) => {
-            console.log('accounts:', err, accounts);
-            return resolve(accounts);
-        })
-    });
-};
+import {getAccounts} from "./GetAccounts";
 
 class Login extends ReactiveComponent {
     constructor(){

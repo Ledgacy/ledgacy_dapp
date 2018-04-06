@@ -40,7 +40,13 @@ class SecretsList extends Component {
         for(let index = 0; index < nSecrets; ++index){
             let result = await deployedContract.readSecret.call(index);
 
-            const secret_str = EthCrypto.decryptWithPrivateKey(this.props.keypair.private, hexToAscii(result));
+            console.log("Private key", this.props.keypair)
+            console.log("Typeof", typeof this.props.keypair.private);
+            console.log("Result", result)
+            console.log("Hextoascii", hexToAscii(result))
+            console.log("Encrypted: ", JSON.parse(hexToAscii(result)));
+            const secret_str = await EthCrypto.decryptWithPrivateKey(this.props.keypair.private, JSON.parse(hexToAscii(result)));
+            console.log(secret_str);
             const secret = JSON.parse(secret_str);
             console.log(hexToAscii(result), secret_str, secret)
             secrets.push(secret);
