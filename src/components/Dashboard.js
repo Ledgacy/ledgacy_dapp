@@ -18,20 +18,27 @@ class Dashboard extends Component {
 
     render = () => {
         return (
-            <div>
                 <Sidebar.Pushable as={Segment}>
-                    <Sidebar as={Menu} animation='push' width='thin' visible={true} icon='labeled' vertical inverted>
+                    <Sidebar as={Menu} animation='push' width='thin' visible={true} icon='labeled' vertical inverted pointing>
                         <Menu.Item name='home'>
                             <Icon name='home' />
                             Home
                         </Menu.Item>
-                        <Menu.Item name='gamepad'>
-                            <Icon name='gamepad' />
-                            Games
+                        <Menu.Item name='unlock alternate'>
+                            <Icon name='unlock alternate' />
+                            Secrets
                         </Menu.Item>
-                        <Menu.Item name='camera'>
-                            <Icon name='camera' />
-                            Channels
+                        <Menu.Item name='protect'>
+                            <Icon name='protect' />
+                            Trustees
+                        </Menu.Item>
+                        <Menu.Item name='notification'>
+                            <Icon name='mail outline' />
+                            Notifications
+                        </Menu.Item>
+                        <Menu.Item name='signout' className='signout' onClick={this.props.handleSignOut}>
+                            <Icon name='power' />
+                            Sign Out
                         </Menu.Item>
                     </Sidebar>
                     <Sidebar.Pusher>
@@ -41,7 +48,6 @@ class Dashboard extends Component {
                         </Segment>
                     </Sidebar.Pusher>
                 </Sidebar.Pushable>
-            </div>
         );
     }
 }
