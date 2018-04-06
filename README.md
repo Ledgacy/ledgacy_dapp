@@ -1,4 +1,22 @@
+# the Ledgacy Decentralized Application
+
+To run, make sure you have:
+
+- yarn
+- truffle
+
+The smart contract(s) will be found in their own `smart_contracts` folder.
+
+The code of the Dapp lives in the `src` folder, with `yarn build` creating a packed version in the `build` folder. (Which can e.g. be moved or linked to from your Parity dapps folder).
+
+Use `yarn start` to run a debug version at localhost:3000 of the app, which you can interact with using a browser + MetaMask.
+
+-------------------
+
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
+
 
 Below you will find some information on how to perform common tasks.<br>
 You can find the most recent version of this guide [here](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md).
