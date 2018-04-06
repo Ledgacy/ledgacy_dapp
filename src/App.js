@@ -86,7 +86,7 @@ class App extends Component {
         {this.state.page === 'dashboard' ?
          <Dashboard handleSignOut={this.handleSignOut} keypair={this.state.ledgacyKeypair}/>
        : this.state.page === 'signup' ?
-         <Signup handleSignUp={this.handleSignUp} />
+         <Signup handleSignUp={this.handleSignUp} keypair={this.state.ledgacyKeypair} />
        : <Login handleSignIn={this.handleSignIn}/>}
       </div>
     );

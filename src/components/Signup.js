@@ -1,3 +1,9 @@
+import {web3} from '../bonds_setup.js'
+import * as contract from 'truffle-contract';
+import LedgacyContract from "../contracts/Ledgacy.json";
+import {sha3, asciiToHex, hexToAscii} from 'oo7-parity'
+
+
 import React, { Component } from 'react';
 import logo from '../ledgacy_logo.svg';
 
@@ -12,10 +18,22 @@ class Signup extends Component {
         }
     }
 
-    handleSignup = () => {
-        if(this.name == ''){
+    handleSignup = async () => {
+        console.log('signup!');
+        if(this.state.name == ''){
             return;
         }
+
+
+        let ledgacyContract = contract(LedgacyContract);
+        ledgacyContract.setProvider(web3.currentProvider);
+        const deployedContract = await ledgacyContract.deployed();
+        console.log('Creating Profile:', this.name, this.props.keypair);
+
+
+        await deployedContract.createProfile(this.name, this.props.keypair.public);
+        this.setState({...this.state, waiting: true});
+
 
     }
 
@@ -29,8 +47,8 @@ class Signup extends Component {
                 <header className="App-header">
                 <img src={logo} className="App-logo" alt="logo" />
                 <h1 className="App-title">
-                Trustworthy Decentralized Secrets Manager
-            </h1>
+                    Trustworthy Decentralized Secrets Manager
+                </h1>
                 </header>
                 <Message positive>
                 <Message.Header>
