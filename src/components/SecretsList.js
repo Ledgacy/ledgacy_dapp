@@ -27,22 +27,23 @@ class SecretsList extends Component {
         this.setState({...this.state, loaded: true})
 
         await this.fetchSecrets();
+        setInterval(this.fetchSecrets, 2000);
     }
 
     fetchSecrets = async () => {
         const deployedContract = await this.ledgacyContract.deployed();
-        console.log('before');
+        //console.log('before');
         let nSecrets = await deployedContract.secretsCount();
-        console.log('after');
+        //console.log('after');
         let secrets = []
         for(let index = 0; index < nSecrets; ++index){
             let result = await deployedContract.readSecret.call(index);
 
-            console.log(hexToAscii(result))
+            //console.log(hexToAscii(result))
             secrets.push(JSON.parse(hexToAscii(result)));
         }
         this.setState({...this.state, secrets: secrets});
-        console.log('secrets', secrets);
+        //console.log('secrets', secrets);
     }
 
     render = () => {
@@ -72,7 +73,7 @@ class SecretsList extends Component {
                 </Table.HeaderCell>
                 </Table.Row>
                 {tableBody}
-                <AddSecret />
+                <AddSecret saveHandle={this.fetchSecrets} />
             </Table>
         );
     }
