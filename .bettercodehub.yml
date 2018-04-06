@@ -4,6 +4,6 @@ languages:
 - html
 - css
 exclude:
-- /config/*
-- /build/*
-- /scripts/*
+- config/*
+- build/*
+- scripts/*
