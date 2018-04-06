@@ -63,8 +63,8 @@ class SecretsList extends Component {
     }
 
     render = () => {
-        const secretsList = this.state.secrets.map(secret => {
-            return <Secret secret={secret} key={"secret_" + secret.name}/>
+        const secretsList = this.state.secrets.map((secret, index) => {
+            return <Secret secret={secret} key={index}/>
         })
 
         const tableBody = this.state.loaded ? secretsList : (

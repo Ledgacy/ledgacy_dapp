@@ -102,15 +102,15 @@ class AddSecret extends Component {
         return ([
                 <Table.Row key={0}>{submitted}</Table.Row>,
                 <Table.Row key={1}>
-                <Table.Cell>
-                <Input fluid placeholder='Name' onChange={this.changeName} disabled={this.state.saving} value={this.state.name}/>
-                </Table.Cell>
-                <Table.Cell>
-                <Input fluid placeholder='Secret' onChange={this.changeContent} disabled={this.state.saving} value={this.state.content}/>
-                </Table.Cell>
-                <Table.Cell>
-                <Button onClick={this.saveToBlockchain} disabled={this.state.saving} >{ this.state.saving? "Saving..." : "Save!"}</Button>
-                </Table.Cell>
+                    <Table.Cell>
+                        <Input fluid placeholder='Name' onChange={this.changeName} disabled={this.state.saving} value={this.state.name}/>
+                    </Table.Cell>
+                    <Table.Cell>
+                        <Input fluid placeholder='Secret' onChange={this.changeContent} disabled={this.state.saving} value={this.state.content}/>
+                    </Table.Cell>
+                    <Table.Cell>
+                        <Button onClick={this.saveToBlockchain} disabled={this.state.saving} >{ this.state.saving? "Saving..." : "Save!"}</Button>
+                    </Table.Cell>
                 </Table.Row>
         ])
     }
