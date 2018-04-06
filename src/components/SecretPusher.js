@@ -33,7 +33,7 @@ class SecretPusher extends Component {
     readSecrets = async () => {
         const deployedContract = await this.ledgacyContract.deployed();
         console.log('before');
-        let nSecrets = await deployedContract.secretsCount();
+        let nSecrets = await deployedContract.secretsCount.call();
         console.log('after');
         let secrets = []
         for(let index = 0; index < nSecrets; ++index){
