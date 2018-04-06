@@ -5,7 +5,7 @@ contract Ledgacy {
     struct Profile {
         int publickey;
         bytes[] secrets;
-        uint lastBlock;
+        uint lastTime;
     }
 
 
@@ -28,8 +28,7 @@ contract Ledgacy {
     }
 
     function alive() public {
-        assert(profiles[msg.sender].lastBlock != 0);
-        profiles[msg.sender].lastBlock = block.number;
+        profiles[msg.sender].lastTime = block.timestamp;
     }
 
     function readSecret(uint index) public view returns(bytes) {
@@ -39,6 +38,10 @@ contract Ledgacy {
 
     function secretsCount() public view returns(uint) {
       return profiles[msg.sender].secrets.length;
+    }
+
+    function getLastTime() public view returns(uint) {
+        return profiles[msg.sender].lastTime;
     }
 
 }
