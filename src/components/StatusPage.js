@@ -10,7 +10,10 @@ class StatusPage extends Component {
 
     render = () => {
         return (
-            <div>This page is still empty.</div>
+            <Container fluid>
+                <Header as='header'>Status</Header>
+                <div>This page is still empty.</div>
+            </Container>
         )
     }
 }

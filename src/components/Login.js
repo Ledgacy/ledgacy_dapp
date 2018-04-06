@@ -38,7 +38,7 @@ class Login extends ReactiveComponent {
     }
 
 
-    render(){
+    render() {
         return (
             <div>
                 <header className="App-header">
