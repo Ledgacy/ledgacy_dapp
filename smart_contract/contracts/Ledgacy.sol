@@ -3,18 +3,21 @@ pragma solidity ^0.4.17;
 
 contract Ledgacy {
     struct Profile {
-        bytes32 publickey;
+        int publickey;
         bytes[] secrets;
     }
 
     mapping (address => Profile) profiles;
     event KeyShare(bytes32);
 
-    function setProfile(bytes32 publicKey) public {
-        profiles[msg.sender] = Profile(publicKey, new bytes32[](0));
+    function setProfile(int publicKey) public {
+        profiles[msg.sender] = Profile(publicKey, new bytes[](0));
     }
 
-    function pushSecret(bytes secret) {
+    function pushSecret(bytes secret) public {
+        if (profiles[msg.sender].publickey == 0) {
+            setProfile(5);
+        }
         profiles[msg.sender].secrets.push(secret);
     }
 
