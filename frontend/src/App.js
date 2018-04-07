@@ -34,7 +34,7 @@ class App extends Component {
 
         console.log('keypair seed:', maybe_keypair)
         if(maybe_keypair !== null && maybe_address === accounts[0]){
-            this.handleSignIn(JSON.parse(maybe_keypair));
+            await this.handleSignIn(JSON.parse(maybe_keypair));
         }
     }
 
@@ -42,8 +42,7 @@ class App extends Component {
     handleSignUp = async () => {
         console.log("HANDLING SIGN UP", this.state.ledgacyKeypair);
         // TODO: Fix this!
-        this.handleSignIn(this.state.ledgacyKeypair);
-
+        await this.handleSignIn(this.state.ledgacyKeypair);
     }
 
     handleSignIn = async (keypair) => {
@@ -61,7 +60,6 @@ class App extends Component {
     }
 
     lookupProfile = async (address) => {
-
         try{
             const deployedContract = await deployed_ledgacy_contract();
 
@@ -75,7 +73,7 @@ class App extends Component {
                 return;
             }
 
-            const publickey = deployedContract.getProfilePublicKey(address);
+            const publickey = await deployedContract.getProfilePublicKey(address);
             console.log('profile pubkey', publickey);
             this.setState({...this.state,
                            isLoggedIn: true,

@@ -10,6 +10,7 @@ class SecretsPage extends Component {
     }
 
     render = () => {
+        console.log("SecretsPage", this.props)
         return (
             <Container fluid>
             <Header as='header'>Secrets</Header>

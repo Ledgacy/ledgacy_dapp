@@ -30,7 +30,7 @@ class SecretsList extends Component {
         this.setState({...this.state, loaded: true})
 
         await this.fetchSecrets();
-        this.fetchSecretsInterval = setInterval(this.fetchSecrets, 5000);
+        this.fetchSecretsInterval = setInterval(this.fetchSecrets, 1000);
     }
 
     componentWillUnmount = () => {
@@ -39,8 +39,13 @@ class SecretsList extends Component {
 
 
     fetchSecrets = async () => {
+        console.log('SECRETS LIST PROPS',this.props);
         let master_key = this.props.masterkey;
         if (!master_key) {
+            if(!this.props.keypair){
+                // Wait until prop propagation
+                return
+            }
             console.log("Fetching masterkey");
             master_key = await fetchMasterKey(this.props.keypair.private);
         }

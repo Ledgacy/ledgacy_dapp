@@ -63,7 +63,7 @@ class TrusteesPage extends Component {
         console.log("Storing trustees:", this.state.trustees);
         const public_keys = this.state.trustees.map((elem) => elem.pubkey);
         console.log('public keys', public_keys);
-        splitAndPersistMasterKeySnippets(this.props.master_key, public_keys, this.state.threshold);
+        splitAndPersistMasterKeySnippets(master_key.substr(2), public_keys, this.state.threshold);
     }
 
     renderTrustees = () => {
