@@ -52,14 +52,10 @@ class App extends Component {
         console.log('logged in using keypair!', keypair);
         window.sessionStorage.setItem('ledgacy_keypair', JSON.stringify(keypair));
         window.sessionStorage.setItem('ledgacy_address', accounts[0]);
-        await this.lookupProfile(accounts[0]);
-        this.setState({...this.state,
-                       ledgacyKeypair: keypair,
-                       isLoggedIn: true,
-        })
+        await this.lookupProfile(accounts[0], keypair);
     }
 
-    lookupProfile = async (address) => {
+    lookupProfile = async (address, keypair) => {
         try{
             const deployedContract = await deployed_ledgacy_contract();
 
@@ -78,6 +74,7 @@ class App extends Component {
             this.setState({...this.state,
                            isLoggedIn: true,
                            profileName: name,
+                           ledgacyKeypair: keypair,
                            page: 'dashboard',
             })
 
