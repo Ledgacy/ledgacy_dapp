@@ -24,13 +24,15 @@ class DecryptKeypart extends Component {
         let secret = combineKeyparts(keyparts)
         this.setState({...this.state, decryptedKey: secret});
         console.log(secret);
+        // TODO: Add address
+        this.props.masterKeyHandle(secret);
     }
 
     render = () => {
         return ([
             <div>
                 <Button onClick={this.combineKeyparts}>Decrypt</Button>
-                <Rspan>Decrypted Key: {this.state.decryptedKey}</Rspan>
+                {this.state.decryptedKey ? <Rspan>Decrypted Key: {this.state.decryptedKey}</Rspan> : null}
             </div>
         ])
     }

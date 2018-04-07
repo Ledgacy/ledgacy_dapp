@@ -62,9 +62,20 @@ contract Ledgacy {
     return secrets[msg.sender][profiles[msg.sender].nMasterKeys - 1][index];
   }
 
+  function readSecretForAddress(uint index, address target) public view returns(bytes) {
+    /* assert(index < profiles[msg.sender].secrets.length); */
+    /* return profiles[msg.sender].secrets[index]; */
+    return secrets[target][profiles[target].nMasterKeys - 1][index];
+  }
+
   function secretsCount() public view returns(uint) {
     /* return profiles[msg.sender].secrets.length; */
     return secrets[msg.sender][profiles[msg.sender].nMasterKeys - 1].length;
+  }
+
+  function secretsCountForAddress(address target) public view returns(uint) {
+    /* return profiles[msg.sender].secrets.length; */
+    return secrets[target][profiles[target].nMasterKeys - 1].length;
   }
 
   function getLastTime() public view returns(uint) {

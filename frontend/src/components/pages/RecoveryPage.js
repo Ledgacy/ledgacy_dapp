@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 
 import {Container, Header} from 'semantic-ui-react';
 import {KeypartList} from "../recovery/KeypartList";
+import {SecretsList} from "../secrets/SecretsList";
 
 
 class RecoveryPage extends Component {
@@ -11,11 +12,17 @@ class RecoveryPage extends Component {
         this.state = {};
     }
 
+    showSecrets = (masterKey, address) => {
+      this.setState({...this.state, secret: masterKey, address: address});
+    };
+
+
     render = () => {
         return (
             <Container fluid>
                 <Header as='header'>Recovery</Header>
-                <KeypartList/>
+                <KeypartList masterKeyHandle={this.showSecrets}/>
+                {this.state.masterKey && this.state.address ? <SecretsList masterkey={this.state.masterKey} address={this.state.address}/> : null}
             </Container>
         )
     }
