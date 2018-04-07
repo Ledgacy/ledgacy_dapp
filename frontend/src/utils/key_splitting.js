@@ -14,29 +14,22 @@ const splitAndPersistMasterKeySnippets = async (master_key, trustees, threshold,
     }else{
         shares = secrets.share(master_key, trustees.length, threshold);
     }
-    console.log('ssss shares:', shares);
     let batch = web3.createBatch();
     shares.map(async (share, index) => {
         const trustee = trustees[index];
         const encrypted_keypart = await encryptKeypart(share, trustee, threshold, master_address);
-        console.log('encrypted keypart', encrypted_keypart);
         deployedContract.pushEncryptedKeypart(encrypted_keypart, {from: accounts[0]});
     });
 };
 
 const encryptKeypart = async (keypart, recipient, threshold, master_address) => {
-    console.log("recipient", recipient)
     const keypart_str =  JSON.stringify({keypart: keypart, threshold: threshold, address: master_address, remark: recipient.remark});
-    console.log("Plaintext keypart: " + keypart_str);
     const encrypted_keypart = JSON.stringify(await EthCrypto.encryptWithPublicKey(recipient.pubkey, keypart_str));
     return encrypted_keypart;
 };
 
 const decryptKeypart = async(encrypted_keypart, private_key) => {
-    console.log("Decrypting: ", encrypted_keypart, private_key);
-    console.log("Encrypted keypart to ascii", hexToAscii(encrypted_keypart));
     const keypart_str = await EthCrypto.decryptWithPrivateKey(private_key, JSON.parse(hexToAscii(encrypted_keypart)));
-    console.log("Decrypted keypart", keypart_str);
     return keypart_str;
 }
 
@@ -46,7 +39,6 @@ const combineKeyparts = (keyparts) => {
         return [1, ""];
     }
 
-    console.log("Keypart:", keyparts[0]);
     let threshold = JSON.parse(keyparts[0]).threshold;
     let address = JSON.parse(keyparts[0]).address;
     if (keyparts.length < threshold) {
@@ -56,7 +48,6 @@ const combineKeyparts = (keyparts) => {
     let shares = [];
 
     for (let index = 0; index < keyparts.length; index++) {
-        console.log("Keypart: ", keyparts[index])
         let keypart = JSON.parse(keyparts[index]);
         if (keypart.threshold !== threshold) {
             return [3, ""];
@@ -74,7 +65,6 @@ const combineKeyparts = (keyparts) => {
         combine = secrets.combine(shares);
     }
 
-    console.log("Restored secret:", combine);
     return [0, combine, address];
 };
 

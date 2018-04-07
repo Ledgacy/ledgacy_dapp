@@ -9,9 +9,7 @@ const get_profiles = async () => {
     let profiles = [];
     for(let index = 0; index < nProfiles; ++index){
         const address = await deployedContract.getProfileAddress(index);
-        console.log(address);
         const profile_name = await deployedContract.getProfileName(address);
-        console.log(profile_name);
         const profile_pubkey = await deployedContract.getProfilePublicKey(address);
         profiles.push({address: address, name: profile_name, pubkey: hexToAscii(profile_pubkey)});
     }

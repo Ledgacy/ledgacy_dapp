@@ -8,7 +8,7 @@ import EthCrypto from 'eth-crypto';
 import React, { Component } from 'react';
 import logo from '../ledgacy_logo.svg';
 
-import {Message, Input, Button, Container} from 'semantic-ui-react';
+import {Message, Input, Button, Container, Form} from 'semantic-ui-react';
 
 const doesProfileExist = async (address) => {
     const deployedContract = await deployed_ledgacy_contract();
