@@ -97,11 +97,11 @@ class Login extends Component {
                 </header>
                 <Container className="App-login">
                 {message}
-                    <Button primary onClick={this.trySignIn}> I want to sign in </Button>
+                    <Button size='large' primary onClick={this.trySignIn}> I want to sign in </Button>
                 </Container>
                 <br/>
                 <Container className="App-login">
-                    <Button color='orange' onClick={this.showSelector}> I lost my key!</Button>
+                    <Button basic color='orange' onClick={this.showSelector}> I lost my key!</Button>
                 </Container>
                 <br/>
                 {this.state.showSelector?
@@ -115,7 +115,7 @@ class Login extends Component {
                     </Container>
                 : null}
             </div>
-        )
+        );
     }
 }
 

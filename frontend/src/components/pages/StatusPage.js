@@ -64,7 +64,12 @@ class StatusPage extends Component {
 
         return (
             <Container>
-                <Header as='header'>Status</Header>
+                <Header as='header'>
+                    Status
+                    <Header.Subheader>
+                        General information about your Ledgacy profile
+                    </Header.Subheader>
+                </Header>
                 <Segment.Group>
                     <Segment>
                         <Header dividing>Activity</Header>

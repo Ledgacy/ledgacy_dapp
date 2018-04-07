@@ -1,0 +1,75 @@
+.App {
+  height: 100vh;
+}
+
+.pusher {
+    margin-left: -150px; /* half of left menu */
+    padding-top: 3em;
+}
+
+.App-logo {
+  height: 200px;
+}
+.ui.header>.image:not(.icon), .ui.header>img.App-logo-horizontal {
+    width: 200px;
+    max-width: 100%;
+    float: left;
+}
+
+.App-menu-logo {
+    width: 100%;
+    height: 100px;
+    margin: 0 auto !important;
+    margin-right: 100%;
+    margin-left: 100%;
+}
+
+.App-header {
+  background-color: #222;
+  padding: 30px;
+  color: white;
+  margin-bottom: 20px;
+}
+
+.App-title {
+  font-size: 1.5em;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+.App-login, .App-signup {
+    text-align: center;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.item.signout {
+    color: red;
+}
+
+header {
+    text-align: center;
+}
+
+<<<<<<< HEAD
+
+.Keypart-keypart {
+    word-break: break-all;
+}
+=======
+.helpSelector {
+    padding-left: auto;
+    padding-right: auto;
+    text-align: center;
+}
+
+.centerBox {
+    display:inline-block;
+    text-align:center;
+}
+>>>>>>> 6aebd2ced897fadde6c6226c494df5bea9c5b763

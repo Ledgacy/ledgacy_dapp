@@ -110,7 +110,13 @@ class TrusteesPage extends Component {
 
         return (
             <Container>
-                <Header as='header'>Trustee Management</Header>
+                <Header as='header'>
+                    Trustee Management
+                    <Header.Subheader>
+                        Manage your trustees
+                    </Header.Subheader>
+
+                </Header>
                 <Form>
                     <Table celled >
                         <Table.Header>
