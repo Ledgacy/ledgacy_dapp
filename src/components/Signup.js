@@ -2,6 +2,7 @@ import {sha3, asciiToHex} from 'oo7-parity'
 import {getAccounts} from "../utils/get_accounts";
 import sjcl from 'sjcl';
 import {deployed_ledgacy_contract} from '../utils/deployed_ledgacy_contract.js'
+import EthCrypto from 'eth-crypto';
 
 
 import React, { Component } from 'react';
@@ -19,13 +20,16 @@ const doesProfileExist = async (address) => {
     return name !== '';
 };
 
+const initial_state = {
+    name: '',
+    waiting: false,
+}
+
+
 class Signup extends Component {
     constructor(){
         super()
-        this.state = {
-            name: '',
-            waiting: false,
-        }
+        this.state = initial_state
     }
 
     generateMasterkey = () => {
@@ -41,15 +45,22 @@ class Signup extends Component {
         const accounts = await getAccounts();
         let generated_masterkey = this.generateMasterkey();
         console.log('Generated Masterkey: ', generated_masterkey);
+        const encrypted_masterkey = await EthCrypto.encryptWithPublicKey(this.props.keypair.public, generated_masterkey);
+        console.log('encrypted masterkey: ', encrypted_masterkey, 'pubkey:', this.props.keypair.public);
 
         // let ledgacyContract = contract(LedgacyContract);
         // ledgacyContract.setProvider(web3.currentProvider);
         // const deployedContract = await ledgacyContract.deployed();
         const deployedContract = await deployed_ledgacy_contract();
-        console.log('Creating Profile:', this.state.name, this.props.keypair, asciiToHex(generated_masterkey));
+        console.log('Creating Profile:', this.state.name, this.props.keypair, generated_masterkey, JSON.stringify(encrypted_masterkey));
 
         console.log('creating profile');
-        await deployedContract.createProfile(this.state.name, this.props.keypair.public, generated_masterkey, {from: accounts[0]});
+        let {err, result} = await deployedContract.createProfile(this.state.name, this.props.keypair.public, JSON.stringify(encrypted_masterkey), {from: accounts[0]});
+        if(err){
+            this.setState(initial_state);
+            alert('You rejected the transaction. Please try again');
+            return;
+        }
         console.log('after creating profile');
         this.setState({...this.state, waiting: true});
 

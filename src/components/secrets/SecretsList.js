@@ -6,6 +6,12 @@ import {AddSecret} from './AddSecret.js'
 import {hexToAscii} from "oo7-parity";
 import sjcl from 'sjcl';
 import {deployed_ledgacy_contract} from '../../utils/deployed_ledgacy_contract.js'
+import EthCrypto from 'eth-crypto';
+
+const decryptMasterKey = async (encrypted_master_key, ledgacy_private_key) => {
+    const decoded_key = JSON.parse(hexToAscii(encrypted_master_key));
+    return await EthCrypto.decryptWithPrivateKey(ledgacy_private_key, decoded_key);
+}
 
 class SecretsList extends Component {
     /* ledgacyContract;*/
@@ -37,10 +43,11 @@ class SecretsList extends Component {
     fetchMasterKey = async () => {
         const deployedContract = await deployed_ledgacy_contract();
         const encrypted_master_key = await deployedContract.getEncryptedMasterKey();
-        console.log(encrypted_master_key);
+        /* console.log(encrypted_master_key);*/
         // TODO
-        const master_key = encrypted_master_key;
-        /* const master_key = EthCrypto.decryptWithPrivateKey(encrypted_master_key);*/
+        /* const master_key = encrypted_master_key;*/
+        /* const master_key = await EthCrypto.decryptWithPrivateKey(this.props.keypair.private, JSON.parse(hexToAscii(encrypted_master_key)));*/
+        const master_key = await decryptMasterKey(encrypted_master_key, this.props.keypair.private)
         console.log('master key', master_key);
         return master_key;
 
@@ -48,7 +55,7 @@ class SecretsList extends Component {
 
     fetchSecrets = async () => {
         const master_key = await this.fetchMasterKey();
-        console.log(master_key, hexToAscii(master_key));
+        /* console.log(master_key, hexToAscii(master_key));*/
         const deployedContract = await deployed_ledgacy_contract();
         /* const deployedContract = await this.ledgacyContract.deployed();*/
         //console.log('before');
