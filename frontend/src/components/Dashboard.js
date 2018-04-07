@@ -48,8 +48,8 @@ currentPage: 'secrets'
                         <Menu.Item>
                             <em>{this.props.profileName}</em>
                         </Menu.Item>
-                        <ActivatableMenuItem name='secrets' iconName='unlock alternate' currentPage={this.state.currentPage} changePage={this.changePage} >Secrets</ActivatableMenuItem>
                         <ActivatableMenuItem name='status' iconName='info circle' currentPage={this.state.currentPage}  changePage={this.changePage}>Status</ActivatableMenuItem>
+                        <ActivatableMenuItem name='secrets' iconName='unlock alternate' currentPage={this.state.currentPage} changePage={this.changePage} >Secrets</ActivatableMenuItem>
                         <ActivatableMenuItem name='trustees' iconName='protect' currentPage={this.state.currentPage} changePage={this.changePage} >Trustees</ActivatableMenuItem>
                                                                <ActivatableMenuItem name='recovery' iconName='magic' currentPage={this.state.currentPage} changePage={this.changePage} >Recovery</ActivatableMenuItem>
                         <ActivatableMenuItem name='notifications' iconName='mail outline' currentPage={this.state.currentPage} changePage={this.changePage}>Notifications</ActivatableMenuItem>
