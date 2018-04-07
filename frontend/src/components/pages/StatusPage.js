@@ -12,7 +12,7 @@ import {KeypartList} from "../recovery/KeypartList";
 
 class StatusPage extends Component {
     getLastTimeInterval;
-    readKeyPartsInterval;
+    /* readKeyPartsInterval;*/
     constructor(){
         super();
         this.state = {lastTime: 0, keyshares: []};
@@ -20,16 +20,14 @@ class StatusPage extends Component {
     }
 
     componentDidMount = async () =>{
-        // attempt to load secrets from the blockchain
-        // and decrypt it using private key.
         await this.getLastTime();
         this.getLastTimeInterval = setInterval(this.getLastTime, 2000);
-        this.readKeyPartsInterval = setInterval(this.readKeyparts, 2000);
+        /* this.readKeyPartsInterval = setInterval(this.readKeyparts, 2000);*/
     }
 
     componentWillUnmount = () => {
         clearInterval(this.getLastTimeInterval);
-        clearInterval(this.readKeyPartsInterval);
+        /* clearInterval(this.readKeyPartsInterval);*/
     }
 
     getLastTime = async () => {
@@ -46,28 +44,6 @@ class StatusPage extends Component {
         console.log("Signalled liveness");
     }
 
-    readKeyparts = async () => {
-        const deployedContract = await deployed_ledgacy_contract();
-
-        let nKeyshares = (await deployedContract.getEncryptedKeypartCount()).toNumber();
-
-        console.log("Number of keyshares", nKeyshares)
-        let keyshares = []
-        for (let index = 0; index < nKeyshares; ++index) {
-            let result = await deployedContract.getEncryptedKeypart.call(index);
-            console.log("Decrypting keypart")
-            try {
-                const keyshare_str = await decryptKeypart(result, this.props.keypair.private);
-                keyshares.push(keyshare_str);
-            } catch(e) {
-                console.log("Keyshare is not ours");
-            }
-
-        }
-
-        console.log("All keyshares", keyshares);
-        this.setState({...this.state, keyshares: keyshares});
-    }
 
     render = () => {
         return (
@@ -78,7 +54,6 @@ class StatusPage extends Component {
                     </Rspan>
                     <Button onClick={this.checkIn}>Check in!</Button>
                 </div>
-                <KeypartList keyparts={this.state.keyshares} readonly={true}/>
             </Container>
         )
     }

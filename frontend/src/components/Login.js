@@ -20,7 +20,6 @@ class Login extends Component {
     trySignIn = async () => {
         let accounts = await getAccounts();
         web3.eth.sign(accounts[0], sha3('Sign In into the Ledgacy Decentralized Application'), async (err, signing_result) => {
-            console.log(err, signing_result);
             if(err != null){
                 // At some point show error message.
                 this.setState({...this.state, showError: true})
@@ -28,7 +27,6 @@ class Login extends Component {
             } else {
                 this.setState({...this.state, showError: false})
             }
-            console.log(this.props);
             const keypair = await this.regenerateKeyPair(signing_result);
             this.props.handleSignIn(keypair);
         });
@@ -38,7 +36,6 @@ class Login extends Component {
         const ledgacy_priv = sha3(ledgacy_keypair_seed);
         const ledgacy_public = await EthCrypto.publicKeyByPrivateKey(ledgacy_priv);
         const keypair = {private: ledgacy_priv, public: ledgacy_public};
-        console.log("KEYPAIR: ", keypair);
         return keypair;
     }
 
