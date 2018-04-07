@@ -19,9 +19,39 @@ const splitAndPersistMasterKeySnippets = async (master_key, trustees_public_keys
 };
 
 const encryptKeypart = async (keypart, recipient_public_key, threshold) => {
+    console.log("Decrypted keypart", JSON.stringify({keypart: keypart, threshold: threshold}));
     const keypart_str =  JSON.stringify({keypart: keypart, threshold: threshold});
-    const encrypted_keypart = JSON.stringify(await EthCrypto.encryptWithPublicKey(recipient_public_key, keypart));
+    const encrypted_keypart = JSON.stringify(await EthCrypto.encryptWithPublicKey(recipient_public_key, keypart_str));
     return encrypted_keypart;
 };
 
-export {splitAndPersistMasterKeySnippets}
+const combineKeyparts = (keyparts) => {
+    if (keyparts.length < 1) {
+        return [1, ""];
+    }
+
+    console.log("Keypart:", keyparts[0]);
+    let threshold = JSON.parse(keyparts[0]).threshold;
+    if (keyparts.length < threshold) {
+        return [2, ""];
+    }
+
+    let shares = [];
+
+    for (let index = 0; index < keyparts.length; index++) {
+        console.log("Keypart: ", keyparts[index])
+        let keypart = JSON.parse(keyparts[index]);
+        if (keypart.threshold !== threshold) {
+            return [3, ""];
+        }
+
+        shares.push(keypart.keypart);
+    }
+
+    let combine = secrets.combine(shares);
+
+    console.log("Restored secret:", combine);
+    return combine;
+};
+
+export {splitAndPersistMasterKeySnippets, combineKeyparts}

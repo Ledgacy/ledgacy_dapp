@@ -5,6 +5,7 @@ import {hexToAscii} from "oo7-parity";
 import EthCrypto from 'eth-crypto';
 import {AddKeypart} from "./AddKeypart";
 import {Keypart} from "./Keypart";
+import {DecryptKeypart} from "./DecryptKeypart";
 
 const decryptMasterKey = async (encrypted_master_key, ledgacy_private_key) => {
     const decoded_key = JSON.parse(hexToAscii(encrypted_master_key));
@@ -41,19 +42,22 @@ class KeypartList extends Component {
 
 
         return (
-            <Table celled>
-                <tbody>
-                    <Table.Row>
-                        <Table.HeaderCell>KeyPart</Table.HeaderCell>
-                        <Table.HeaderCell>
-                        </Table.HeaderCell>
-                    </Table.Row>
-                    {tableBody}
-                    <AddKeypart
-                        saveHandle={this.addKeypart}
-                    />
-                </tbody>
-            </Table>
+            <div>
+                <Table celled>
+                    <tbody>
+                        <Table.Row>
+                            <Table.HeaderCell>KeyPart</Table.HeaderCell>
+                            <Table.HeaderCell>
+                            </Table.HeaderCell>
+                        </Table.Row>
+                        {tableBody}
+                        <AddKeypart
+                            saveHandle={this.addKeypart}
+                        />
+                    </tbody>
+                </Table>
+                <DecryptKeypart keyparts={this.state.keyparts}/>
+            </div>
         );
     }
 }
