@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {Table} from 'semantic-ui-react'
+import _ from 'lodash';
 
 import {hexToAscii} from "oo7-parity";
 import EthCrypto from 'eth-crypto';
@@ -35,34 +36,34 @@ class KeypartList extends Component {
         this.setState({...this.state, keyparts: this.state.keyparts});
     }
 
+    removeKeypart = (index) => {
+        _.pullAt(this.state.keyparts, [index]);
+        this.setState({...this.state, keyparts: this.state.keyparts});
+    }
+
     render = () => {
         console.log("Rendering keyparts", this.state.keyparts)
         const tableBody = this.state.keyparts.map((keypart, index) => {
-            return <Keypart key={index} keypart={keypart}/>
+            return <Keypart key={index} keypart={keypart} removeKeypart={() => this.removeKeypart(index)}/>
         })
-
-
-
-        // <List divided relaxed>
-        // { this.state.loaded ? secretsList : "Loading list of secrets..."}
-        // </List>
-
 
         return (
             <div>
                 {this.props.readonly && this.state.keyparts.length === 0 ? null :
                 <Table celled>
-                    <tbody>
+                    <Table.Header>
                         <Table.Row>
                             <Table.HeaderCell>KeyPart</Table.HeaderCell>
-                            <Table.HeaderCell>
+                            <Table.HeaderCell collapsing>
                             </Table.HeaderCell>
                         </Table.Row>
+                    </Table.Header>
+                    <Table.Body>
                         {tableBody}
                         {this.props.readonly ? null : <AddKeypart
                             saveHandle={this.addKeypart}
                         />}
-                    </tbody>
+                    </Table.Body>
                 </Table>}
                 {this.props.readonly? null : <DecryptKeypart keyparts={this.state.keyparts} masterKeyHandle={this.props.masterKeyHandle}/>}
             </div>

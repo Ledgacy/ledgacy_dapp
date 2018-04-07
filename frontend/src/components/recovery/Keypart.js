@@ -13,10 +13,13 @@ class Keypart extends Component {
     render = () => {
         return (
             <Table.Row>
-                <Table.Cell>
+                <Table.Cell className='Keypart-keypart'>
                     {this.props.keypart}
                 </Table.Cell>
-                <Table.Cell>
+                <Table.Cell collapsing>
+                    <Button icon onClick={this.props.removeKeypart}>
+                        <Icon name='close' />
+                    </Button>
                 </Table.Cell>
             </Table.Row>
         );

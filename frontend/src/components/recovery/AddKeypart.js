@@ -25,8 +25,17 @@ class AddKeypart extends Component {
     }
 
     propagateKeypart = () => {
-        this.props.saveHandle(this.state.content);
-        this.setState({...this.state, content: ''});
+        let content = this.state.content;
+        try {
+            const parsed_content = JSON.parse(content);
+            if(parsed_content.threshold === undefined || parsed_content.keypart === undefined || parsed_content.address === undefined){
+                throw({message: 'Improper Keypart'});
+            }
+            this.props.saveHandle(this.state.content);
+            this.setState({...this.state, content: ''});
+        }catch(err) {
+            alert('Keypart invalid!');
+        }
     }
 
     render = () => {
@@ -38,7 +47,7 @@ class AddKeypart extends Component {
                     <Table.Cell>
                         <Input fluid placeholder='KeyPart' onChange={this.changeContent} disabled={this.state.saving} value={this.state.content}/>
                     </Table.Cell>
-                    <Table.Cell>
+                    <Table.Cell collapsing>
                         <Button onClick={this.propagateKeypart}>Add keypart!</Button>
                     </Table.Cell>
                 </Table.Row>

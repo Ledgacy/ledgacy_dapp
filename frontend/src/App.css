@@ -55,3 +55,8 @@
 header {
     text-align: center;
 }
+
+
+.Keypart-keypart {
+    word-break: break-all;
+}
