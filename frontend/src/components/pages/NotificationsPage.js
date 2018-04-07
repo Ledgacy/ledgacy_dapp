@@ -36,7 +36,7 @@ class NotificationsPage extends Component {
                 const keyshare_str = await decryptKeypart(result, this.props.keypair.private);
                 keyshares.push(keyshare_str);
             } catch(e) {
-                console.log("Keyshare is not ours");
+                console.log("Keyshare is not ours", e);
             }
 
         }

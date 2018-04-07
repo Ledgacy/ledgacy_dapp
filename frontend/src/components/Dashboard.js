@@ -34,7 +34,7 @@ currentPage: 'secrets'
             }else if(this.state.currentPage === 'trustees'){
                 return <TrusteesPage keypair={this.props.keypair} />;
             }else{
-                return <NotificationsPage />;
+                return <NotificationsPage keypair={this.props.keypair} />;
             }
     }
 
