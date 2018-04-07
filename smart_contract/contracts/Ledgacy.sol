@@ -13,6 +13,7 @@ contract Ledgacy {
 
   mapping (address => mapping (uint => bytes[])) secrets;
   mapping (address => mapping (uint => bytes)) masterkeys; // only readable by person who made them: encrypted with their private key.
+  bytes[] encrypted_keyparts;
 
 
   function Ledgacy() public {
@@ -45,6 +46,10 @@ contract Ledgacy {
     /* } */
     /* profiles[msg.sender].secrets.push(secret); */
     secrets[msg.sender][profiles[msg.sender].nMasterKeys - 1].push(secret);
+  }
+
+  function pushEncryptedKeypart(bytes keypart) public {
+    encrypted_keyparts.push(keypart);
   }
 
   function alive() public {

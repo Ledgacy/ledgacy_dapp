@@ -11,6 +11,7 @@ import EthCrypto from 'eth-crypto';
 import * as contract from "truffle-contract";
 import LedgacyContract from './contracts/Ledgacy.json';
 import {web3} from "./bonds_setup";
+import {deployed_ledgacy_contract} from './deployed_ledgacy_contract.js'
 
 import { Button, Container } from 'semantic-ui-react'
 import {Dashboard} from './components/Dashboard.js'
@@ -73,9 +74,10 @@ class App extends Component {
     lookupProfile = async (address) => {
 
         try{
-        let ledgacyContract = contract(LedgacyContract);
-        ledgacyContract.setProvider(web3.currentProvider);
-        const deployedContract = await ledgacyContract.deployed();
+            /* let ledgacyContract = contract(LedgacyContract);
+             * ledgacyContract.setProvider(web3.currentProvider);
+             * const deployedContract = await ledgacyContract.deployed();*/
+        const deployedContract = await deployed_ledgacy_contract();
 
         const name = await deployedContract.getProfileName(address);
         console.log('profile name:', name);

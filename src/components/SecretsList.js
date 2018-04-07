@@ -9,10 +9,10 @@ import * as contract from "truffle-contract";
 import LedgacyContract from '../contracts/Ledgacy.json';
 import EthCrypto from 'eth-crypto';
 import sjcl from 'sjcl';
-
+import {deployed_ledgacy_contract} from '../deployed_ledgacy_contract.js'
 
 class SecretsList extends Component {
-    ledgacyContract;
+    /* ledgacyContract;*/
     fetchSecretsInterval;
     constructor() {
         super()
@@ -26,8 +26,8 @@ class SecretsList extends Component {
     componentDidMount = async () =>{
         // attempt to load secrets from the blockchain
         // and decrypt it using private key.
-        this.ledgacyContract = contract(LedgacyContract);
-        this.ledgacyContract.setProvider(web3.currentProvider);
+        /* this.ledgacyContract = contract(LedgacyContract);
+         * this.ledgacyContract.setProvider(web3.currentProvider);*/
         this.setState({...this.state, loaded: true})
 
         await this.fetchSecrets();
@@ -39,7 +39,7 @@ class SecretsList extends Component {
     }
 
     fetchMasterKey = async () => {
-        const deployedContract = await this.ledgacyContract.deployed();
+        const deployedContract = await deployed_ledgacy_contract();
         const encrypted_master_key = await deployedContract.getEncryptedMasterKey();
         console.log(encrypted_master_key);
         // TODO
@@ -53,7 +53,8 @@ class SecretsList extends Component {
     fetchSecrets = async () => {
         const master_key = await this.fetchMasterKey();
         console.log(master_key, hexToAscii(master_key));
-        const deployedContract = await this.ledgacyContract.deployed();
+        const deployedContract = await deployed_ledgacy_contract();
+        /* const deployedContract = await this.ledgacyContract.deployed();*/
         //console.log('before');
         let nSecrets = await deployedContract.secretsCount();
         if(nSecrets === this.state.secrets.length)

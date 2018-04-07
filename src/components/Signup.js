@@ -4,6 +4,7 @@ import LedgacyContract from "../contracts/Ledgacy.json";
 import {sha3, asciiToHex, hexToAscii} from 'oo7-parity'
 import {getAccounts} from "./GetAccounts";
 import sjcl from 'sjcl';
+import {deployed_ledgacy_contract} from '../deployed_ledgacy_contract.js'
 
 
 import React, { Component } from 'react';
@@ -12,9 +13,11 @@ import logo from '../ledgacy_logo.svg';
 import {Message, Input, Button} from 'semantic-ui-react';
 
 const doesProfileExist = async (address) => {
-    let ledgacyContract = contract(LedgacyContract);
-    ledgacyContract.setProvider(web3.currentProvider);
-    const deployedContract = await ledgacyContract.deployed();
+    // let ledgacyContract = contract(LedgacyContract);
+    // ledgacyContract.setProvider(web3.currentProvider);
+    // const deployedContract = await ledgacyContract.deployed();
+
+    const deployedContract = await deployed_ledgacy_contract();
     const name = await deployedContract.getProfileName(address);
     return name !== '';
 };
@@ -42,9 +45,10 @@ class Signup extends Component {
         let generated_masterkey = this.generateMasterkey();
         console.log('Generated Masterkey: ', generated_masterkey);
 
-        let ledgacyContract = contract(LedgacyContract);
-        ledgacyContract.setProvider(web3.currentProvider);
-        const deployedContract = await ledgacyContract.deployed();
+        // let ledgacyContract = contract(LedgacyContract);
+        // ledgacyContract.setProvider(web3.currentProvider);
+        // const deployedContract = await ledgacyContract.deployed();
+        const deployedContract = await deployed_ledgacy_contract();
         console.log('Creating Profile:', this.state.name, this.props.keypair, asciiToHex(generated_masterkey));
 
         console.log('creating profile');

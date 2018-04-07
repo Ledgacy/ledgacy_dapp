@@ -8,6 +8,7 @@ import {List, Table, Input, Button} from 'semantic-ui-react'
 import EthCrypto from 'eth-crypto';
 import sjcl from 'sjcl';
 import {getAccounts} from "./GetAccounts";
+import {deployed_ledgacy_contract} from '../deployed_ledgacy_contract.js'
 
 const initial_state = {
     name: '',
@@ -19,7 +20,7 @@ const initial_state = {
 }
 
 class AddSecret extends Component {
-    ledgacyContract;
+    // ledgacyContract;
 
     constructor() {
         super()
@@ -29,8 +30,8 @@ class AddSecret extends Component {
     componentDidMount = () => {
         console.log("WEB3");
         console.log(web3);
-        this.ledgacyContract = contract(LedgacyContract);
-        this.ledgacyContract.setProvider(web3.currentProvider);
+        // this.ledgacyContract = contract(LedgacyContract);
+        // this.ledgacyContract.setProvider(web3.currentProvider);
 
         console.log("Instantiated contract");
         console.log(this.ledgacyContract);
@@ -58,8 +59,9 @@ class AddSecret extends Component {
 
         this.setState({...this.state, name: "", content: ""});
 
-        console.log(this.ledgacyContract);
-        const deployedContract = await this.ledgacyContract.deployed();
+        // console.log(this.ledgacyContract);
+        // const deployedContract = await this.ledgacyContract.deployed();
+        const deployedContract = await deployed_ledgacy_contract();
 
         console.log("Got contract");
         const secret_str = JSON.stringify(secret);
