@@ -5,7 +5,7 @@ import {bonds, web3} from '../bonds_setup.js';
 import {sha3, asciiToHex} from 'oo7-parity'
 
 // visual:
-import { Button, Container } from 'semantic-ui-react';
+import { Button, Container, Message } from 'semantic-ui-react';
 import logo from '../ledgacy_logo.svg';
 
 import {getAccounts} from "./GetAccounts";
@@ -13,7 +13,7 @@ import {getAccounts} from "./GetAccounts";
 class Login extends ReactiveComponent {
     constructor(){
         super()
-        this.state = {}
+        this.state = {showError: false}
     }
 
     trySignIn = async () => {
@@ -21,8 +21,8 @@ class Login extends ReactiveComponent {
         web3.eth.sign(accounts[0], sha3('test'), (err, signing_result) => {
             console.log(err, signing_result);
             if(err != null){
-                console.log("ERROR DURING LOGIN:", err);
                 // At some point show error message.
+                this.setState({...this.state, showError: true})
                 return;
             }
             console.log(this.props);
@@ -32,6 +32,16 @@ class Login extends ReactiveComponent {
 
 
     render() {
+        const message = !this.state.showError ? '' : (
+                <Message error>
+                <Message.Header>You have to sign in using your Ethereum Wallet</Message.Header>
+                <p>
+                    The Ledgacy Dapp deterministically generates your master keypair based on your Ethereum signature.
+                    Therefore, you really have to sign the message that pops up when you click the 'sign in' link.
+                </p>
+            </Message>
+        );
+
         return (
             <div>
                 <header className="App-header">
@@ -41,6 +51,7 @@ class Login extends ReactiveComponent {
                     </h1>
                 </header>
                 <Container>
+                {message}
                     <Button primary onClick={this.trySignIn}> I want to sign in </Button>
                 </Container>
             </div>
