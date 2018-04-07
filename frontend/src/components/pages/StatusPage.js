@@ -56,9 +56,13 @@ class StatusPage extends Component {
         for (let index = 0; index < nKeyshares; ++index) {
             let result = await deployedContract.getEncryptedKeypart.call(index);
             console.log("Decrypting keypart")
-            const keyshare_str = await decryptKeypart(result, this.props.keypair.private);
+            try {
+                const keyshare_str = await decryptKeypart(result, this.props.keypair.private);
+                keyshares.push(keyshare_str);
+            } catch(e) {
+                console.log("Keyshare is not ours");
+            }
 
-            keyshares.push(keyshare_str);
         }
 
         console.log("All keyshares", keyshares);

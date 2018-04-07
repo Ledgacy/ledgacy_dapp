@@ -13,8 +13,8 @@ import {Message, Input, Button, Container} from 'semantic-ui-react';
 const doesProfileExist = async (address) => {
     const deployedContract = await deployed_ledgacy_contract();
     const name = await deployedContract.getProfileName(address);
-    console.log("profile name:", name);
-    return name !== undefined;
+    console.log("profile name (does exist):", name);
+    return name !== undefined && name !== '';
 };
 
 const initial_state = {
@@ -44,11 +44,12 @@ class Signup extends Component {
         console.log('Generated Masterkey: ', generated_masterkey);
         const encrypted_masterkey = await EthCrypto.encryptWithPublicKey(this.props.keypair.public, generated_masterkey);
         console.log('encrypted masterkey: ', encrypted_masterkey, 'pubkey:', this.props.keypair.public);
-
+        console.log("Encrypted masterkey stringified: " + JSON.stringify(encrypted_masterkey))
         const deployedContract = await deployed_ledgacy_contract();
         console.log('Creating Profile:', this.state.name, this.props.keypair, generated_masterkey, JSON.stringify(encrypted_masterkey));
 
         console.log('starting creating profile transaction');
+        console.log("Creating profile for address", accounts[0]);
         let {err, result} = await deployedContract.createProfile(this.state.name, this.props.keypair.public, JSON.stringify(encrypted_masterkey), {from: accounts[0]});
         if(err){
             this.setState(initial_state);
@@ -58,9 +59,10 @@ class Signup extends Component {
         console.log('after creating profile');
         this.setState({...this.state, waiting: true});
 
-        let waitForProfileInterval = window.setInterval(() =>{
-            if(doesProfileExist(accounts[0])){
+        let waitForProfileInterval = window.setInterval(async () =>{
+            if(await doesProfileExist(accounts[0])){
                 window.clearInterval(waitForProfileInterval);
+                console.log("Calling handleSignUp");
                 this.props.handleSignUp();
             }
         }, 2000);
