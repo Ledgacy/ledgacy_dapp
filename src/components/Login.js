@@ -18,12 +18,14 @@ class Login extends ReactiveComponent {
 
     trySignIn = async () => {
         let accounts = await getAccounts();
-        web3.eth.sign(accounts[0], sha3('test'), (err, signing_result) => {
+        web3.eth.sign(accounts[0], sha3('Sign In into the Ledgacy Decentralized Application'), (err, signing_result) => {
             console.log(err, signing_result);
             if(err != null){
                 // At some point show error message.
                 this.setState({...this.state, showError: true})
                 return;
+            } else {
+                this.setState({...this.state, showError: false})
             }
             console.log(this.props);
             this.props.handleSignIn(signing_result)
