@@ -13,7 +13,8 @@ class RecoveryPage extends Component {
     }
 
     showSecrets = (masterKey, address) => {
-      this.setState({...this.state, secret: masterKey, address: address});
+      this.setState({...this.state, masterKey: masterKey, address: address});
+      console.log("Showing secrets for master key: ")
     };
 
 
