@@ -8,6 +8,7 @@ import {web3} from "../bonds_setup";
 import * as contract from "truffle-contract";
 import LedgacyContract from '../contracts/Ledgacy.json';
 import EthCrypto from 'eth-crypto';
+import sjcl from 'sjcl';
 
 
 class SecretsList extends Component {
@@ -18,6 +19,7 @@ class SecretsList extends Component {
         this.state = {
             secrets: [],
             loaded: false,
+            masterkey: null
         }
     }
 
@@ -36,7 +38,21 @@ class SecretsList extends Component {
         window.clearInterval(this.fetchSecretsInterval);
     }
 
+    fetchMasterKey = async () => {
+        const deployedContract = await this.ledgacyContract.deployed();
+        const encrypted_master_key = await deployedContract.getEncryptedMasterKey();
+        console.log(encrypted_master_key);
+        // TODO
+        const master_key = encrypted_master_key;
+        /* const master_key = EthCrypto.decryptWithPrivateKey(encrypted_master_key);*/
+        console.log('master key', master_key);
+        return master_key;
+
+    }
+
     fetchSecrets = async () => {
+        const master_key = await this.fetchMasterKey();
+        console.log(master_key, hexToAscii(master_key));
         const deployedContract = await this.ledgacyContract.deployed();
         //console.log('before');
         let nSecrets = await deployedContract.secretsCount();
@@ -52,13 +68,15 @@ class SecretsList extends Component {
             // console.log("Result", result)
             // console.log("Hextoascii", hexToAscii(result))
             // console.log("Encrypted: ", JSON.parse(hexToAscii(result)));
-            const secret_str = await EthCrypto.decryptWithPrivateKey(this.props.keypair.private, JSON.parse(hexToAscii(result)));
+            const encrypted_secret = hexToAscii(result);
+            const secret_str = sjcl.decrypt(master_key, encrypted_secret);
+            /* const secret_str = await EthCrypto.decryptWithPrivateKey(this.props.keypair.private, JSON.parse(hexToAscii(result)));*/
             // console.log(secret_str);
             const secret = JSON.parse(secret_str);
             // console.log(hexToAscii(result), secret_str, secret)
             secrets.push(secret);
         }
-        this.setState({...this.state, secrets: secrets});
+        this.setState({...this.state, secrets: secrets, masterkey: master_key});
         //console.log('secrets', secrets);
     }
 
@@ -90,7 +108,7 @@ class SecretsList extends Component {
                             </Table.HeaderCell>
                         </Table.Row>
                         {tableBody}
-                        <AddSecret keypair={this.props.keypair} saveHandle={this.fetchSecrets} nSecrets={this.state.secrets.length}/>
+                        <AddSecret masterkey={this.state.masterkey} saveHandle={this.fetchSecrets} nSecrets={this.state.secrets.length}/>
                     </tbody>
                 </Table>
         );

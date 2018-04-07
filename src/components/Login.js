@@ -3,6 +3,10 @@ import React, { Component } from 'react';
 import {ReactiveComponent, Rspan} from 'oo7-react';
 import {bonds, web3} from '../bonds_setup.js';
 import {sha3, asciiToHex} from 'oo7-parity'
+import EthCrypto from 'eth-crypto';
+import * as contract from "truffle-contract";
+import LedgacyContract from '../contracts/Ledgacy.json';
+
 
 // visual:
 import { Button, Container, Message } from 'semantic-ui-react';
@@ -18,7 +22,7 @@ class Login extends ReactiveComponent {
 
     trySignIn = async () => {
         let accounts = await getAccounts();
-        web3.eth.sign(accounts[0], sha3('Sign In into the Ledgacy Decentralized Application'), (err, signing_result) => {
+        web3.eth.sign(accounts[0], sha3('Sign In into the Ledgacy Decentralized Application'), async (err, signing_result) => {
             console.log(err, signing_result);
             if(err != null){
                 // At some point show error message.
@@ -28,9 +32,19 @@ class Login extends ReactiveComponent {
                 this.setState({...this.state, showError: false})
             }
             console.log(this.props);
-            this.props.handleSignIn(signing_result)
+            const keypair = await this.regenerateKeyPair(signing_result);
+            this.props.handleSignIn(keypair);
         });
     }
+
+    regenerateKeyPair = async (ledgacy_keypair_seed) => {
+        const ledgacy_priv = sha3(ledgacy_keypair_seed);
+        const ledgacy_public = await EthCrypto.publicKeyByPrivateKey(ledgacy_priv);
+        const keypair = {private: ledgacy_priv, public: ledgacy_public};
+        console.log("KEYPAIR: ", keypair);
+        return keypair;
+    }
+
 
 
     render() {

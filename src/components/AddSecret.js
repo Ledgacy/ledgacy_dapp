@@ -6,6 +6,7 @@ import {sha3, asciiToHex, hexToAscii} from 'oo7-parity'
 import React, {Component} from 'react'
 import {List, Table, Input, Button} from 'semantic-ui-react'
 import EthCrypto from 'eth-crypto';
+import sjcl from 'sjcl';
 import {getAccounts} from "./GetAccounts";
 
 const initial_state = {
@@ -62,11 +63,12 @@ class AddSecret extends Component {
 
         console.log("Got contract");
         const secret_str = JSON.stringify(secret);
-        const encrypted_secret = await EthCrypto.encryptWithPublicKey(this.props.keypair.public, secret_str);
+        // const encrypted_secret = await EthCrypto.encryptWithPublicKey(this.props.keypair.public, secret_str);
+        const encrypted_secret = sjcl.encrypt(this.props.masterkey, secret_str);
 
         console.log("Encrypted secret", encrypted_secret);
         let accounts = await getAccounts();
-        let err, result = await deployedContract.pushSecret(asciiToHex(JSON.stringify(encrypted_secret)), {from: accounts[0]});
+        let err, result = await deployedContract.pushSecret(asciiToHex(encrypted_secret), {from: accounts[0]});
         console.log("Pushed secret");
         console.log(err, result);
 
@@ -86,6 +88,10 @@ class AddSecret extends Component {
     }
 
     render = () => {
+        if(this.props.masterkey === null){
+            return '';
+    }
+
         const submitted = (
             !this.state.submitted ? ''  : (
                 <Table.Cell colSpan={3} >

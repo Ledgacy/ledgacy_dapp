@@ -35,38 +35,33 @@ class App extends Component {
 
     componentDidMount = async () => {
         // Try to log the user in from sessionStorage
-        let maybe_keypair_seed = window.sessionStorage.getItem('ledgacy_keypair_seed');
+        let maybe_keypair= window.sessionStorage.getItem('ledgacy_keypair');
         let maybe_address = window.sessionStorage.getItem('ledgacy_address');
 
         const accounts = await getAccounts();
         console.log('accounts:', accounts);
 
-        console.log('keypair seed:', maybe_keypair_seed)
-        if(maybe_keypair_seed !== null && maybe_address === accounts[0]){
-            this.handleSignIn(maybe_keypair_seed, maybe_address);
+        console.log('keypair seed:', maybe_keypair)
+        if(maybe_keypair !== null && maybe_address === accounts[0]){
+            this.handleSignIn(JSON.parse(maybe_keypair));
         }
     }
 
-    regenerateKeyPair = async (ledgacy_keypair_seed) => {
-        const ledgacy_priv = sha3(ledgacy_keypair_seed);
-        const ledgacy_public = await EthCrypto.publicKeyByPrivateKey(ledgacy_priv);
-        const keypair = {private: ledgacy_priv, public: ledgacy_public};
-        return keypair;
-    }
 
     handleSignUp = async () => {
         console.log("HANDLING SIGN UP");
+        // TODO: Fix this!
         this.handleSignIn(this.state.ledgacyKeypair);
 
     }
 
-    handleSignIn = async (ledgacy_keypair_seed) => {
-        const keypair = await this.regenerateKeyPair(ledgacy_keypair_seed);
+    handleSignIn = async (keypair) => {
+        /* const keypair = await this.regenerateKeyPair(ledgacy_keypair_seed);*/
         const accounts = await getAccounts();
         console.log('accounts:', accounts);
 
         console.log('logged in using keypair!', keypair);
-        window.sessionStorage.setItem('ledgacy_keypair_seed', ledgacy_keypair_seed);
+        window.sessionStorage.setItem('ledgacy_keypair', JSON.stringify(keypair));
         window.sessionStorage.setItem('ledgacy_address', accounts[0]);
         this.setState({...this.state,
                        ledgacyKeypair: keypair,
@@ -108,10 +103,10 @@ class App extends Component {
 
 
     handleSignOut = () => {
-        console.log(window.sessionStorage.getItem('ledgacy_keypair_seed'));
-        window.sessionStorage.removeItem('ledgacy_keypair_seed');
+        console.log(window.sessionStorage.getItem('ledgacy_keypair'));
+        window.sessionStorage.removeItem('ledgacy_keypair');
         window.sessionStorage.removeItem('ledgacy_address');
-        console.log(window.sessionStorage.getItem('ledgacy_keypair_seed'));
+        console.log(window.sessionStorage.getItem('ledgacy_keypair'));
         this.setState(initial_state);
     }
 

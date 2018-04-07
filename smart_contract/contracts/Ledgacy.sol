@@ -44,7 +44,7 @@ contract Ledgacy {
     /*     createProfile(5); */
     /* } */
     /* profiles[msg.sender].secrets.push(secret); */
-    secrets[msg.sender][profiles[msg.sender].nMasterKeys].push(secret);
+    secrets[msg.sender][profiles[msg.sender].nMasterKeys - 1].push(secret);
   }
 
   function alive() public {
@@ -54,15 +54,19 @@ contract Ledgacy {
   function readSecret(uint index) public view returns(bytes) {
     /* assert(index < profiles[msg.sender].secrets.length); */
     /* return profiles[msg.sender].secrets[index]; */
-    return secrets[msg.sender][profiles[msg.sender].nMasterKeys][index];
+    return secrets[msg.sender][profiles[msg.sender].nMasterKeys - 1][index];
   }
 
   function secretsCount() public view returns(uint) {
     /* return profiles[msg.sender].secrets.length; */
-    return secrets[msg.sender][profiles[msg.sender].nMasterKeys].length;
+    return secrets[msg.sender][profiles[msg.sender].nMasterKeys - 1].length;
   }
 
   function getLastTime() public view returns(uint) {
     return profiles[msg.sender].lastTime;
+  }
+
+  function getEncryptedMasterKey() public view returns(bytes) {
+    return masterkeys[msg.sender][profiles[msg.sender].nMasterKeys - 1];
   }
 }
