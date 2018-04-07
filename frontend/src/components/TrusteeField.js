@@ -76,10 +76,10 @@ class TrusteeField extends Component {
                     />
                 </Table.Cell>
                 <Table.Cell>
-                    <Input onChange={this.changeRemark} placeholder='Remark'/>
+                    {(this.state.result !== null ? this.state.result.description : null)}
                 </Table.Cell>
                 <Table.Cell>
-                    {(this.state.result !== null ? this.state.result.description : null)}
+                    <Input fluid onChange={this.changeRemark} placeholder='Remark'/>
                 </Table.Cell>
             </Table.Row>
         )
