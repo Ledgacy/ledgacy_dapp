@@ -15,7 +15,7 @@ import {Howl} from 'howler';
 import menu_soundfile from './pop.mp3';
 const menu_sound = new Howl({
     src: [menu_soundfile],
-    volume: 0.5
+    volume: 0.3
 });
 console.log('MENU SOUND:', menu_sound);
 window.menu_sound = menu_sound
