@@ -101,7 +101,7 @@ class Login extends Component {
                 </Container>
                 <br/>
                 <Container className="App-login">
-                    <Button basic color='orange' onClick={this.showSelector}> I lost my key!</Button>
+                <Button basic size='tiny' color='orange' onClick={this.showSelector}> I lost my key!</Button>
                 </Container>
                 <br/>
                 {this.state.showSelector?
