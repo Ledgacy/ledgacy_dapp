@@ -101,7 +101,7 @@ contract Ledgacy {
         return profiles[msg.sender].lastTime;
     }
 
-    function getEncryptedMasterKey() public view returns (bytes) {
-        return masterkeys[msg.sender][profiles[msg.sender].nMasterKeys - 1];
+    function getEncryptedMasterKey(address target) public view returns (bytes) {
+        return masterkeys[target][profiles[target].nMasterKeys - 1];
     }
 }

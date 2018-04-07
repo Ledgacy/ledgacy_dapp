@@ -50,6 +50,7 @@ class KeypartList extends Component {
 
         return (
             <div>
+                {this.props.readonly && this.state.keyparts.length === 0 ? null :
                 <Table celled>
                     <tbody>
                         <Table.Row>
@@ -62,7 +63,7 @@ class KeypartList extends Component {
                             saveHandle={this.addKeypart}
                         />}
                     </tbody>
-                </Table>
+                </Table>}
                 {this.props.readonly? null : <DecryptKeypart keyparts={this.state.keyparts} masterKeyHandle={this.props.masterKeyHandle}/>}
             </div>
         );
