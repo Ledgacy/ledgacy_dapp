@@ -51,12 +51,12 @@ class KeypartList extends Component {
                             </Table.HeaderCell>
                         </Table.Row>
                         {tableBody}
-                        <AddKeypart
+                        {this.props.readonly ? null : <AddKeypart
                             saveHandle={this.addKeypart}
-                        />
+                        />}
                     </tbody>
                 </Table>
-                <DecryptKeypart keyparts={this.state.keyparts} masterKeyHandle={this.props.masterKeyHandle}/>
+                {this.props.readonly? null : <DecryptKeypart keyparts={this.state.keyparts} masterKeyHandle={this.props.masterKeyHandle}/>}
             </div>
         );
     }

@@ -25,6 +25,12 @@ const encryptKeypart = async (keypart, recipient_public_key, threshold, master_a
     return encrypted_keypart;
 };
 
+const decryptKeypart = async(encrypted_keypart, private_key) => {
+    const keypart_str = await EthCrypto.decryptWithPrivateKey(private_key, JSON.parse(encrypted_keypart));
+    return keypart_str;
+}
+
+
 const combineKeyparts = (keyparts) => {
     if (keyparts.length < 1) {
         return [1, ""];
@@ -58,4 +64,4 @@ const combineKeyparts = (keyparts) => {
     return [0, combine, address];
 };
 
-export {splitAndPersistMasterKeySnippets, combineKeyparts}
+export {splitAndPersistMasterKeySnippets, combineKeyparts, decryptKeypart}

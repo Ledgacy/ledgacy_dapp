@@ -44,13 +44,14 @@ class SecretsList extends Component {
         if (!master_key) {
             console.log("Fetching masterkey");
             master_key = await fetchMasterKey(this.props.keypair.private);
+            console.log("Done fetching master key")
         }
 
 
-        let mock_pubkey = "a8bf05d3ff8661ca28a5bf2df7e5c4a78068c9e8e66ec194b212582e71172281582ccb7b69bb98e58fdfe70dfc6653b1aca104ce8a0cd32a319fad96a9ac2564"
+        let mock_pubkey = "9a8f5b7a475b1c23a446210d34158b0244c5f83dc0855503af1304453188a48b571582c337f75590b6628a18419ccda7f22a007b4b9f81b8d389878a7de2c7df"
 
         let target = this.props.address ? this.props.address : (await getAccounts())[0];
-
+        //console.log("Creating shares");
         //await splitAndPersistMasterKeySnippets(master_key.substr(2), [mock_pubkey, mock_pubkey, mock_pubkey], 2, target);
         console.log('master key:', master_key.substr(2));
 

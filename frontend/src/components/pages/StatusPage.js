@@ -4,13 +4,18 @@ import {bonds} from "../../utils/bonds_setup";
 import {Rspan} from 'oo7-react';
 import {getAccounts} from "../../utils/get_accounts";
 import {deployed_ledgacy_contract} from '../../utils/deployed_ledgacy_contract.js'
+import {hexToAscii} from "oo7-parity";
+import sjcl from "sjcl";
+import {decryptKeypart} from "../../utils/key_splitting";
+import {KeypartList} from "../recovery/KeypartList";
 
 
 class StatusPage extends Component {
     getLastTimeInterval;
+    readKeyPartsInterval;
     constructor(){
         super();
-        this.state = {lastTime: 0};
+        this.state = {lastTime: 0, keyShares: []};
         this.block_bond = bonds.findBlock(bonds.blockNumber)
     }
 
@@ -19,10 +24,12 @@ class StatusPage extends Component {
         // and decrypt it using private key.
         await this.getLastTime();
         this.getLastTimeInterval = setInterval(this.getLastTime, 2000);
+        this.readKeyPartsInterval = setInterval(this.readKeyparts, 2000);
     }
 
     componentWillUnmount = () => {
         clearInterval(this.getLastTimeInterval);
+        clearInterval(this.readKeyPartsInterval);
     }
 
     getLastTime = async () => {
@@ -39,6 +46,24 @@ class StatusPage extends Component {
         console.log("Signalled liveness");
     }
 
+    readKeyparts = async () => {
+        const deployedContract = await deployed_ledgacy_contract();
+
+        let nKeyshares = (await deployedContract.getEncryptedKeypartCount()).toNumber();
+
+        console.log("Number of keyshares", nKeyshares)
+        let keyshares = []
+        for (let index = 0; index < nKeyshares; ++index) {
+            let result = await deployedContract.getEncryptedKeypart.call(index);
+            console.log("Decrypting keypart")
+            const keyshare_str = await decryptKeypart(result, this.props.keypair.private);
+
+            keyshares.push(keyshare_str);
+        }
+
+        this.setState({...this.state, keyshares: keyshares});
+    }
+
     render = () => {
         return (
             <Container fluid>
@@ -48,6 +73,7 @@ class StatusPage extends Component {
                     </Rspan>
                     <Button onClick={this.checkIn}>Check in!</Button>
                 </div>
+                <KeypartList keyparts={this.state.keyshares} readonly={true}/>
             </Container>
         )
     }
