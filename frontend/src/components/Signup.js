@@ -69,7 +69,6 @@ class Signup extends Component {
     }
 
     changeName = (event, name) => {
-        console.log('changing name', event, name.value);
         this.setState({...this.state, name: name.value});
     }
 
