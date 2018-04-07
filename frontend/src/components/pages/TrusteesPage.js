@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
+import _ from 'lodash';
 
-import {Container, Header, Input, Button, Table} from 'semantic-ui-react';
+import {Container, Header, Input, Button, Table, Message} from 'semantic-ui-react';
 import {TrusteeField} from '../TrusteeField.js';
 import {splitAndPersistMasterKeySnippets} from "../../utils/key_splitting.js";
 import {fetchMasterKey} from '../../utils/fetch_master_key.js';
@@ -32,8 +33,12 @@ class TrusteesPage extends Component {
         this.setState({...this.state, potential_trustees: potential_trustees});
     }
 
+    realTrustees = () => {
+        return _.reject(this.state.trustees, (elem) => elem === null);
+    }
+
     addTrusteeFields = () =>{
-        this.state.trustees.push({address: ''});
+        this.state.trustees.push(null);
         this.setState(this.state);
     }
 
@@ -47,8 +52,8 @@ class TrusteesPage extends Component {
         if(isNaN(threshold))
             return;
 
-        if(threshold > this.state.trustees.length)
-            threshold = this.state.trustees.length;
+        if(threshold > this.realTrustees().length)
+            threshold = this.realTrustees().length;
 
         if(threshold < 0) {
             threshold = 0;
@@ -61,7 +66,7 @@ class TrusteesPage extends Component {
         const master_key = await fetchMasterKey(this.props.keypair.private);
         // TODO
         console.log("Storing trustees:", this.state.trustees);
-        const public_keys = this.state.trustees.map((elem) => elem.pubkey);
+        const public_keys = this.realTrustees().map((elem) => elem.pubkey);
         console.log('public keys', public_keys);
         splitAndPersistMasterKeySnippets(master_key.substr(2), public_keys, this.state.threshold);
     }
@@ -75,7 +80,22 @@ class TrusteesPage extends Component {
     }
 
     render = () => {
-        console.log(this.state);
+        console.log(this.state, this.realTrustees());
+
+        let warning = null;
+        if(this.realTrustees().length < 1){
+            warning = <Table.Cell colSpan={2}>
+            <Message warning >
+                <Message.Header>You need to add at least one Trustee.</Message.Header>
+                <p>
+                    To make sure your secrets are <em>really</em> safe from loss, you need to add at least one trustee (but multiple is strongly preferred!).
+                </p>
+            </Message>
+
+            </Table.Cell>
+        }
+
+
         return (
             <Container fluid>
                 <Header as='header'>Trustee Management</Header>
@@ -89,7 +109,8 @@ class TrusteesPage extends Component {
                                    Address
                                 </Table.HeaderCell>
                             </Table.Row>
-                    {this.renderTrustees()}
+                            {warning}
+                            {this.renderTrustees()}
                         </tbody>
                     </Table>
                     <div>
@@ -99,7 +120,7 @@ class TrusteesPage extends Component {
                         <Input placeholder='3' onChange={this.changeThreshold} value={this.state.threshold}/>
                     </div>
                     <div>
-                        <Button onClick={this.storeTrustees} disabled={this.state.threshold == 0 || this.state.threshold > this.state.trustees.length}>Store Trustees</Button>
+                        <Button onClick={this.storeTrustees} disabled={this.state.threshold == 0 || this.state.threshold > this.realTrustees().length}>Store Trustees</Button>
                     </div>
             </Container>
         )

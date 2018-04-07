@@ -15,12 +15,15 @@ class TrusteeField extends Component {
         this.resetComponent();
     }
 
-    resetComponent = () => this.setState({
+    resetComponent = () => {
+        this.setState({
         isLoading: false,
         results: [],
         result: null,
         value: ''
-    })
+        })
+        this.props.handleTrusteeChange(null);
+    }
 
     handleResultSelect = (e, { result }) => {
         console.log('asdlkf result', result);
