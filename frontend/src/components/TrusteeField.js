@@ -2,13 +2,13 @@ import React, {Component} from 'react';
 import _ from 'lodash';
 
 
-import {Search, Grid, Table} from 'semantic-ui-react';
+import {Search, Grid, Table, Input} from 'semantic-ui-react';
 
-const initial_state = { isLoading: false, results: [], value: '' };
+const initial_state = { isLoading: false, results: {}, value: '', remark: '' };
 class TrusteeField extends Component {
     constructor(){
         super();
-        // this.state = initial_state;
+        this.state = initial_state;
     }
 
     componentWillMount() {
@@ -25,13 +25,21 @@ class TrusteeField extends Component {
         this.props.handleTrusteeChange(null);
     }
 
+    changeRemark = (event, remark) => {
+        console.log('changing remark', event, remark.value);
+        this.setState({...this.state, remark: remark.value});
+        if (this.state.result) {
+            this.props.handleTrusteeChange(this.state.result.elem, remark.value);
+        }
+    }
+
     handleResultSelect = (e, { result }) => {
         console.log('asdlkf result', result);
         this.setState({
             value: result.title,
             result: result
         })
-        this.props.handleTrusteeChange(result.elem);
+        this.props.handleTrusteeChange(result.elem, this.state.remark);
 }
 
     handleSearchChange = (e, { value }) => {
@@ -57,20 +65,23 @@ class TrusteeField extends Component {
         })
 
         return (
-                <Table.Row>
+            <Table.Row>
                 <Table.Cell>
-                <Search
-                    loading={isLoading}
-                    onResultSelect={this.handleResultSelect}
-                    onSearchChange={_.debounce(this.handleSearchChange, 500, { leading: true })}
-                    results={renderedResults}
-                    value={value}
-                />
+                    <Search
+                        loading={isLoading}
+                        onResultSelect={this.handleResultSelect}
+                        onSearchChange={_.debounce(this.handleSearchChange, 500, {leading: true})}
+                        results={renderedResults}
+                        value={value}
+                    />
                 </Table.Cell>
                 <Table.Cell>
-                {(this.state.result !== null ? this.state.result.description : null)}
+                    <Input onChange={this.changeRemark} placeholder='Remark'/>
                 </Table.Cell>
-                </Table.Row>
+                <Table.Cell>
+                    {(this.state.result !== null ? this.state.result.description : null)}
+                </Table.Cell>
+            </Table.Row>
         )
     }
 }
