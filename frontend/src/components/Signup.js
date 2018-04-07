@@ -13,8 +13,8 @@ import {Message, Input, Button, Container} from 'semantic-ui-react';
 const doesProfileExist = async (address) => {
     const deployedContract = await deployed_ledgacy_contract();
     const name = await deployedContract.getProfileName(address);
-    console.log("profile name:", name);
-    return name !== undefined;
+    console.log("profile name (does exist):", name);
+    return name !== undefined && name !== '';
 };
 
 const initial_state = {
@@ -59,9 +59,10 @@ class Signup extends Component {
         console.log('after creating profile');
         this.setState({...this.state, waiting: true});
 
-        let waitForProfileInterval = window.setInterval(() =>{
-            if(doesProfileExist(accounts[0])){
+        let waitForProfileInterval = window.setInterval(async () =>{
+            if(await doesProfileExist(accounts[0])){
                 window.clearInterval(waitForProfileInterval);
+                console.log("Calling handleSignUp");
                 this.props.handleSignUp();
             }
         }, 2000);
