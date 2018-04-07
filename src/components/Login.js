@@ -1,7 +1,8 @@
 // logical:
 import React, { Component } from 'react';
 import {ReactiveComponent, Rspan} from 'oo7-react';
-import {bonds, web3} from '../bonds_setup.js';
+import {bonds, web3} from '../utils/bonds_setup.js';
+import {getAccounts} from "../utils/get_accounts";
 import {sha3, asciiToHex} from 'oo7-parity'
 import EthCrypto from 'eth-crypto';
 import * as contract from "truffle-contract";
@@ -12,7 +13,6 @@ import LedgacyContract from '../contracts/Ledgacy.json';
 import { Button, Container, Message } from 'semantic-ui-react';
 import logo from '../ledgacy_logo.svg';
 
-import {getAccounts} from "../get_accounts";
 
 class Login extends ReactiveComponent {
     constructor(){

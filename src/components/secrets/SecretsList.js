@@ -4,12 +4,12 @@ import {List, Table} from 'semantic-ui-react'
 import {Secret} from './Secret.js'
 import {AddSecret} from './AddSecret.js'
 import {hexToAscii} from "oo7-parity";
-import {web3} from "../../bonds_setup";
+import {web3} from "../../utils/bonds_setup";
 import * as contract from "truffle-contract";
 import LedgacyContract from '../../contracts/Ledgacy.json';
 import EthCrypto from 'eth-crypto';
 import sjcl from 'sjcl';
-import {deployed_ledgacy_contract} from '../../deployed_ledgacy_contract.js'
+import {deployed_ledgacy_contract} from '../../utils/deployed_ledgacy_contract.js'
 
 class SecretsList extends Component {
     /* ledgacyContract;*/

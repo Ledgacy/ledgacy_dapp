@@ -1,10 +1,10 @@
-import {web3} from '../bonds_setup.js'
+import {web3} from '../utils/bonds_setup.js'
 import * as contract from 'truffle-contract';
 import LedgacyContract from "../contracts/Ledgacy.json";
 import {sha3, asciiToHex, hexToAscii} from 'oo7-parity'
-import {getAccounts} from "../get_accounts";
+import {getAccounts} from "../utils/get_accounts";
 import sjcl from 'sjcl';
-import {deployed_ledgacy_contract} from '../deployed_ledgacy_contract.js'
+import {deployed_ledgacy_contract} from '../utils/deployed_ledgacy_contract.js'
 
 
 import React, { Component } from 'react';

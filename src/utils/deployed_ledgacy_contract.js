@@ -1,6 +1,6 @@
 import {web3} from "./bonds_setup";
 import * as contract from "truffle-contract";
-import LedgacyContract from './contracts/Ledgacy.json';
+import LedgacyContract from '../contracts/Ledgacy.json';
 
 const deployed_ledgacy_contract = async () => {
     const ledgacyContract = contract(LedgacyContract);
