@@ -7,6 +7,7 @@ import {TrusteesPage} from './pages/TrusteesPage.js';
 import {NotificationsPage} from './pages/NotificationsPage.js';
 
 import logo from '../ledgacy_logo.svg';
+import {RecoveryPage} from "./pages/RecoveryPage";
 
 class Dashboard extends Component {
     constructor() {
@@ -28,6 +29,8 @@ currentPage: 'secrets'
                 page = <SecretsPage keypair={this.props.keypair}/>;
             }else if(this.state.currentPage === 'status'){
                 page = <StatusPage />;
+            }else if(this.state.currentPage === 'recovery'){
+                page = <RecoveryPage />;
             }else if(this.state.currentPage === 'trustees'){
                 page = <TrusteesPage />;
             }else{
@@ -54,6 +57,10 @@ currentPage: 'secrets'
                         <Menu.Item name='trustees' active={this.state.currentPage === 'trustees'} onClick={() => this.changePage('trustees')}>
                             <Icon name='protect' />
                             Trustees
+                        </Menu.Item>
+                        <Menu.Item name='recovery' active={this.state.currentPage === 'recovery'} onClick={() => this.changePage('recovery')}>
+                            <Icon name='magic' />
+                            Recovery
                         </Menu.Item>
                         <Menu.Item name='notifications' active={this.state.currentPage === 'notifications'} onClick={() => this.changePage('notifications')}>
                             <Icon name='mail outline' />
