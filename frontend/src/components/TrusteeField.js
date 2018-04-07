@@ -78,9 +78,10 @@ class TrusteeField extends Component {
                 <Table.Cell>
                     {(this.state.result !== null ? this.state.result.description : null)}
                 </Table.Cell>
+                {this.props.noremark ? null :
                 <Table.Cell>
                     <Input fluid onChange={this.changeRemark} placeholder='Remark'/>
-                </Table.Cell>
+                </Table.Cell>}
             </Table.Row>
         )
     }

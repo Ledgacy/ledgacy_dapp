@@ -7,9 +7,11 @@ import EthCrypto from 'eth-crypto';
 
 
 // visual:
-import { Button, Container, Message } from 'semantic-ui-react';
+import { Button, Container, Message, Modal, Icon } from 'semantic-ui-react';
 import logo from '../ledgacy_logo.svg';
-
+import {TrusteeField} from "./TrusteeField";
+import {get_profiles} from "../utils/get_profiles";
+import {deployed_ledgacy_contract} from "../utils/deployed_ledgacy_contract";
 
 import {Howl} from 'howler';
 import login_soundfile from "./boot.mp3";
@@ -22,7 +24,13 @@ const login_sound = new Howl({
 class Login extends Component {
     constructor(){
         super()
-        this.state = {showError: false}
+        this.state = {showError: false, showSelector: false, potential_trustees: []}
+    }
+
+    componentDidMount = async() => {
+        let potential_trustees = await get_profiles();
+
+        this.setState({...this.state, potential_trustees: potential_trustees});
     }
 
     trySignIn = async () => {
@@ -46,6 +54,24 @@ class Login extends Component {
         const ledgacy_public = await EthCrypto.publicKeyByPrivateKey(ledgacy_priv);
         const keypair = {private: ledgacy_priv, public: ledgacy_public};
         return keypair;
+    }
+
+    showSelector = () => {
+        this.setState({...this.state, showSelector: true})
+    }
+
+    selectProfile = (profile) => {
+        console.log(profile)
+        this.setState({...this.state, profile: profile});
+    }
+
+    callHelp = async () => {
+        if (this.state.profile) {
+            const ledgacyContract = await deployed_ledgacy_contract();
+            const accounts = await getAccounts();
+            await ledgacyContract.writeMessage(this.state.profile.address, "HELP", {from: accounts[0]});
+            console.log("Sent call for help");
+        }
     }
 
 
@@ -73,6 +99,21 @@ class Login extends Component {
                 {message}
                     <Button primary onClick={this.trySignIn}> I want to sign in </Button>
                 </Container>
+                <br/>
+                <Container className="App-login">
+                    <Button color='orange' onClick={this.showSelector}> I lost my key!</Button>
+                </Container>
+                <br/>
+                {this.state.showSelector?
+                    <Container className="App-login">
+                        <h3>Select your profile</h3>
+                        <div className="centerBox">
+                        <TrusteeField source={this.state.potential_trustees} className="helpSelector" handleTrusteeChange={this.selectProfile} noremark={true}/>
+                        </div>
+                        <br/>
+                        <Button color='red' onClick={this.callHelp}>Send call for help!</Button>
+                    </Container>
+                : null}
             </div>
         )
     }
