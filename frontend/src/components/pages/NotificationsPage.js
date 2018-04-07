@@ -50,7 +50,7 @@ class NotificationsPage extends Component {
     render = () => {
         return (
             <Container>
-                <KeypartList keyparts={this.state.keyshares} readonly={true}/>
+                <KeypartList keyparts={this.state.keyshares} checkMessages={true} readonly={true}/>
             </Container>
         )
     }
