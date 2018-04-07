@@ -8,7 +8,7 @@ import EthCrypto from 'eth-crypto';
 import React, { Component } from 'react';
 import logo from '../ledgacy_logo.svg';
 
-import {Message, Input, Button} from 'semantic-ui-react';
+import {Message, Input, Button, Container} from 'semantic-ui-react';
 
 const doesProfileExist = async (address) => {
     const deployedContract = await deployed_ledgacy_contract();
@@ -79,6 +79,8 @@ class Signup extends Component {
                     Trustworthy Decentralized Secrets Manager
                 </h1>
                 </header>
+
+                <Container className="App-signup">
                 <Message positive>
                 <Message.Header>
                 This seems to be your first time here!
@@ -91,6 +93,7 @@ class Signup extends Component {
                 <Button onClick={this.trySignUp} disabled={this.state.waiting}>
                     {this.state.waiting ? "Waiting for transaction to be mined..." : 'Sign Up!'}
                 </Button>
+                </Container>
             </div>
         )
     }

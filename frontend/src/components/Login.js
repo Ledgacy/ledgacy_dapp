@@ -63,7 +63,7 @@ class Login extends Component {
                         Trustworthy Decentralized Secrets Manager
                     </h1>
                 </header>
-                <Container>
+                <Container className="App-login">
                 {message}
                     <Button primary onClick={this.trySignIn}> I want to sign in </Button>
                 </Container>
