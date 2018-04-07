@@ -28,7 +28,7 @@ currentPage: 'secrets'
                 console.log("Dashboard", this.props)
                 return <SecretsPage keypair={this.props.keypair}/>;
             }else if(this.state.currentPage === 'status'){
-                return <StatusPage />;
+                return <StatusPage keypair={this.props.keypair} />;
             }else if(this.state.currentPage === 'recovery'){
                 return <RecoveryPage />;
             }else if(this.state.currentPage === 'trustees'){

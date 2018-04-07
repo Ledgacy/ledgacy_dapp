@@ -21,11 +21,20 @@ class DecryptKeypart extends Component {
         let keyparts = this.props.keyparts;
 
 
-        let secret = combineKeyparts(keyparts)
+        let result = combineKeyparts(keyparts)
+        let exitcode = result[0];
+
+        if (exitcode !== 0) {
+            console.log("Combining keyparts failed", exitcode);
+            return;
+        }
+        let secret = "0x" + result[1];
+        let address = result[2];
+
         this.setState({...this.state, decryptedKey: secret});
         console.log(secret);
         // TODO: Add address
-        this.props.masterKeyHandle(secret);
+        this.props.masterKeyHandle(secret, address);
     }
 
     render = () => {
