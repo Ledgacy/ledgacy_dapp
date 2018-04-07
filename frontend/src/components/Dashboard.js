@@ -10,6 +10,16 @@ import {ActivatableMenuItem} from './ActivatableMenuItem.js';
 import logo from '../ledgacy_logo.svg';
 import {RecoveryPage} from "./pages/RecoveryPage";
 
+
+import {Howl} from 'howler';
+import menu_soundfile from './pop.mp3';
+const menu_sound = new Howl({
+    src: [menu_soundfile],
+    volume: 0.5
+});
+console.log('MENU SOUND:', menu_sound);
+window.menu_sound = menu_sound
+
 class Dashboard extends Component {
     constructor() {
         super()
@@ -20,6 +30,7 @@ currentPage: 'secrets'
 
     changePage = (page) => {
         console.log(page, this.state);
+        menu_sound.play();
         this.setState({...this.state, currentPage: page})
     }
 
