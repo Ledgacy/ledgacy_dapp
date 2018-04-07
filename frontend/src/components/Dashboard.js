@@ -8,6 +8,7 @@ import {NotificationsPage} from './pages/NotificationsPage.js';
 import {ActivatableMenuItem} from './ActivatableMenuItem.js';
 
 import logo from '../ledgacy_logo.svg';
+import {RecoveryPage} from "./pages/RecoveryPage";
 
 class Dashboard extends Component {
     constructor() {
@@ -27,6 +28,8 @@ currentPage: 'secrets'
                 return <SecretsPage keypair={this.props.keypair}/>;
             }else if(this.state.currentPage === 'status'){
                 return <StatusPage />;
+            }else if(this.state.currentPage === 'recovery'){
+                return <RecoveryPage />;
             }else if(this.state.currentPage === 'trustees'){
                 return <TrusteesPage />;
             }else{
@@ -47,8 +50,10 @@ currentPage: 'secrets'
                         <ActivatableMenuItem name='secrets' iconName='unlock alternate' currentPage={this.state.currentPage} changePage={this.changePage} >Secrets</ActivatableMenuItem>
                         <ActivatableMenuItem name='status' iconName='info circle' currentPage={this.state.currentPage}  changePage={this.changePage}>Status</ActivatableMenuItem>
                         <ActivatableMenuItem name='trustees' iconName='protect' currentPage={this.state.currentPage} changePage={this.changePage} >Trustees</ActivatableMenuItem>
+                                                               <ActivatableMenuItem name='recovery' iconName='magic' currentPage={this.state.currentPage} changePage={this.changePage} >Recovery</ActivatableMenuItem>
                         <ActivatableMenuItem name='notifications' iconName='mail outline' currentPage={this.state.currentPage} changePage={this.changePage}>Notifications</ActivatableMenuItem>
                         <ActivatableMenuItem name='signout' iconName='power' currentPage={this.state.currentPage} onClick={this.props.handleSignOut} >Sign Out</ActivatableMenuItem>
+
                     </Sidebar>
                     <Sidebar.Pusher>
                         <Segment basic>

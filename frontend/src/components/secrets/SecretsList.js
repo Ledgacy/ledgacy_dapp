@@ -52,6 +52,8 @@ class SecretsList extends Component {
 
 
         let mock_pubkey = "a8bf05d3ff8661ca28a5bf2df7e5c4a78068c9e8e66ec194b212582e71172281582ccb7b69bb98e58fdfe70dfc6653b1aca104ce8a0cd32a319fad96a9ac2564"
+
+        //await splitAndPersistMasterKeySnippets(master_key.substr(2), [mock_pubkey, mock_pubkey, mock_pubkey], 2);
         console.log('master key:', master_key.substr(2));
 
 
