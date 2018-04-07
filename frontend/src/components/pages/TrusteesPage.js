@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 
 import {Container, Header, Input, Button, Table} from 'semantic-ui-react';
 import {TrusteeField} from '../TrusteeField.js';
-
+import {splitAndPersistMasterKeySnippets} from "../../utils/key_splitting.js";
+import {fetchMasterKey} from '../../utils/fetch_master_key.js';
 
 class TrusteesPage extends Component {
     constructor(){
@@ -17,12 +18,15 @@ class TrusteesPage extends Component {
     componentDidMount = () => {
         let potential_trustees = [{
             name: 'Wiebe-Marten Wijnja',
+            pubkey: 'a8bf05d3ff8661ca28a5bf2df7e5c4a78068c9e8e66ec194b212582e71172281582ccb7b69bb98e58fdfe70dfc6653b1aca104ce8a0cd32a319fad96a9ac2564',
             address: '0x00123321124342121233213123121212'
         }, {
             name: 'Pim Otte',
+            pubkey: 'b8bf05d3ff8661ca28a5bf2df7e5c4a78068c9e8e66ec194b212582e71172281582ccb7b69bb98e58fdfe70dfc6653b1aca104ce8a0cd32a319fad96a9ac2564',
             address: '0x00sadf21124342121233213123121212'
         }, {
             name: 'APG',
+            pubkey: 'c8bf05d3ff8661ca28a5bf2df7e5c4a78068c9e8e66ec194b212582e71172281582ccb7b69bb98e58fdfe70dfc6653b1aca104ce8a0cd32a319fad96a9ac2564',
             address: '0xdeadbeefoa9123urioezijk1123jksoa'
         }];
         this.setState({...this.state, potential_trustees: potential_trustees});
@@ -39,7 +43,7 @@ class TrusteesPage extends Component {
     }
 
     changeThreshold = (event, item) => {
-        let threshold = new Number(item.value)
+        let threshold = +(item.value)
         if(isNaN(threshold))
             return;
 
@@ -53,9 +57,13 @@ class TrusteesPage extends Component {
         this.setState({...this.state, threshold: threshold})
     }
 
-    storeTrustees = () => {
+    storeTrustees = async () => {
+        const master_key = await fetchMasterKey(this.props.keypair.private);
         // TODO
         console.log("Storing trustees:", this.state.trustees);
+        const public_keys = this.state.trustees.map((elem) => elem.pubkey);
+        console.log('public keys', public_keys);
+        splitAndPersistMasterKeySnippets(master_key.substr(2), public_keys, this.state.threshold);
     }
 
     renderTrustees = () => {

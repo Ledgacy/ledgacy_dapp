@@ -25,13 +25,14 @@ currentPage: 'secrets'
 
     renderPage = () => {
             if(this.state.currentPage === 'secrets'){
+                console.log("Dashboard", this.props)
                 return <SecretsPage keypair={this.props.keypair}/>;
             }else if(this.state.currentPage === 'status'){
                 return <StatusPage />;
             }else if(this.state.currentPage === 'recovery'){
                 return <RecoveryPage />;
             }else if(this.state.currentPage === 'trustees'){
-                return <TrusteesPage />;
+                return <TrusteesPage keypair={this.props.keypair} />;
             }else{
                 return <NotificationsPage />;
             }

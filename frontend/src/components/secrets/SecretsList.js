@@ -8,12 +8,9 @@ import sjcl from 'sjcl';
 import {deployed_ledgacy_contract} from '../../utils/deployed_ledgacy_contract.js'
 import EthCrypto from 'eth-crypto';
 import {splitAndPersistMasterKeySnippets} from '../../utils/key_splitting.js'
+import {fetchMasterKey} from '../../utils/fetch_master_key.js';
 import {getAccounts} from "../../utils/get_accounts";
 
-const decryptMasterKey = async (encrypted_master_key, ledgacy_private_key) => {
-    const decoded_key = JSON.parse(hexToAscii(encrypted_master_key));
-    return await EthCrypto.decryptWithPrivateKey(ledgacy_private_key, decoded_key);
-}
 
 class SecretsList extends Component {
     fetchSecretsInterval;
@@ -33,27 +30,20 @@ class SecretsList extends Component {
         this.setState({...this.state, loaded: true})
 
         await this.fetchSecrets();
-        this.fetchSecretsInterval = setInterval(this.fetchSecrets, 5000);
+        this.fetchSecretsInterval = setInterval(this.fetchSecrets, 2000);
     }
 
     componentWillUnmount = () => {
         window.clearInterval(this.fetchSecretsInterval);
     }
 
-    fetchMasterKey = async () => {
-        const deployedContract = await deployed_ledgacy_contract();
-        const encrypted_master_key = await deployedContract.getEncryptedMasterKey();
-
-        const master_key = await decryptMasterKey(encrypted_master_key, this.props.keypair.private)
-        console.log('master key', master_key);
-        return master_key;
-    }
 
     fetchSecrets = async () => {
+        console.log('SECRETS LIST PROPS',this.props);
         let master_key = this.props.masterkey;
         if (!master_key) {
             console.log("Fetching masterkey");
-            master_key = await this.fetchMasterKey();
+            master_key = await fetchMasterKey(this.props.keypair.private);
         }
 
 
