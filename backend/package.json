@@ -1,0 +1,17 @@
+{
+  "name": "ledgacy_backend",
+  "version": "0.1.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "dependencies": {
+    "truffle-contract": "^3.0.4",
+    "web3": "^0.20.6"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-preset-env": "^1.6.1"
+  }
+}
