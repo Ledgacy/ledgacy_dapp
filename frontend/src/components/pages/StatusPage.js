@@ -15,7 +15,7 @@ class StatusPage extends Component {
     readKeyPartsInterval;
     constructor(){
         super();
-        this.state = {lastTime: 0, keyShares: []};
+        this.state = {lastTime: 0, keyshares: []};
         this.block_bond = bonds.findBlock(bonds.blockNumber)
     }
 
@@ -61,6 +61,7 @@ class StatusPage extends Component {
             keyshares.push(keyshare_str);
         }
 
+        console.log("All keyshares", keyshares);
         this.setState({...this.state, keyshares: keyshares});
     }
 

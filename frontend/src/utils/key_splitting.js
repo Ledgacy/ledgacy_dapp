@@ -1,6 +1,7 @@
 import EthCrypto from 'eth-crypto';
 import {deployed_ledgacy_contract} from './deployed_ledgacy_contract.js';
 import {web3} from "./bonds_setup";
+import {hexToAscii} from "oo7-parity";
 let secrets = require('secrets.js-grempe');
 let {getAccounts} = require('./get_accounts.js');
 
@@ -31,7 +32,10 @@ const encryptKeypart = async (keypart, recipient_public_key, threshold, master_a
 };
 
 const decryptKeypart = async(encrypted_keypart, private_key) => {
-    const keypart_str = await EthCrypto.decryptWithPrivateKey(private_key, JSON.parse(encrypted_keypart));
+    console.log("Decrypting: ", encrypted_keypart, private_key);
+    console.log("Encrypted keypart to ascii", hexToAscii(encrypted_keypart));
+    const keypart_str = await EthCrypto.decryptWithPrivateKey(private_key, JSON.parse(hexToAscii(encrypted_keypart)));
+    console.log("Decrypted keypart", keypart_str);
     return keypart_str;
 }
 

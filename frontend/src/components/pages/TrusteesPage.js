@@ -6,6 +6,7 @@ import {TrusteeField} from '../TrusteeField.js';
 import {splitAndPersistMasterKeySnippets} from "../../utils/key_splitting.js";
 import {fetchMasterKey} from '../../utils/fetch_master_key.js';
 import {get_profiles} from '../../utils/get_profiles.js';
+import {getAccounts} from "../../utils/get_accounts";
 
 class TrusteesPage extends Component {
     constructor(){
@@ -72,7 +73,9 @@ class TrusteesPage extends Component {
         console.log("Storing trustees:", this.state.trustees);
         const public_keys = this.realTrustees().map((elem) => elem.pubkey);
         console.log('public keys', public_keys);
-        splitAndPersistMasterKeySnippets(master_key.substr(2), public_keys, this.state.threshold);
+
+        let accounts = await getAccounts()
+        splitAndPersistMasterKeySnippets(master_key.substr(2), public_keys, this.state.threshold, accounts[0]);
     }
 
     renderTrustees = () => {
