@@ -1,14 +1,14 @@
-import {web3} from '../bonds_setup.js'
+import {web3} from '../../bonds_setup.js'
 import * as contract from 'truffle-contract';
-import LedgacyContract from "../contracts/Ledgacy.json";
 import {sha3, asciiToHex, hexToAscii} from 'oo7-parity'
 
 import React, {Component} from 'react'
 import {List, Table, Input, Button} from 'semantic-ui-react'
 import EthCrypto from 'eth-crypto';
 import sjcl from 'sjcl';
-import {getAccounts} from "./GetAccounts";
-import {deployed_ledgacy_contract} from '../deployed_ledgacy_contract.js'
+import {getAccounts} from "../../get_accounts";
+import {deployed_ledgacy_contract} from '../../deployed_ledgacy_contract.js'
+
 
 const initial_state = {
     name: '',

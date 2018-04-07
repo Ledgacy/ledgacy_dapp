@@ -12,7 +12,7 @@ import LedgacyContract from '../contracts/Ledgacy.json';
 import { Button, Container, Message } from 'semantic-ui-react';
 import logo from '../ledgacy_logo.svg';
 
-import {getAccounts} from "./GetAccounts";
+import {getAccounts} from "../get_accounts";
 
 class Login extends ReactiveComponent {
     constructor(){

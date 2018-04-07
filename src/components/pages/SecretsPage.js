@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { Container, Sidebar, Segment, Button, Menu, Image, Icon, Header } from 'semantic-ui-react';
-import {SecretsList} from './SecretsList.js'
+import {SecretsList} from '../secrets/SecretsList.js'
 
 
 class SecretsPage extends Component {

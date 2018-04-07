@@ -14,10 +14,10 @@ import {web3} from "./bonds_setup";
 import {deployed_ledgacy_contract} from './deployed_ledgacy_contract.js'
 
 import { Button, Container } from 'semantic-ui-react'
-import {Dashboard} from './components/Dashboard.js'
-import {Login} from './components/Login.js'
-import {Signup} from './components/Signup.js'
-import {getAccounts} from './components/GetAccounts.js'
+import {Dashboard} from './components/Dashboard'
+import {Login} from './components/Login'
+import {Signup} from './components/Signup'
+import {getAccounts} from './get_accounts'
 
 const initial_state = {
     page: 'login',

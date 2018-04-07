@@ -1,4 +1,4 @@
-import {web3} from "../bonds_setup";
+import {web3} from "./bonds_setup";
 
 let getAccounts = async () => {
     return new Promise((resolve, reject) => {

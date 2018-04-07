@@ -2,10 +2,10 @@ import React, {Component} from 'react'
 import { Tab } from 'semantic-ui-react'
 import { Container, Sidebar, Segment, Button, Menu, Image, Icon, Header } from 'semantic-ui-react';
 
-import {SecretsPage} from './SecretsPage.js';
-import {StatusPage} from './StatusPage.js';
-import {TrusteesPage} from './TrusteesPage.js';
-import {NotificationsPage} from './NotificationsPage.js';
+import {SecretsPage} from './pages/SecretsPage.js';
+import {StatusPage} from './pages/StatusPage.js';
+import {TrusteesPage} from './pages/TrusteesPage.js';
+import {NotificationsPage} from './pages/NotificationsPage.js';
 
 import logo from '../ledgacy_logo.svg';
 
