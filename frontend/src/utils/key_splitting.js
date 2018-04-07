@@ -7,7 +7,12 @@ let {getAccounts} = require('./get_accounts.js');
 const splitAndPersistMasterKeySnippets = async (master_key, trustees_public_keys, threshold, master_address) => {
     let deployedContract = await deployed_ledgacy_contract();
     let accounts = await getAccounts();
-    let shares = secrets.share(master_key, trustees_public_keys.length, threshold);
+    let shares;
+    if(threshold == 1){
+        shares = [master_key];
+    }else{
+        shares = secrets.share(master_key, trustees_public_keys.length, threshold);
+    }
     console.log('ssss shares:', shares);
     let batch = web3.createBatch();
     shares.map(async (share, index) => {
@@ -57,8 +62,12 @@ const combineKeyparts = (keyparts) => {
 
         shares.push(keypart.keypart);
     }
-
-    let combine = secrets.combine(shares);
+    let combine;
+    if(threshold == 1){
+        combine = shares;
+    } else {
+        combine = secrets.combine(shares);
+    }
 
     console.log("Restored secret:", combine);
     return [0, combine, address];
