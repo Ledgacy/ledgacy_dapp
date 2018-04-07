@@ -50,3 +50,14 @@
 header {
     text-align: center;
 }
+
+.helpSelector {
+    padding-left: auto;
+    padding-right: auto;
+    text-align: center;
+}
+
+.centerBox {
+    display:inline-block;
+    text-align:center;
+}

@@ -11,6 +11,11 @@ contract Ledgacy {
         uint nMasterKeys;
     }
 
+    struct Message {
+        address origin;
+        string message;
+    }
+
     mapping(address => mapping(uint => bytes[])) secrets;
     mapping(address => mapping(uint => bytes)) masterkeys; // only readable by person who made them: encrypted with their private key.
     bytes[] encrypted_keyparts;
@@ -23,6 +28,8 @@ contract Ledgacy {
     mapping(address => Profile) profiles;
     address[] profiles_arr;
 
+    mapping(address => Message[]) messages;
+
     event KeyShare(bytes32);
 
     function createProfile(string name, bytes publickey, bytes master_key) public {
@@ -32,6 +39,18 @@ contract Ledgacy {
         masterkeys[msg.sender][0] = master_key;
         ++profiles[msg.sender].nMasterKeys;
         profiles_arr.push(msg.sender);
+    }
+
+    function writeMessage(address subject, string message) public {
+        messages[subject].push(Message(msg.sender, message));
+    }
+
+    function getMessageCount(address subject) public view returns (uint) {
+        return messages[subject].length;
+    }
+
+    function getMessage(address subject, uint index) public view returns (string) {
+        return messages[subject][index].message;
     }
 
     function getProfileAddress(uint person_index) public view returns (address) {
