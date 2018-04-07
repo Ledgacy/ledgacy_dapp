@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import _ from 'lodash';
 
-import {Container, Header, Input, Button, Table, Message} from 'semantic-ui-react';
+import {Container, Header, Input, Button, Table, Message, Form} from 'semantic-ui-react';
 import {TrusteeField} from '../TrusteeField.js';
 import {splitAndPersistMasterKeySnippets} from "../../utils/key_splitting.js";
 import {fetchMasterKey} from '../../utils/fetch_master_key.js';
@@ -88,21 +88,22 @@ class TrusteesPage extends Component {
 
         let warning = null;
         if(this.realTrustees().length < 1){
-            warning = <Table.Cell colSpan={2}>
-            <Message warning >
-                <Message.Header>You need to add at least one Trustee.</Message.Header>
-                <p>
-                    To make sure your secrets are <em>really</em> safe from loss, you need to add at least one trustee (but multiple is strongly preferred!).
-                </p>
-            </Message>
-
-            </Table.Cell>
+            warning = <Table.Row>
+                <Table.Cell colSpan={2}>
+                    <Message warning >
+                        <Message.Header>You need to add at least one Trustee.</Message.Header>
+                        <p>
+                            To make sure your secrets are <em>really</em> safe from loss, you need to add at least one trustee (but multiple is strongly preferred!).
+                        </p>
+                    </Message>
+                </Table.Cell>
+            </Table.Row>
         }
 
-
         return (
-            <Container fluid>
+            <Container >
                 <Header as='header'>Trustee Management</Header>
+                <Form>
                     <Table celled>
                         <tbody>
                             <Table.Row>
@@ -117,15 +118,18 @@ class TrusteesPage extends Component {
                             {this.renderTrustees()}
                         </tbody>
                     </Table>
-                    <div>
+
+                    <Form.Field>
                         <Button onClick={this.addTrusteeFields} >Add Trustee</Button>
-                    </div>
-                    <div>
+                    </Form.Field>
+                    <Form.Field>
+                        <label title='minimum amount of keyshares required to regain key.'>Threshold </label>
                         <Input placeholder='3' onChange={this.changeThreshold} value={this.state.threshold}/>
-                    </div>
-                    <div>
+                    </Form.Field>
+                    <Form.Field>
                         <Button onClick={this.storeTrustees} disabled={this.state.threshold == 0 || this.state.threshold > this.realTrustees().length}>Store Trustees</Button>
-                    </div>
+                    </Form.Field>
+                </Form>
             </Container>
         )
     }

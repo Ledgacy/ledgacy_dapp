@@ -13,7 +13,7 @@ const get_profiles = async () => {
         const profile_name = await deployedContract.getProfileName(address);
         console.log(profile_name);
         const profile_pubkey = await deployedContract.getProfilePublicKey(address);
-        profiles.push({address: address, name: profile_name, pubkey: profile_pubkey});
+        profiles.push({address: address, name: profile_name, pubkey: hexToAscii(profile_pubkey)});
     }
     return profiles;
 };
