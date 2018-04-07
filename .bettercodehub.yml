@@ -1,0 +1,9 @@
+component_depth: 4
+languages:
+- javascript
+- html
+- css
+exclude:
+- /config/.*
+- /build/.*
+- /scripts/.*
