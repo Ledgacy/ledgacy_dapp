@@ -21,6 +21,7 @@ contract Ledgacy {
   }
 
   mapping (address => Profile) profiles;
+  address[] profiles_arr;
   event KeyShare(bytes32);
 
   function createProfile(string name, bytes publickey, bytes master_key) public {
@@ -29,6 +30,14 @@ contract Ledgacy {
     profiles[msg.sender] = Profile(name, publickey, block.timestamp, 0);
     masterkeys[msg.sender][0] = master_key;
     ++profiles[msg.sender].nMasterKeys;
+    profiles_arr.push(msg.sender);
+  }
+
+  function getProfileAddress(uint person_index) public view returns(address) {
+    return profiles_arr[person_index];
+  }
+  function nProfiles() public view returns(uint) {
+    return profiles_arr.length;
   }
 
   function getProfileName(address person) public view returns(string) {

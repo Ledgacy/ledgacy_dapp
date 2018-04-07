@@ -5,6 +5,7 @@ import {Container, Header, Input, Button, Table, Message} from 'semantic-ui-reac
 import {TrusteeField} from '../TrusteeField.js';
 import {splitAndPersistMasterKeySnippets} from "../../utils/key_splitting.js";
 import {fetchMasterKey} from '../../utils/fetch_master_key.js';
+import {get_profiles} from '../../utils/get_profiles.js';
 
 class TrusteesPage extends Component {
     constructor(){
@@ -16,7 +17,7 @@ class TrusteesPage extends Component {
         };
     }
 
-    componentDidMount = () => {
+    componentDidMount = async () => {
         let potential_trustees = [{
             name: 'Wiebe-Marten Wijnja',
             pubkey: 'a8bf05d3ff8661ca28a5bf2df7e5c4a78068c9e8e66ec194b212582e71172281582ccb7b69bb98e58fdfe70dfc6653b1aca104ce8a0cd32a319fad96a9ac2564',
@@ -30,6 +31,9 @@ class TrusteesPage extends Component {
             pubkey: 'c8bf05d3ff8661ca28a5bf2df7e5c4a78068c9e8e66ec194b212582e71172281582ccb7b69bb98e58fdfe70dfc6653b1aca104ce8a0cd32a319fad96a9ac2564',
             address: '0xdeadbeefoa9123urioezijk1123jksoa'
         }];
+
+        potential_trustees = await get_profiles();
+
         this.setState({...this.state, potential_trustees: potential_trustees});
     }
 
