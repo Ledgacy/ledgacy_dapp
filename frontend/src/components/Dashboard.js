@@ -5,6 +5,7 @@ import {SecretsPage} from './pages/SecretsPage.js';
 import {StatusPage} from './pages/StatusPage.js';
 import {TrusteesPage} from './pages/TrusteesPage.js';
 import {NotificationsPage} from './pages/NotificationsPage.js';
+import {ActivatableMenuItem} from './ActivatableMenuItem.js';
 
 import logo from '../ledgacy_logo.svg';
 import {RecoveryPage} from "./pages/RecoveryPage";
@@ -22,21 +23,21 @@ currentPage: 'secrets'
         this.setState({...this.state, currentPage: page})
     }
 
-    render = () => {
-
-        let page;
+    renderPage = () => {
             if(this.state.currentPage === 'secrets'){
-                page = <SecretsPage keypair={this.props.keypair}/>;
+                return <SecretsPage keypair={this.props.keypair}/>;
             }else if(this.state.currentPage === 'status'){
-                page = <StatusPage />;
+                return <StatusPage />;
             }else if(this.state.currentPage === 'recovery'){
-                page = <RecoveryPage />;
+                return <RecoveryPage />;
             }else if(this.state.currentPage === 'trustees'){
-                page = <TrusteesPage />;
+                return <TrusteesPage />;
             }else{
-                page = <NotificationsPage />;
+                return <NotificationsPage />;
             }
+    }
 
+    render = () => {
         return (
                 <Sidebar.Pushable as={Segment}>
                     <Sidebar as={Menu} animation='push' width='thin' visible={true} icon='labeled' vertical inverted >
@@ -46,34 +47,17 @@ currentPage: 'secrets'
                         <Menu.Item>
                             <em>{this.props.profileName}</em>
                         </Menu.Item>
-                        <Menu.Item name='secrets' active={this.state.currentPage === 'secrets'} onClick={() => this.changePage('secrets')}>
-                            <Icon name='unlock alternate' />
-                            Secrets
-                        </Menu.Item>
-                        <Menu.Item name='status' active={this.state.currentPage === 'status'} onClick={() => this.changePage('status')}>
-                            <Icon name='info circle' />
-                            Status
-                        </Menu.Item>
-                        <Menu.Item name='trustees' active={this.state.currentPage === 'trustees'} onClick={() => this.changePage('trustees')}>
-                            <Icon name='protect' />
-                            Trustees
-                        </Menu.Item>
-                        <Menu.Item name='recovery' active={this.state.currentPage === 'recovery'} onClick={() => this.changePage('recovery')}>
-                            <Icon name='magic' />
-                            Recovery
-                        </Menu.Item>
-                        <Menu.Item name='notifications' active={this.state.currentPage === 'notifications'} onClick={() => this.changePage('notifications')}>
-                            <Icon name='mail outline' />
-                            Notifications
-                        </Menu.Item>
-                        <Menu.Item name='signout' className='signout' onClick={this.props.handleSignOut}>
-                            <Icon name='power' />
-                            Sign Out
-                        </Menu.Item>
+                        <ActivatableMenuItem name='secrets' iconName='unlock alternate' currentPage={this.state.currentPage} changePage={this.changePage} >Secrets</ActivatableMenuItem>
+                        <ActivatableMenuItem name='status' iconName='info circle' currentPage={this.state.currentPage}  changePage={this.changePage}>Status</ActivatableMenuItem>
+                        <ActivatableMenuItem name='trustees' iconName='protect' currentPage={this.state.currentPage} changePage={this.changePage} >Trustees</ActivatableMenuItem>
+                                                               <ActivatableMenuItem name='recovery' iconName='magic' currentPage={this.state.currentPage} changePage={this.changePage} >Recovery</ActivatableMenuItem>
+                        <ActivatableMenuItem name='notifications' iconName='mail outline' currentPage={this.state.currentPage} changePage={this.changePage}>Notifications</ActivatableMenuItem>
+                        <ActivatableMenuItem name='signout' iconName='power' currentPage={this.state.currentPage} onClick={this.props.handleSignOut} >Sign Out</ActivatableMenuItem>
+
                     </Sidebar>
                     <Sidebar.Pusher>
                         <Segment basic>
-                            {page}
+                            {this.renderPage()}
                         </Segment>
                     </Sidebar.Pusher>
                 </Sidebar.Pushable>

@@ -18,7 +18,6 @@ const initial_state = {
 }
 
 class AddSecret extends Component {
-    // ledgacyContract;
 
     constructor() {
         super()
@@ -70,35 +69,32 @@ class AddSecret extends Component {
         let {tx} = result;
 
         this.setState({...this.state, saving: false, submitted: true, txHash: tx});
-
-        // const secretUpdateInterval = window.setInterval(() => {
-        //     if(this.props.nSecrets == secret_count){
-        //         return;
-        //     }
-        //     window.clearInterval(secretUpdateInterval);
-        // });
     }
 
-    render = () => {
-        if(this.props.masterkey === null){
-            return '';
-    }
+    renderLoader = () => {
+        if(!this.state.submitted)
+            return null
 
-        const submitted = (
-            !this.state.submitted ? null  : (
-                <Table.Cell colSpan={3} >
-                    <em>
+        return (
+            <Table.Cell colSpan={3} >
+                <em>
                     Waiting for transaction
                     <strong>
                         {this.state.txHash}
                     </strong>
                     to be mined...
-                    </em>
-                </Table.Cell>
-            )
+                </em>
+            </Table.Cell>
         )
+    }
+
+    render = () => {
+        if(this.props.masterkey === null){
+            return null;
+    }
+
         return ([
-                <Table.Row key={0}>{submitted}</Table.Row>,
+                <Table.Row key={0}>{this.renderLoader()}</Table.Row>,
                 <Table.Row key={1}>
                     <Table.Cell>
                         <Input fluid placeholder='Name' onChange={this.changeName} disabled={this.state.saving} value={this.state.name}/>

@@ -17,9 +17,6 @@ class StatusPage extends Component {
     componentDidMount = async () =>{
         // attempt to load secrets from the blockchain
         // and decrypt it using private key.
-        /* this.ledgacyContract = contract(LedgacyContract);
-         * this.ledgacyContract.setProvider(web3.currentProvider);*/
-
         await this.getLastTime();
         this.getLastTimeInterval = setInterval(this.getLastTime, 2000);
     }
@@ -29,17 +26,14 @@ class StatusPage extends Component {
     }
 
     getLastTime = async () => {
-        /* const deployedContract = await this.ledgacyContract.deployed();*/
         const deployedContract = await deployed_ledgacy_contract();
         let lastTime = await deployedContract.getLastTime();
         console.log("LastBlock", lastTime.toNumber())
         this.setState({...this.state, lastTime: lastTime.toNumber()});
-        //console.log('secrets', secrets);
     }
 
     checkIn = async () => {
         const deployedContract = await deployed_ledgacy_contract();
-        /* const deployedContract = await this.ledgacyContract.deployed();*/
         const accounts = await getAccounts();
         await deployedContract.alive({from: accounts[0]});
         console.log("Signalled liveness");
