@@ -13,7 +13,8 @@ import {Message, Input, Button, Container} from 'semantic-ui-react';
 const doesProfileExist = async (address) => {
     const deployedContract = await deployed_ledgacy_contract();
     const name = await deployedContract.getProfileName(address);
-    return name !== '';
+    console.log("profile name:", name);
+    return name !== undefined;
 };
 
 const initial_state = {
