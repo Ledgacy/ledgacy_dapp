@@ -56,7 +56,7 @@ class KeypartList extends Component {
                         />
                     </tbody>
                 </Table>
-                <DecryptKeypart keyparts={this.state.keyparts}/>
+                <DecryptKeypart keyparts={this.state.keyparts} masterKeyHandle={this.props.masterKeyHandle}/>
             </div>
         );
     }
