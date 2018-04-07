@@ -32,6 +32,7 @@
     "fs-extra": "3.0.1",
     "html-webpack-plugin": "2.29.0",
     "jest": "20.0.4",
+    "lodash": "^4.17.5",
     "object-assign": "4.1.1",
     "oo7": "^0.5.9",
     "oo7-parity": "^0.6.14",

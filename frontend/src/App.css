@@ -1,5 +1,4 @@
 .App {
-  text-align: center;
   height: 100vh;
 }
 
@@ -19,8 +18,6 @@
     margin-right: 100%;
     margin-left: 100%;
 }
-
-
 
 .App-header {
   background-color: #222;
@@ -44,4 +41,8 @@
 
 .item.signout {
     color: red;
+}
+
+header {
+    text-align: center;
 }

@@ -89,7 +89,7 @@ class SecretsList extends Component {
             <Table celled>
                 <tbody>
                     <Table.Row>
-                        <Table.HeaderCell>Key</Table.HeaderCell>
+                        <Table.HeaderCell>Name</Table.HeaderCell>
                         <Table.HeaderCell>Secret</Table.HeaderCell>
                         <Table.HeaderCell>
                         </Table.HeaderCell>
