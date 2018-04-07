@@ -1,12 +1,9 @@
 // logical:
 import React, { Component } from 'react';
-import {ReactiveComponent, Rspan} from 'oo7-react';
-import {bonds, web3} from '../utils/bonds_setup.js';
+import {web3} from '../utils/bonds_setup.js';
 import {getAccounts} from "../utils/get_accounts";
-import {sha3, asciiToHex} from 'oo7-parity'
+import {sha3} from 'oo7-parity';
 import EthCrypto from 'eth-crypto';
-import * as contract from "truffle-contract";
-import LedgacyContract from '../contracts/Ledgacy.json';
 
 
 // visual:
@@ -14,7 +11,7 @@ import { Button, Container, Message } from 'semantic-ui-react';
 import logo from '../ledgacy_logo.svg';
 
 
-class Login extends ReactiveComponent {
+class Login extends Component {
     constructor(){
         super()
         this.state = {showError: false}

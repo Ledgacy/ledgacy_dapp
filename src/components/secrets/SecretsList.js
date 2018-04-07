@@ -1,13 +1,9 @@
 import React, {Component} from 'react'
-import {List, Table} from 'semantic-ui-react'
+import {Table} from 'semantic-ui-react'
 
 import {Secret} from './Secret.js'
 import {AddSecret} from './AddSecret.js'
 import {hexToAscii} from "oo7-parity";
-import {web3} from "../../utils/bonds_setup";
-import * as contract from "truffle-contract";
-import LedgacyContract from '../../contracts/Ledgacy.json';
-import EthCrypto from 'eth-crypto';
 import sjcl from 'sjcl';
 import {deployed_ledgacy_contract} from '../../utils/deployed_ledgacy_contract.js'
 
@@ -87,11 +83,11 @@ class SecretsList extends Component {
         })
 
         const tableBody = this.state.loaded ? secretsList : (
-                <Table.Row>
+            <Table.Row>
                 <Table.Cell>
-                Loading list of secrets...
+                    Loading list of secrets...
                 </Table.Cell>
-                </Table.Row>
+            </Table.Row>
         )
 
         // <List divided relaxed>
@@ -100,18 +96,22 @@ class SecretsList extends Component {
 
 
         return (
-                <Table celled>
-                    <tbody>
-                        <Table.Row>
-                            <Table.HeaderCell>Key</Table.HeaderCell>
-                            <Table.HeaderCell>Secret</Table.HeaderCell>
-                            <Table.HeaderCell>
-                            </Table.HeaderCell>
-                        </Table.Row>
-                        {tableBody}
-                        <AddSecret masterkey={this.state.masterkey} saveHandle={this.fetchSecrets} nSecrets={this.state.secrets.length}/>
-                    </tbody>
-                </Table>
+            <Table celled>
+                <tbody>
+                    <Table.Row>
+                        <Table.HeaderCell>Key</Table.HeaderCell>
+                        <Table.HeaderCell>Secret</Table.HeaderCell>
+                        <Table.HeaderCell>
+                        </Table.HeaderCell>
+                    </Table.Row>
+                    {tableBody}
+                    <AddSecret
+                        masterkey={this.state.masterkey}
+                        saveHandle={this.fetchSecrets}
+                        nSecrets={this.state.secrets.length}
+                    />
+                </tbody>
+            </Table>
         );
     }
 }

@@ -1,10 +1,7 @@
 import React, {Component} from 'react';
-import { Container, Sidebar, Segment, Button, Menu, Image, Icon, Header } from 'semantic-ui-react';
-import {hexToAscii} from "oo7-parity";
-import {web3, bonds} from "../../utils/bonds_setup";
-import * as contract from "truffle-contract";
+import { Container, Button, Header } from 'semantic-ui-react';
+import {bonds} from "../../utils/bonds_setup";
 import {Rspan} from 'oo7-react';
-import LedgacyContract from '../../contracts/Ledgacy.json';
 import {getAccounts} from "../../utils/get_accounts";
 import {deployed_ledgacy_contract} from '../../utils/deployed_ledgacy_contract.js'
 

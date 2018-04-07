@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Container, Sidebar, Segment, Button, Menu, Image, Icon, Header } from 'semantic-ui-react';
+/* import { Container, Sidebar, Segment, Button, Menu, Image, Icon, Header } from 'semantic-ui-react';*/
 
 
 class NotificationsPage extends Component {

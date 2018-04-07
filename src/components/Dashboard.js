@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
-import { Tab } from 'semantic-ui-react'
-import { Container, Sidebar, Segment, Button, Menu, Image, Icon, Header } from 'semantic-ui-react';
+import { Sidebar, Segment, Menu, Icon } from 'semantic-ui-react';
 
 import {SecretsPage} from './pages/SecretsPage.js';
 import {StatusPage} from './pages/StatusPage.js';

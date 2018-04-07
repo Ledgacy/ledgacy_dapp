@@ -1,7 +1,4 @@
-import {web3} from '../utils/bonds_setup.js'
-import * as contract from 'truffle-contract';
-import LedgacyContract from "../contracts/Ledgacy.json";
-import {sha3, asciiToHex, hexToAscii} from 'oo7-parity'
+import {sha3, asciiToHex} from 'oo7-parity'
 import {getAccounts} from "../utils/get_accounts";
 import sjcl from 'sjcl';
 import {deployed_ledgacy_contract} from '../utils/deployed_ledgacy_contract.js'
@@ -37,7 +34,7 @@ class Signup extends Component {
 
     trySignUp = async () => {
         console.log('signUp!');
-        if(this.state.name == '') {
+        if(this.state.name === '') {
             return;
         }
 
@@ -52,7 +49,7 @@ class Signup extends Component {
         console.log('Creating Profile:', this.state.name, this.props.keypair, asciiToHex(generated_masterkey));
 
         console.log('creating profile');
-        let err, result = await deployedContract.createProfile(this.state.name, this.props.keypair.public, generated_masterkey, {from: accounts[0]});
+        await deployedContract.createProfile(this.state.name, this.props.keypair.public, generated_masterkey, {from: accounts[0]});
         console.log('after creating profile');
         this.setState({...this.state, waiting: true});
 

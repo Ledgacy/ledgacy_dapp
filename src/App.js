@@ -1,19 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
 
-import {Rspan} from 'oo7-react';
-/* import {bonds, options as bonds_options} from 'oo7-parity';*/
-/* import {InputBond} from 'parity-reactive-ui';*/
-/* import Api from '@parity/api';*/
 import {bonds} from './utils/bonds_setup.js'
-import {sha3, asciiToHex} from 'oo7-parity'
-import EthCrypto from 'eth-crypto';
-import * as contract from "truffle-contract";
-import LedgacyContract from './contracts/Ledgacy.json';
-import {web3} from "./utils/bonds_setup";
 import {deployed_ledgacy_contract} from './utils/deployed_ledgacy_contract.js'
 
-import { Button, Container } from 'semantic-ui-react'
 import {Dashboard} from './components/Dashboard'
 import {Login} from './components/Login'
 import {Signup} from './components/Signup'
