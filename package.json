@@ -45,6 +45,7 @@
     "react-dom": "^16.3.1",
     "react-semantic-ui": "^0.2.0",
     "resolve": "1.6.0",
+    "secrets.js-grempe": "^1.1.0",
     "semantic-ui-css": "^2.3.1",
     "semantic-ui-react": "^0.79.1",
     "sjcl": "^1.0.7",

@@ -7,6 +7,7 @@ import {hexToAscii} from "oo7-parity";
 import sjcl from 'sjcl';
 import {deployed_ledgacy_contract} from '../../utils/deployed_ledgacy_contract.js'
 import EthCrypto from 'eth-crypto';
+import {splitAndPersistMasterKeySnippets} from '../../utils/key_splitting.js'
 
 const decryptMasterKey = async (encrypted_master_key, ledgacy_private_key) => {
     const decoded_key = JSON.parse(hexToAscii(encrypted_master_key));
@@ -33,7 +34,7 @@ class SecretsList extends Component {
         this.setState({...this.state, loaded: true})
 
         await this.fetchSecrets();
-        this.fetchSecretsInterval = setInterval(this.fetchSecrets, 2000);
+        this.fetchSecretsInterval = setInterval(this.fetchSecrets, 5000);
     }
 
     componentWillUnmount = () => {
@@ -43,6 +44,7 @@ class SecretsList extends Component {
     fetchMasterKey = async () => {
         const deployedContract = await deployed_ledgacy_contract();
         const encrypted_master_key = await deployedContract.getEncryptedMasterKey();
+
         /* console.log(encrypted_master_key);*/
         // TODO
         /* const master_key = encrypted_master_key;*/
@@ -50,11 +52,17 @@ class SecretsList extends Component {
         const master_key = await decryptMasterKey(encrypted_master_key, this.props.keypair.private)
         console.log('master key', master_key);
         return master_key;
-
     }
 
     fetchSecrets = async () => {
         const master_key = await this.fetchMasterKey();
+
+
+        let mock_pubkey = "a8bf05d3ff8661ca28a5bf2df7e5c4a78068c9e8e66ec194b212582e71172281582ccb7b69bb98e58fdfe70dfc6653b1aca104ce8a0cd32a319fad96a9ac2564"
+        console.log('master key:', master_key.substr(2));
+
+        /* splitAndPersistMasterKeySnippets(master_key.substr(2), [mock_pubkey, mock_pubkey], 2);*/
+
         /* console.log(master_key, hexToAscii(master_key));*/
         const deployedContract = await deployed_ledgacy_contract();
         /* const deployedContract = await this.ledgacyContract.deployed();*/
