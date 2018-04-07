@@ -12,7 +12,7 @@ const get_profiles = async () => {
         console.log(address);
         const profile_name = await deployedContract.getProfileName(address);
         console.log(profile_name);
-        const [_err3, profile_pubkey] = await deployedContract.getProfilePublicKey(address);
+        const profile_pubkey = await deployedContract.getProfilePublicKey(address);
         profiles.push({address: address, name: profile_name, pubkey: profile_pubkey});
     }
     return profiles;
