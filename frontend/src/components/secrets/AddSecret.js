@@ -79,26 +79,30 @@ class AddSecret extends Component {
         // });
     }
 
-    render = () => {
-        if(this.props.masterkey === null){
-            return '';
-    }
+    renderLoader = () => {
+        if(!this.state.submitted)
+            return null
 
-        const submitted = (
-            !this.state.submitted ? null  : (
-                <Table.Cell colSpan={3} >
-                    <em>
+        return (
+            <Table.Cell colSpan={3} >
+                <em>
                     Waiting for transaction
                     <strong>
                         {this.state.txHash}
                     </strong>
                     to be mined...
-                    </em>
-                </Table.Cell>
-            )
+                </em>
+            </Table.Cell>
         )
+    }
+
+    render = () => {
+        if(this.props.masterkey === null){
+            return null;
+    }
+
         return ([
-                <Table.Row key={0}>{submitted}</Table.Row>,
+                <Table.Row key={0}>{this.renderLoader()}</Table.Row>,
                 <Table.Row key={1}>
                     <Table.Cell>
                         <Input fluid placeholder='Name' onChange={this.changeName} disabled={this.state.saving} value={this.state.name}/>
