@@ -54,7 +54,7 @@ class Signup extends Component {
         const deployedContract = await deployed_ledgacy_contract();
         console.log('Creating Profile:', this.state.name, this.props.keypair, generated_masterkey, JSON.stringify(encrypted_masterkey));
 
-        console.log('creating profile');
+        console.log('starting creating profile transaction');
         let {err, result} = await deployedContract.createProfile(this.state.name, this.props.keypair.public, JSON.stringify(encrypted_masterkey), {from: accounts[0]});
         if(err){
             this.setState(initial_state);

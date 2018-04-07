@@ -40,7 +40,7 @@ class App extends Component {
 
 
     handleSignUp = async () => {
-        console.log("HANDLING SIGN UP");
+        console.log("HANDLING SIGN UP", this.state.ledgacyKeypair);
         // TODO: Fix this!
         this.handleSignIn(this.state.ledgacyKeypair);
 
@@ -54,11 +54,11 @@ class App extends Component {
         console.log('logged in using keypair!', keypair);
         window.sessionStorage.setItem('ledgacy_keypair', JSON.stringify(keypair));
         window.sessionStorage.setItem('ledgacy_address', accounts[0]);
+        await this.lookupProfile(accounts[0]);
         this.setState({...this.state,
                        ledgacyKeypair: keypair,
                        isLoggedIn: true,
         })
-        await this.lookupProfile(accounts[0]);
     }
 
     lookupProfile = async (address) => {
@@ -104,7 +104,7 @@ class App extends Component {
 
 
   render() {
-      console.log(this.state);
+      console.log('App.js state:', this.state);
     return (
       <div className="App">
         {this.state.page === 'dashboard' ?
