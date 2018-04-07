@@ -33,6 +33,20 @@ class App extends Component {
         this.state = initial_state;
     }
 
+    componentDidMount = async () => {
+        // Try to log the user in from sessionStorage
+        let maybe_keypair_seed = window.sessionStorage.getItem('ledgacy_keypair_seed');
+        let maybe_address = window.sessionStorage.getItem('ledgacy_address');
+
+        const accounts = await getAccounts();
+        console.log('accounts:', accounts);
+
+        console.log('keypair seed:', maybe_keypair_seed)
+        if(maybe_keypair_seed !== null && maybe_address === accounts[0]){
+            this.handleSignIn(maybe_keypair_seed, maybe_address);
+        }
+    }
+
     regenerateKeyPair = async (ledgacy_keypair_seed) => {
         const ledgacy_priv = sha3(ledgacy_keypair_seed);
         const ledgacy_public = await EthCrypto.publicKeyByPrivateKey(ledgacy_priv);
@@ -40,7 +54,30 @@ class App extends Component {
         return keypair;
     }
 
+    handleSignUp = async () => {
+        console.log("HANDLING SIGN UP");
+        this.handleSignIn(this.state.ledgacyKeypair);
+
+    }
+
+    handleSignIn = async (ledgacy_keypair_seed) => {
+        const keypair = await this.regenerateKeyPair(ledgacy_keypair_seed);
+        const accounts = await getAccounts();
+        console.log('accounts:', accounts);
+
+        console.log('logged in using keypair!', keypair);
+        window.sessionStorage.setItem('ledgacy_keypair_seed', ledgacy_keypair_seed);
+        window.sessionStorage.setItem('ledgacy_address', accounts[0]);
+        this.setState({...this.state,
+                       ledgacyKeypair: keypair,
+                       isLoggedIn: true,
+        })
+        await this.lookupProfile(accounts[0]);
+    }
+
     lookupProfile = async (address) => {
+
+        try{
         let ledgacyContract = contract(LedgacyContract);
         ledgacyContract.setProvider(web3.currentProvider);
         const deployedContract = await ledgacyContract.deployed();
@@ -62,28 +99,19 @@ class App extends Component {
                        profileName: name,
                        page: 'dashboard',
         })
+
+        }catch(error){
+            alert('The Ledgacy Smart Contract does not seem to be deployed on this Chain. Please check what Blockchain Network you are connecting to.')
+        }
     }
 
-    handleSignIn = async (ledgacy_keypair_seed) => {
-        const keypair = await this.regenerateKeyPair(ledgacy_keypair_seed);
-        const accounts = await getAccounts();
-        console.log('accounts:', accounts);
 
-        console.log('logged in using keypair!', keypair);
-        this.setState({...this.state,
-                       ledgacyKeypair: keypair,
-                       isLoggedIn: true,
-        })
-        await this.lookupProfile(accounts[0]);
-    }
-
-    handleSignUp = async () => {
-        console.log("HANDLING SIGN UP");
-        this.handleSignIn(this.state.ledgacyKeypair);
-
-    }
 
     handleSignOut = () => {
+        console.log(window.sessionStorage.getItem('ledgacy_keypair_seed'));
+        window.sessionStorage.removeItem('ledgacy_keypair_seed');
+        window.sessionStorage.removeItem('ledgacy_address');
+        console.log(window.sessionStorage.getItem('ledgacy_keypair_seed'));
         this.setState(initial_state);
     }
 

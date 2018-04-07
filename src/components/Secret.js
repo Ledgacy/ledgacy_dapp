@@ -38,7 +38,7 @@ class Secret extends Component {
                         value={this.state.hidden ? 'aaaaaaaaaaaaaaaa' : this.props.secret.content}
                         type={this.state.hidden ? 'password' : 'text'}
                         actionPosition='left'
-            action={<Button icon={<Icon name={this.state.hidden ? 'eye' : 'hide'} onClick={this.toggleHidden} />} attached='left' color={this.state.hidden ? '' : 'red' }/>}
+            action={<Button onClick={this.toggleHidden} icon={<Icon name={this.state.hidden ? 'eye' : 'hide'} />} attached='left' color={this.state.hidden ? 'grey' : 'red' }/>}
                     />
                 </Table.Cell>
                 <Table.Cell>
