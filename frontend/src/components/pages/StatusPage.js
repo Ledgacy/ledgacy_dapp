@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
-import { Container, Button, Header } from 'semantic-ui-react';
+import { Container, Button, Header, Message, Segment, } from 'semantic-ui-react';
 import {bonds} from "../../utils/bonds_setup";
 import {Rspan} from 'oo7-react';
+import timeago from 'timeago.js';
 import {getAccounts} from "../../utils/get_accounts";
 import {deployed_ledgacy_contract} from '../../utils/deployed_ledgacy_contract.js'
 import {hexToAscii} from "oo7-parity";
@@ -12,7 +13,6 @@ import {KeypartList} from "../recovery/KeypartList";
 
 class StatusPage extends Component {
     getLastTimeInterval;
-    /* readKeyPartsInterval;*/
     constructor(){
         super();
         this.state = {lastTime: 0, keyshares: []};
@@ -22,12 +22,10 @@ class StatusPage extends Component {
     componentDidMount = async () =>{
         await this.getLastTime();
         this.getLastTimeInterval = setInterval(this.getLastTime, 2000);
-        /* this.readKeyPartsInterval = setInterval(this.readKeyparts, 2000);*/
     }
 
     componentWillUnmount = () => {
         clearInterval(this.getLastTimeInterval);
-        /* clearInterval(this.readKeyPartsInterval);*/
     }
 
     getLastTime = async () => {
@@ -44,16 +42,46 @@ class StatusPage extends Component {
         console.log("Signalled liveness");
     }
 
+    lastDateTime = () => {
+        return new Date(this.state.lastTime * 1000)
+    }
+
+    longInactivityDate = () => {
+        return (Date.now() - 1000 * 60);
+    }
+
 
     render = () => {
+        let warningMessage = null;
+        if(this.lastDateTime() < this.longInactivityDate()){
+            warningMessage = (<Message warning>
+                <Message.Header>It has been very long since you have made yourself known on the blockchain
+                </Message.Header>
+                <p>
+                    You should check in now to make sure all your trustees know that you are alive and well.</p>
+            </Message>);
+        }
+
         return (
-            <Container fluid>
+            <Container>
                 <Header as='header'>Status</Header>
-                <div>
-                    <Rspan>Last block: {new Date(this.state.lastTime*1000).toString()}. Current block: {this.block_bond.timestamp.map((timestamp) => timestamp.toString())}
+                <Segment.Group>
+                    <Segment>
+                        <Header dividing>Activity</Header>
+                    <div>
+                        {warningMessage}
+                        <Rspan>You were last active: <strong title={this.lastDateTime().toString()}>{timeago().format(this.lastDateTime())}</strong>.</Rspan></div>
+                    <div><Rspan>Current blocktime: {this.block_bond.timestamp.map((timestamp) => timestamp.toISOString())}
                     </Rspan>
-                    <Button onClick={this.checkIn}>Check in!</Button>
-                </div>
+                    <Button onClick={this.checkIn}>Check in now!</Button>
+                    </div>
+                </Segment>
+                <Segment.Group horizontal>
+                    <Segment>a</Segment>
+                    <Segment>b</Segment>
+                    <Segment>c</Segment>
+                </Segment.Group>
+                </Segment.Group>
             </Container>
         )
     }

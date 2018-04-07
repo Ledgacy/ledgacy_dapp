@@ -57,9 +57,7 @@ currentPage: 'secrets'
 
                     </Sidebar>
                     <Sidebar.Pusher>
-                        <Segment basic>
-                            {this.renderPage()}
-                        </Segment>
+                        {this.renderPage()}
                     </Sidebar.Pusher>
                 </Sidebar.Pushable>
         );
