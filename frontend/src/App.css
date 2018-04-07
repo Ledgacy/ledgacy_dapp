@@ -4,11 +4,9 @@
 }
 
 .App-logo {
-  /* animation: App-logo-spin infinite 20s linear; */
   height: 200px;
 }
 .ui.header>.image:not(.icon), .ui.header>img.App-logo-horizontal {
-    /* animation: App-logo-spin infinite 20s linear; */
     width: 200px;
     max-width: 100%;
     float: left;

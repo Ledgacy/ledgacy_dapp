@@ -18,7 +18,6 @@ const initial_state = {
 }
 
 class AddSecret extends Component {
-    // ledgacyContract;
 
     constructor() {
         super()
@@ -70,13 +69,6 @@ class AddSecret extends Component {
         let {tx} = result;
 
         this.setState({...this.state, saving: false, submitted: true, txHash: tx});
-
-        // const secretUpdateInterval = window.setInterval(() => {
-        //     if(this.props.nSecrets == secret_count){
-        //         return;
-        //     }
-        //     window.clearInterval(secretUpdateInterval);
-        // });
     }
 
     renderLoader = () => {

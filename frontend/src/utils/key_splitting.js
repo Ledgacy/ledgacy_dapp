@@ -14,14 +14,8 @@ const splitAndPersistMasterKeySnippets = async (master_key, trustees_public_keys
         const trustee_public_key = trustees_public_keys[index];
         const encrypted_keypart = await encryptKeypart(share, trustee_public_key, threshold);
         console.log('encrypted keypart', encrypted_keypart);
-        // batch.add(deployedContract.pushEncryptedKeypart.request(encrypted_keypart, {from: accounts[0]}, console.log));
         deployedContract.pushEncryptedKeypart(encrypted_keypart, {from: accounts[0]});
     });
-    // let err, res = await batch.execute();
-    // console.log('batch:', batch);
-    // batch.execute((err, res) => {
-    //     console.log('executing batch:', err, res);
-    // })
 };
 
 const encryptKeypart = async (keypart, recipient_public_key, threshold) => {

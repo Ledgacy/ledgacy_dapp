@@ -1,6 +1,5 @@
 // sets up Bonds in a way that is compatible with MetaMask (and hopefully Mist as well)
 import {bonds, options as bonds_options} from 'oo7-parity';
-/* import {InputBond} from 'parity-reactive-ui';*/
 import Api from '@parity/api';
 
 

@@ -47,7 +47,6 @@ class App extends Component {
     }
 
     handleSignIn = async (keypair) => {
-        /* const keypair = await this.regenerateKeyPair(ledgacy_keypair_seed);*/
         const accounts = await getAccounts();
         console.log('accounts:', accounts);
 
@@ -64,28 +63,25 @@ class App extends Component {
     lookupProfile = async (address) => {
 
         try{
-            /* let ledgacyContract = contract(LedgacyContract);
-             * ledgacyContract.setProvider(web3.currentProvider);
-             * const deployedContract = await ledgacyContract.deployed();*/
-        const deployedContract = await deployed_ledgacy_contract();
+            const deployedContract = await deployed_ledgacy_contract();
 
-        const name = await deployedContract.getProfileName(address);
-        console.log('profile name:', name);
-        if(name === ''){
+            const name = await deployedContract.getProfileName(address);
+            console.log('profile name:', name);
+            if(name === ''){
+                this.setState({...this.state,
+                               isLoggedIn: true,
+                               page: 'signup'
+                })
+                return;
+            }
+
+            const publickey = deployedContract.getProfilePublicKey(address);
+            console.log('profile pubkey', publickey);
             this.setState({...this.state,
                            isLoggedIn: true,
-                           page: 'signup'
+                           profileName: name,
+                           page: 'dashboard',
             })
-            return;
-        }
-
-        const publickey = deployedContract.getProfilePublicKey(address);
-        console.log('profile pubkey', publickey);
-        this.setState({...this.state,
-                       isLoggedIn: true,
-                       profileName: name,
-                       page: 'dashboard',
-        })
 
         }catch(error){
             alert('The Ledgacy Smart Contract does not seem to be deployed on this Chain. Please check what Blockchain Network you are connecting to.')
@@ -103,22 +99,22 @@ class App extends Component {
     }
 
 
-  render() {
-      console.log('App.js state:', this.state);
-    return (
-      <div className="App">
-        {this.state.page === 'dashboard' ?
-         <Dashboard
-            handleSignOut={this.handleSignOut}
-            keypair={this.state.ledgacyKeypair}
-            profileName={this.state.profileName}
-         />
-       : this.state.page === 'signup' ?
-         <Signup handleSignUp={this.handleSignUp} keypair={this.state.ledgacyKeypair} />
-       : <Login handleSignIn={this.handleSignIn}/>}
-      </div>
-    );
-  }
+    render() {
+        console.log('App.js state:', this.state);
+        return (
+            <div className="App">
+                {this.state.page === 'dashboard' ?
+                 <Dashboard
+                     handleSignOut={this.handleSignOut}
+                     keypair={this.state.ledgacyKeypair}
+                     profileName={this.state.profileName}
+                 />
+                 : this.state.page === 'signup' ?
+                 <Signup handleSignUp={this.handleSignUp} keypair={this.state.ledgacyKeypair} />
+                 : <Login handleSignIn={this.handleSignIn}/>}
+            </div>
+        );
+    }
 }
 
 export default App;

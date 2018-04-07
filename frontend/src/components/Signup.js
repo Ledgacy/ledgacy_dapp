@@ -11,10 +11,6 @@ import logo from '../ledgacy_logo.svg';
 import {Message, Input, Button} from 'semantic-ui-react';
 
 const doesProfileExist = async (address) => {
-    // let ledgacyContract = contract(LedgacyContract);
-    // ledgacyContract.setProvider(web3.currentProvider);
-    // const deployedContract = await ledgacyContract.deployed();
-
     const deployedContract = await deployed_ledgacy_contract();
     const name = await deployedContract.getProfileName(address);
     return name !== '';
@@ -48,9 +44,6 @@ class Signup extends Component {
         const encrypted_masterkey = await EthCrypto.encryptWithPublicKey(this.props.keypair.public, generated_masterkey);
         console.log('encrypted masterkey: ', encrypted_masterkey, 'pubkey:', this.props.keypair.public);
 
-        // let ledgacyContract = contract(LedgacyContract);
-        // ledgacyContract.setProvider(web3.currentProvider);
-        // const deployedContract = await ledgacyContract.deployed();
         const deployedContract = await deployed_ledgacy_contract();
         console.log('Creating Profile:', this.state.name, this.props.keypair, generated_masterkey, JSON.stringify(encrypted_masterkey));
 
