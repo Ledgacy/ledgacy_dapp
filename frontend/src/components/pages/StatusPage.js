@@ -77,9 +77,9 @@ class StatusPage extends Component {
                     </div>
                 </Segment>
                 <Segment.Group horizontal>
-                    <Segment>a</Segment>
-                    <Segment>b</Segment>
-                    <Segment>c</Segment>
+                    <Segment></Segment>
+                    <Segment></Segment>
+                    <Segment></Segment>
                 </Segment.Group>
                 </Segment.Group>
             </Container>
