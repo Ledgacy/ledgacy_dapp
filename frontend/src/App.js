@@ -64,6 +64,7 @@ class App extends Component {
             if(name === ''){
                 this.setState({...this.state,
                                isLoggedIn: true,
+                               ledgacyKeypair: keypair,
                                page: 'signup'
                 })
                 return;
