@@ -21,6 +21,13 @@ class KeypartList extends Component {
         }
     }
 
+    componentWillReceiveProps(props) {
+        if (props.keyparts) {
+            this.setState({...this.state, keyparts: props.keyparts});
+        }
+
+    }
+
     addKeypart = (keypart) => {
         console.log("Adding keypart to state", this.state)
         this.state.keyparts.push(keypart);
