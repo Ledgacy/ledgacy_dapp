@@ -13,6 +13,14 @@ import {TrusteeField} from "./TrusteeField";
 import {get_profiles} from "../utils/get_profiles";
 import {deployed_ledgacy_contract} from "../utils/deployed_ledgacy_contract";
 
+import {Howl} from 'howler';
+import login_soundfile from "./boot.mp3";
+
+const login_sound = new Howl({
+    src: [login_soundfile],
+});
+
+
 class Login extends Component {
     constructor(){
         super()
@@ -36,7 +44,8 @@ class Login extends Component {
                 this.setState({...this.state, showError: false})
             }
             const keypair = await this.regenerateKeyPair(signing_result);
-            this.props.handleSignIn(keypair);
+            login_sound.play();
+            await this.props.handleSignIn(keypair);
         });
     }
 

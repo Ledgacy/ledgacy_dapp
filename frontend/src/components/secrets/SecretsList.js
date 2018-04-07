@@ -86,21 +86,23 @@ class SecretsList extends Component {
 
 
         return (
-            <Table celled>
-                <tbody>
-                <Table.Row>
-                    <Table.HeaderCell>Name</Table.HeaderCell>
-                    <Table.HeaderCell>Secret</Table.HeaderCell>
-                    <Table.HeaderCell>
-                    </Table.HeaderCell>
-                </Table.Row>
-                {tableBody}
-                {this.props.readonly ? null : <AddSecret
-                    masterkey={this.state.masterkey}
-                    saveHandle={this.fetchSecrets}
-                    nSecrets={this.state.secrets.length}
-                />}
-                </tbody>
+            <Table celled fixed>
+                <Table.Header>
+                    <Table.Row>
+                        <Table.HeaderCell>Name</Table.HeaderCell>
+                        <Table.HeaderCell>Secret</Table.HeaderCell>
+                        <Table.HeaderCell>
+                        </Table.HeaderCell>
+                    </Table.Row>
+                </Table.Header>
+                <Table.Body>
+                    {tableBody}
+                    {this.props.readonly ? null : <AddSecret
+                        masterkey={this.state.masterkey}
+                        saveHandle={this.fetchSecrets}
+                        nSecrets={this.state.secrets.length}
+                    />}
+                </Table.Body>
             </Table>
         );
     }

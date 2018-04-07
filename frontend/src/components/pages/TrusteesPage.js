@@ -94,39 +94,42 @@ class TrusteesPage extends Component {
         console.log(this.state, this.realTrustees());
 
         let warning = null;
-        if(this.realTrustees().length < 1){
-            warning = <Table.Row>
-                <Table.Cell colSpan={2}>
-                    <Message warning >
+        /* if(this.realTrustees().length < 1){*/
+        if(true){
+            warning = (<Table.Row>
+                <Table.Cell colSpan={3}>
+                    <Message warning visible>
                         <Message.Header>You need to add at least one Trustee.</Message.Header>
                         <p>
                             To make sure your secrets are <em>really</em> safe from loss, you need to add at least one trustee (but multiple is strongly preferred!).
                         </p>
                     </Message>
                 </Table.Cell>
-            </Table.Row>
+            </Table.Row>)
         }
 
         return (
-            <Container >
+            <Container>
                 <Header as='header'>Trustee Management</Header>
                 <Form>
-                    <Table celled>
-                        <tbody>
+                    <Table celled >
+                        <Table.Header>
                             <Table.Row>
                                 <Table.HeaderCell>
                                     Name
                                 </Table.HeaderCell>
+                                <Table.HeaderCell collapsing>
+                                   Address
+                                </Table.HeaderCell>
                                 <Table.HeaderCell>
                                     Remark
                                 </Table.HeaderCell>
-                                <Table.HeaderCell>
-                                   Address
-                                </Table.HeaderCell>
                             </Table.Row>
+                        </Table.Header>
+                        <Table.Body>
                             {warning}
                             {this.renderTrustees()}
-                        </tbody>
+                        </Table.Body>
                     </Table>
 
                     <Form.Field>

@@ -20,7 +20,7 @@ class RecoveryPage extends Component {
 
     render = () => {
         return (
-            <Container fluid>
+            <Container>
                 <Header as='header'>Recovery</Header>
                 <KeypartList masterKeyHandle={this.showSecrets}/>
                 {this.state.masterKey && this.state.address ? <SecretsList masterkey={this.state.masterKey} address={this.state.address}/> : null}

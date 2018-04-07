@@ -2,6 +2,11 @@
   height: 100vh;
 }
 
+.pusher {
+    margin-left: -150px; /* half of left menu */
+    padding-top: 3em;
+}
+
 .App-logo {
   height: 200px;
 }
