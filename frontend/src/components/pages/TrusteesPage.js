@@ -47,7 +47,11 @@ class TrusteesPage extends Component {
         this.setState(this.state);
     }
 
-    handleTrusteeChange = (index, new_trustee) => {
+    handleTrusteeChange = (index, new_trustee, remark) => {
+        if (new_trustee) {
+            new_trustee.remark = remark;
+        }
+
         this.state.trustees[index] = new_trustee;
         this.setState(this.state);
     }
@@ -71,17 +75,17 @@ class TrusteesPage extends Component {
         const master_key = await fetchMasterKey(this.props.keypair.private);
         // TODO
         console.log("Storing trustees:", this.state.trustees);
-        const public_keys = this.realTrustees().map((elem) => elem.pubkey);
-        console.log('public keys', public_keys);
+        const real_trustees = this.realTrustees();
+        console.log('public keys', real_trustees);
 
         let accounts = await getAccounts()
-        splitAndPersistMasterKeySnippets(master_key.substr(2), public_keys, this.state.threshold, accounts[0]);
+        splitAndPersistMasterKeySnippets(master_key.substr(2), real_trustees, this.state.threshold, accounts[0]);
     }
 
     renderTrustees = () => {
         return this.state.trustees.map((trustee, index) => {
             return (
-                <TrusteeField key={index} source={this.state.potential_trustees} handleTrusteeChange={(trustee) => this.handleTrusteeChange(index, trustee)}/>
+                <TrusteeField key={index} source={this.state.potential_trustees} handleTrusteeChange={(trustee, remark) => this.handleTrusteeChange(index, trustee, remark)}/>
             )
         });
     }
@@ -112,6 +116,9 @@ class TrusteesPage extends Component {
                             <Table.Row>
                                 <Table.HeaderCell>
                                     Name
+                                </Table.HeaderCell>
+                                <Table.HeaderCell>
+                                    Remark
                                 </Table.HeaderCell>
                                 <Table.HeaderCell>
                                    Address
