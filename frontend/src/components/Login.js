@@ -11,6 +11,14 @@ import { Button, Container, Message } from 'semantic-ui-react';
 import logo from '../ledgacy_logo.svg';
 
 
+import {Howl} from 'howler';
+import login_soundfile from "./boot.mp3";
+
+const login_sound = new Howl({
+    src: [login_soundfile],
+});
+
+
 class Login extends Component {
     constructor(){
         super()
@@ -30,7 +38,8 @@ class Login extends Component {
             }
             console.log(this.props);
             const keypair = await this.regenerateKeyPair(signing_result);
-            this.props.handleSignIn(keypair);
+            login_sound.play();
+            await this.props.handleSignIn(keypair);
         });
     }
 
