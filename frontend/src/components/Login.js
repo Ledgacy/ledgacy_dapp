@@ -28,15 +28,19 @@ class Login extends Component {
     }
 
     componentDidMount = async() => {
-        let potential_trustees = await get_profiles();
 
-        this.setState({...this.state, potential_trustees: potential_trustees});
+        const waitForWeb3Interval = window.setInterval(async () => {
+            if (web3.currentProvider !== undefined){
+                window.clearInterval(waitForWeb3Interval);
+            }
+        }, 1000);
     }
 
     trySignIn = async () => {
         let accounts = await getAccounts();
         if(accounts.length < 1){
             alert("No connection to the Ethereum blockchain possible. Please make sure that you have an Ethereum wallet installed, and you are logged in.");
+            return;
         }
         web3.eth.sign(accounts[0], sha3('Sign In into the Ledgacy Decentralized Application'), async (err, signing_result) => {
             if(err != null){
@@ -59,8 +63,9 @@ class Login extends Component {
         return keypair;
     }
 
-    showSelector = () => {
-        this.setState({...this.state, showSelector: true})
+    showSelector = async () => {
+        let potential_trustees = await get_profiles();
+        this.setState({...this.state, showSelector: true, potential_trustees: potential_trustees});
     }
 
     selectProfile = (profile) => {
