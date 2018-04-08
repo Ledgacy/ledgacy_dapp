@@ -28,11 +28,11 @@ class NotificationsPage extends Component {
 
         let nKeyshares = (await deployedContract.getEncryptedKeypartCount()).toNumber();
 
-        console.log("Number of keyshares", nKeyshares)
+        //console.log("Number of keyshares", nKeyshares)
         let keyshares = []
         for (let index = 0; index < nKeyshares; ++index) {
             let result = await deployedContract.getEncryptedKeypart.call(index);
-            console.log("Decrypting keypart")
+            //console.log("Decrypting keypart")
             try {
                 const keyshare_str = await decryptKeypart(result, this.props.keypair.private);
                 keyshares.push(keyshare_str);
@@ -42,7 +42,7 @@ class NotificationsPage extends Component {
 
         }
 
-        console.log("All keyshares", keyshares);
+        //console.log("All keyshares", keyshares);
         this.setState({...this.state, keyshares: keyshares});
     }
 

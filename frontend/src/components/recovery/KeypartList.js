@@ -42,7 +42,7 @@ class KeypartList extends Component {
     }
 
     render = () => {
-        console.log("Rendering keyparts", this.state.keyparts)
+        //console.log("Rendering keyparts", this.state.keyparts)
         const tableBody = this.state.keyparts.map((keypart, index) => {
             return <Keypart key={index} keypart={keypart} checkMessages={this.props.checkMessages} readonly={this.props.readonly} removeKeypart={() => this.removeKeypart(index)}/>
 
