@@ -56,8 +56,8 @@ class Keypart extends Component {
             //console.log("Issuing warning")
             let warning = (<Message visible warning>
                 <Message.Header>Help, I lost my key!</Message.Header>
-                {this.showSms() ? <Button icon onClick={this.sendSms}>
-                    <Icon name='send' />
+                {this.showSms() ? <Button onClick={this.sendSms}>
+                    <Icon name='send' /> Send sms
                 </Button> : null}
             </Message>);
             this.setState({...this.state, warning: warning});
