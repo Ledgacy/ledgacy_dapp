@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Container} from 'semantic-ui-react';
+import {Container, Header} from 'semantic-ui-react';
 import {deployed_ledgacy_contract} from '../../utils/deployed_ledgacy_contract.js'
 import {decryptKeypart} from "../../utils/key_splitting";
 import {KeypartList} from "../recovery/KeypartList";
@@ -50,6 +50,9 @@ class NotificationsPage extends Component {
     render = () => {
         return (
             <Container>
+                <Header as='header'>Notifications
+                    <Header.Subheader></Header.Subheader>
+                </Header>
                 <KeypartList keyparts={this.state.keyshares} checkMessages={true} readonly={true}/>
             </Container>
         )
