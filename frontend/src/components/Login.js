@@ -35,6 +35,9 @@ class Login extends Component {
 
     trySignIn = async () => {
         let accounts = await getAccounts();
+        if(accounts.length < 1){
+            alert("No connection to the Ethereum blockchain possible. Please make sure that you have an Ethereum wallet installed, and you are logged in.");
+        }
         web3.eth.sign(accounts[0], sha3('Sign In into the Ledgacy Decentralized Application'), async (err, signing_result) => {
             if(err != null){
                 // At some point show error message.

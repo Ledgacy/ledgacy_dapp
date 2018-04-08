@@ -1,7 +1,7 @@
 // sets up Bonds in a way that is compatible with MetaMask (and hopefully Mist as well)
 import {bonds, options as bonds_options} from 'oo7-parity';
 import Api from '@parity/api';
-
+import bundled_web3 from 'web3';
 
 var provider;
 var parityapi;
@@ -18,9 +18,11 @@ window.addEventListener('load', function() {
         window.parityapi = parityapi = new Api(provider)
         bonds_options.api = parityapi
     } else {
-        console.log('No web3? You should consider trying MetaMask!')
+        // console.log('No web3? You should consider trying MetaMask!')
+        web3 = bundled_web3;
+
     }
-})
+});
 
 
 
